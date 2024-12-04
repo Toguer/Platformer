@@ -1,18 +1,19 @@
 using UnityEngine;
 
-public class JumpState : IState
+[CreateAssetMenu(menuName = "States/IdleState")]
+public class JumpState : State
 {
-    public void Enter()
+    public override void Enter(GameObject owner)
     {
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public override void Execute(GameObject owner)
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public override void Exit(GameObject owner)
     {
         throw new System.NotImplementedException();
     }

@@ -1,29 +1,36 @@
+using System;
 using UnityEngine;
 
-public class StateMachine
+public class StateMachine : MonoBehaviour
 {
-    private IState _currentState;
+    [SerializeField] private State initialState;
+    private State _currentState;
 
-    public void ChangeState(IState newState)
+    private GameObject _owner;
+
+    private void Start()
+    {
+        _owner = this.gameObject;
+        ChangeState(initialState);
+    }
+
+    public void ChangeState(State newState)
     {
         if (_currentState != null)
         {
-            _currentState.Exit();
+            _currentState.Exit(_owner);
         }
 
         _currentState = newState;
 
         if (_currentState != null)
         {
-            _currentState.Enter();
+            _currentState.Enter(_owner);
         }
     }
 
     public void Update()
     {
-        if (_currentState != null)
-        {
-            _currentState.Update();
-        }
+        _currentState?.Execute(_owner);
     }
 }

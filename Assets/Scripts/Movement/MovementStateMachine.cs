@@ -1,17 +1,26 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class StateMachine : MonoBehaviour
+public class MovementStateMachine : MonoBehaviour
 {
-    [SerializeField] private State initialState;
+    [SerializeField] private State _initialState;
     private State _currentState;
+
+    [Header("States")] [SerializeField] private State _idleState;
+    [SerializeField] private State _jumpState;
+    [SerializeField] private State _walkState;
+    [SerializeField] private State _runState;
+    [SerializeField] private State _dashState;
+    [SerializeField] private State _wallJump;
+    [SerializeField] private State _wallRun;
 
     private GameObject _owner;
 
     private void Start()
     {
         _owner = this.gameObject;
-        ChangeState(initialState);
+        ChangeState(_initialState);
     }
 
     public void ChangeState(State newState)

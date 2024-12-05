@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "IdleState", menuName = "States")]
 public class IdleState : State
 {
     public override void Enter(GameObject owner)

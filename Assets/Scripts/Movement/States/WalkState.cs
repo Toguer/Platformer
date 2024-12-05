@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WalkState", menuName = "States")]
+[CreateAssetMenu(fileName = "WalkState", menuName = "States/Walk")]
 public class WalkState : State
 {
     public override void Enter(GameObject owner)

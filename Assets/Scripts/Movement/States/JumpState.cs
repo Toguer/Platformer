@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "JumpState", menuName = "States")]
+[CreateAssetMenu(fileName = "JumpState", menuName = "States/Jump")]
 public class JumpState : State
 {
     public override void Enter(GameObject owner)

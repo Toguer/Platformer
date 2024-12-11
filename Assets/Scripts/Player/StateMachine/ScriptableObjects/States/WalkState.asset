@@ -9,6 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0f3a4a879dc9d8448db87091cbcbadc, type: 3}
-  m_Name: IdleState
+  m_Script: {fileID: 11500000, guid: 65aa8ebbd96766340ac3449f60bc1bba, type: 3}
+  m_Name: WalkState
   m_EditorClassIdentifier: 
+  isDone: 0
+  timerState: 0
+  characterGame: {fileID: 0}
+  possibleTransitions: []

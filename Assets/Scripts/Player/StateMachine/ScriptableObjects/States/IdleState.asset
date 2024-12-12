@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: IdleState
   m_EditorClassIdentifier: 
   isDone: 0
-  timerState: 0
   characterGame: {fileID: 0}
   possibleTransitions:
   - decisionToBeMade: {fileID: 11400000, guid: 18353e65e31ad4a46aef367e8cb55fce, type: 2}
     onDecisionTrueExitState: {fileID: 11400000, guid: 3a88a7ffbd6281b41859d4d9a2596801, type: 2}
-    onDecisionFalseExitState: {fileID: 0}
+    onDecisionFalseExitState: {fileID: 11400000}
     exitTime: -1

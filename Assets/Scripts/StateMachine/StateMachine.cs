@@ -9,10 +9,10 @@ public class StateMachine : MonoBehaviour
     void Start()
     {
         anyState = Instantiate(anyState); // instanciamos una copia
-        anyState.SetStateController(this); //añadimos al estado la state Machine
+        anyState.SetStateController(this); //aÃ±adimos al estado la state Machine
         if(entryState != null)
         {
-            ChangeState(entryState); // añadimos el estado entrante a currentState
+            ChangeState(entryState); // aÃ±adimos el estado entrante a currentState
         }
     }
     private void ChangeState(State newState)
@@ -42,7 +42,7 @@ public class StateMachine : MonoBehaviour
 
         if (newState == null)
         {
-            //añadimos el siguiente estado
+            //aÃ±adimos el siguiente estado
             newState = currentState.CheckTransitions();
         }
         if (newState != null)

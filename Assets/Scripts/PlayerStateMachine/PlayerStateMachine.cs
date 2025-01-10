@@ -4,9 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : MonoBehaviour
 {
+    #region variables
+
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
-    private Rigidbody _rb;
 
 
     //Variables para inputs del jugador
@@ -14,20 +15,31 @@ public class PlayerStateMachine : MonoBehaviour
     private Vector3 _currentMovement;
     private Vector3 _currentRunMovement;
     private Vector3 _appliedMovement;
+    private Vector3 _cameraRelativeMovement;
+
     private bool _isMovementPressed;
     private bool _isRunPressed;
     private float _rotationFactorPerFrame = 15.0f;
 
-
+    [Header("Jump Variables")]
     //jump variables
     private float _initialJumpVelocity;
+
+    [Tooltip("Altura maxima de salto")] [SerializeField]
     private float _maxJumpHeight = 4.0f;
+
+    [Tooltip("Duración maxima del salto")] [SerializeField]
     private float _maxJumpTime = 0.75f;
+
     private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
 
+    [Header("Movement Variables")]
     //movement variables
+    [SerializeField]
     private float _runMultiplier = 3.0f;
+
+    [SerializeField] [Range(1.5f, 10f)] private float _speed = 1.5f;
 
     //gravity
     private float _gravity = -9.8f;
@@ -37,8 +49,9 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
 
-    // getters and setters
+    #endregion
 
+    #region getters and setters
 
     public PlayerBaseState CurrentState
     {
@@ -129,11 +142,12 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _runMultiplier; }
     }
 
+    #endregion
+
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-        _rb = GetComponent<Rigidbody>();
 
         _playerInput = new InputSystem_Actions();
 
@@ -157,29 +171,57 @@ public class PlayerStateMachine : MonoBehaviour
 // Update is called once per frame
     void Update()
     {
-        if (_isRunPressed)
-        {
-            _appliedMovement.x = _currentMovement.x;
-            _appliedMovement.z = _currentMovement.z;
+        _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
+        HandleRotation();
+        _characterController.Move(_cameraRelativeMovement * _speed * Time.deltaTime);
+        //HandleGravity();
 
-            //_characterController.Move(_currentRunMovement * Time.deltaTime);
-        }
-        else
-        {
-            _appliedMovement.x = _currentRunMovement.x;
-            _appliedMovement.z = _currentRunMovement.z;
-            //_characterController.Move(_currentMovement * Time.deltaTime);
-        }
-
-        _characterController.Move(_appliedMovement * Time.deltaTime);
-
-        HandleGravity();
         _currentState.UpdateStates();
+    }
+
+    void HandleRotation()
+    {
+        Vector3 positionToLookAt;
+
+        positionToLookAt.x = _cameraRelativeMovement.x;
+        positionToLookAt.y = 0;
+        positionToLookAt.z = _cameraRelativeMovement.z;
+
+        Quaternion currentRotation = transform.rotation;
+
+        if (_isMovementPressed)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
+
+            transform.rotation =
+                Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
+        }
+    }
+
+    Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
+    {
+        float currentYValue = vectorToRotate.y;
+
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
+
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        cameraForward = cameraForward.normalized;
+        cameraRight = cameraRight.normalized;
+
+        Vector3 cameraForwardZProduct = vectorToRotate.z * cameraForward;
+        Vector3 cameraRightXProduct = vectorToRotate.x * cameraRight;
+
+        Vector3 vectorRotatedToCamearSpace = cameraForwardZProduct + cameraRightXProduct;
+        vectorRotatedToCamearSpace.y = currentYValue;
+        return vectorRotatedToCamearSpace;
     }
 
     void HandleGravity()
     {
-        bool isFalling = _currentMovement.y <= 0.0f;
+        bool isFalling = _currentMovement.y <= 0.0f || !_isJumpPressed;
         float fallMultiplier = 2.0f;
         if (_characterController.isGrounded)
         {

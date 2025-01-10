@@ -1,24 +1,24 @@
 using UnityEngine;
 
-public class PlayerJumpState : PlayerBaseState
+public class PlayerJumpState : PlayerBaseState, IRootState
 {
     public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
         IsRootState = true;
-        InitializeSubState();
     }
 
     public override void EnterState()
     {
+        InitializeSubState();
         Debug.Log("Entered Jump State");
         HandleJump();
     }
 
     public override void UpdateState()
     {
-        CheckSwitchStates();
         HandleGravity();
+        CheckSwitchStates();
     }
 
     public override void ExitState()
@@ -59,7 +59,7 @@ public class PlayerJumpState : PlayerBaseState
         Ctx.AppliedMovementY = Ctx.InitialJumpVelocity;
     }
 
-    void HandleGravity()
+    public void HandleGravity()
     {
         bool isFalling = Ctx.CurrentMovementY >= 0.0f || !Ctx.IsJumpPressed;
         float fallMultiplier = 2.0f;

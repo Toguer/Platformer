@@ -1,27 +1,21 @@
 using UnityEngine;
 
-public class PlayerGroundedState : PlayerBaseState, IRootState
+public class PlayerFallState : PlayerBaseState, IRootState
 {
-    public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
+    public PlayerFallState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
         IsRootState = true;
     }
 
-    public void HandleGravity()
-    {
-        Ctx.CurrentMovementY = Ctx.GroundedGravity;
-        Ctx.AppliedMovementY = Ctx.GroundedGravity;
-    }
-
     public override void EnterState()
     {
         InitializeSubState();
-        HandleGravity();
     }
 
     public override void UpdateState()
     {
+        HandleGravity();
         CheckSwitchStates();
     }
 
@@ -29,16 +23,18 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
     {
     }
 
+    public void HandleGravity()
+    {
+        float previousYVelocity = Ctx.CurrentMovementY;
+        Ctx.CurrentMovementY = Ctx.CurrentMovementY + Ctx.Gravity * Time.deltaTime;
+        Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
+    }
+
     public override void CheckSwitchStates()
     {
-        // Si el jugador esta en el suelo y se pulsa saltar, cambia el estado al PlayerJumpState
-        if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+        if (Ctx.CharacterController.isGrounded)
         {
-            SwitchState(Factory.Jump());
-        }
-        else if (!Ctx.CharacterController.isGrounded)
-        {
-            SwitchState(Factory.Fall());
+            SwitchState(Factory.Grounded());
         }
     }
 

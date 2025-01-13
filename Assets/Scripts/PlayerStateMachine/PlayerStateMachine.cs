@@ -21,15 +21,16 @@ public class PlayerStateMachine : MonoBehaviour
     private bool _isRunPressed;
     private float _rotationFactorPerFrame = 15.0f;
 
-    [Header("Jump Variables")]
-    //jump variables
-    private float _initialJumpVelocity;
-
-    [Tooltip("Altura maxima de salto")] [SerializeField]
+    [Header("Jump Variables")] [Tooltip("Altura maxima de salto")] [SerializeField]
     private float _maxJumpHeight = 4.0f;
 
     [Tooltip("Duración maxima del salto")] [SerializeField]
     private float _maxJumpTime = 0.75f;
+
+    [Tooltip("Velocidad adicional a la que el jugador caerá cuando no pulsa saltar.")] [SerializeField]
+    private float _fallMultiplier = 2.0f;
+
+    private float _initialJumpVelocity;
 
     private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
@@ -140,6 +141,11 @@ public class PlayerStateMachine : MonoBehaviour
     public float RunMultiplier
     {
         get { return _runMultiplier; }
+    }
+
+    public float FallMultiplier
+    {
+        get { return _fallMultiplier; }
     }
 
     #endregion

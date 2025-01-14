@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerFallState : PlayerBaseState, IRootState
 {
+    private float _remainingCoyoteTime;
     public PlayerFallState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
@@ -11,11 +12,13 @@ public class PlayerFallState : PlayerBaseState, IRootState
     public override void EnterState()
     {
         InitializeSubState();
+        _remainingCoyoteTime = Ctx.CoyoteTime;
     }
 
     public override void UpdateState()
     {
         HandleGravity();
+        _remainingCoyoteTime -= Time.deltaTime;
         CheckSwitchStates();
     }
 
@@ -35,6 +38,10 @@ public class PlayerFallState : PlayerBaseState, IRootState
         if (Ctx.CharacterController.isGrounded)
         {
             SwitchState(Factory.Grounded());
+        }else if (Ctx.IsJumpPressed && _remainingCoyoteTime > 0)
+        {
+            _remainingCoyoteTime = 0;
+            SwitchState(Factory.Jump());
         }
     }
 

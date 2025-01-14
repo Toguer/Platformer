@@ -30,6 +30,9 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("Velocidad adicional a la que el jugador caerá cuando no pulsa saltar.")] [SerializeField]
     private float _fallMultiplier = 2.0f;
 
+    [Tooltip("Es el margen de error que tiene un jugador para saltar despues de caer de una esquina.")] [SerializeField]
+    [Range(0.1f,1.0f)]private float _coyoteTime;
+
     private float _initialJumpVelocity;
 
     private bool _isJumpPressed;
@@ -146,6 +149,11 @@ public class PlayerStateMachine : MonoBehaviour
     public float FallMultiplier
     {
         get { return _fallMultiplier; }
+    }
+
+    public float CoyoteTime
+    {
+        get { return _coyoteTime; }
     }
 
     #endregion

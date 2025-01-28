@@ -187,7 +187,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
         HandleRotation();
-        _characterController.Move(_cameraRelativeMovement * _speed * Time.deltaTime);
+        _characterController.Move(_cameraRelativeMovement * (_speed * Time.deltaTime));
         //HandleGravity();
 
         _currentState.UpdateStates();

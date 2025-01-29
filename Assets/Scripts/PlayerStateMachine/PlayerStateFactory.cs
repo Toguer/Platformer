@@ -3,12 +3,13 @@ using System.Collections.Generic;
 
 enum PlayerStates
 {
-    idle,
-    walk,
-    run,
-    grounded,
-    jump,
-    fall
+    Idle,
+    Walk,
+    Run,
+    Grounded,
+    Jump,
+    Fall,
+    Jetpack
 }
 
 public class PlayerStateFactory
@@ -19,41 +20,47 @@ public class PlayerStateFactory
     public PlayerStateFactory(PlayerStateMachine currentContext)
     {
         _context = currentContext;
-        _states[PlayerStates.idle] = new PlayerIdleState(_context, this);
-        _states[PlayerStates.walk] = new PlayerWalkState(_context, this);
-        _states[PlayerStates.run] = new PlayerRunState(_context, this);
-        _states[PlayerStates.jump] = new PlayerJumpState(_context, this);
-        _states[PlayerStates.grounded] = new PlayerGroundedState(_context, this);
-        _states[PlayerStates.fall] = new PlayerFallState(_context, this);
+        _states[PlayerStates.Idle] = new PlayerIdleState(_context, this);
+        _states[PlayerStates.Walk] = new PlayerWalkState(_context, this);
+        _states[PlayerStates.Run] = new PlayerRunState(_context, this);
+        _states[PlayerStates.Jump] = new PlayerJumpState(_context, this);
+        _states[PlayerStates.Grounded] = new PlayerGroundedState(_context, this);
+        _states[PlayerStates.Fall] = new PlayerFallState(_context, this);
+        _states[PlayerStates.Jetpack] = new PlayerJetPackState(_context, this);
     }
 
     public PlayerBaseState Idle()
     {
-        return _states[PlayerStates.idle];
+        return _states[PlayerStates.Idle];
     }
 
     public PlayerBaseState Walk()
     {
-        return _states[PlayerStates.walk];
+        return _states[PlayerStates.Walk];
     }
 
     public PlayerBaseState Run()
     {
-        return _states[PlayerStates.run];
+        return _states[PlayerStates.Run];
     }
 
     public PlayerBaseState Jump()
     {
-        return _states[PlayerStates.jump];
+        return _states[PlayerStates.Jump];
     }
 
     public PlayerBaseState Grounded()
     {
-        return _states[PlayerStates.grounded];
+        return _states[PlayerStates.Grounded];
     }
 
     public PlayerBaseState Fall()
     {
-        return _states[PlayerStates.fall];
+        return _states[PlayerStates.Fall];
+    }
+
+    public PlayerBaseState Jetpack()
+    {
+        return _states[PlayerStates.Jetpack];
     }
 }

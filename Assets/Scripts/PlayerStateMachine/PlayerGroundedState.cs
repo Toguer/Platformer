@@ -18,6 +18,8 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
     {
         InitializeSubState();
         HandleGravity();
+        Ctx.JetpackAlreadyUsed = false;
+        Ctx.RemainingCoyoteTime = Ctx.CoyoteTime;
     }
 
     public override void UpdateState()

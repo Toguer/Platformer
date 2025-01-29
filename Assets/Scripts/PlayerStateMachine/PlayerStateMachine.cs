@@ -9,7 +9,6 @@ public class PlayerStateMachine : MonoBehaviour
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
 
-
     //Variables para inputs del jugador
     private Vector2 _currentMovementInput;
     private Vector3 _currentMovement;
@@ -30,12 +29,21 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("Velocidad adicional a la que el jugador caerá cuando no pulsa saltar.")] [SerializeField]
     private float _fallMultiplier = 2.0f;
 
-    [Tooltip("Es el margen de error que tiene un jugador para saltar despues de caer de una esquina.")] [SerializeField]
-    [Range(0.1f,1.0f)]private float _coyoteTime;
+    [Tooltip("Es el margen de error que tiene un jugador para saltar despues de caer de una esquina.")]
+    [SerializeField]
+    [Range(0.1f, 1.0f)]
+    private float _coyoteTime;
+
+    private float _remainingCoyoteTime;
+
+    [Tooltip("La duración del efecto jetpack")] [SerializeField]
+    private float _jetpackDuration;
+
+    [SerializeField] private bool _jetpackAlreadyUsed = false;
 
     private float _initialJumpVelocity;
 
-    private bool _isJumpPressed;
+    [SerializeField] private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
 
     [Header("Movement Variables")]
@@ -154,6 +162,23 @@ public class PlayerStateMachine : MonoBehaviour
     public float CoyoteTime
     {
         get { return _coyoteTime; }
+    }
+
+    public float RemainingCoyoteTime
+    {
+        get { return _remainingCoyoteTime; }
+        set { _remainingCoyoteTime = value; }
+    }
+
+    public float JetpackDuration
+    {
+        get { return _jetpackDuration; }
+    }
+
+    public bool JetpackAlreadyUsed
+    {
+        get { return _jetpackAlreadyUsed; }
+        set { _jetpackAlreadyUsed = value; }
     }
 
     #endregion

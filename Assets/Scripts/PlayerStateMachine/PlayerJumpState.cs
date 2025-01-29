@@ -33,7 +33,17 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     {
         if (Ctx.CharacterController.isGrounded)
         {
+            Debug.Log("Grounded From Jump");
             SwitchState(Factory.Grounded());
+        }else if (!Ctx.IsJumpPressed)
+        {
+            Debug.Log("Caida temprana");
+            SwitchState(Factory.Fall());
+        }
+        else if (Ctx.IsJumpPressed && !Ctx.JetpackAlreadyUsed)
+        {
+            Debug.Log("JetPack From Jump");
+            //SwitchState(Factory.Jetpack());
         }
     }
 

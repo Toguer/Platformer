@@ -21,8 +21,8 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
     public override void UpdateState()
     {
         jetPackDuration -= Time.deltaTime;
+        HandleGravity();
         CheckSwitchStates();
-        //HandleGravity();
     }
 
     public override void ExitState()
@@ -60,9 +60,13 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
+        Ctx.CurrentMovementY = Mathf.Min(Ctx.CurrentMovementY + Ctx.JetpackForce * Time.deltaTime, Ctx.MaxJetpackVelocity);
+        Ctx.AppliedMovementY = Ctx.CurrentMovementY;
+        /*
         float previousYVelocity = Ctx.CurrentMovementY;
         Ctx.CurrentMovementY = Ctx.CurrentMovementY * Time.deltaTime;
         Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
+        */
         //Ctx.AppliedMovementY = previousYVelocity + Ctx.CurrentMovementY;
     }
 }

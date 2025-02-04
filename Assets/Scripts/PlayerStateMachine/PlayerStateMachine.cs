@@ -32,12 +32,17 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("Es el margen de error que tiene un jugador para saltar despues de caer de una esquina.")]
     [SerializeField]
     [Range(0.1f, 1.0f)]
-    private float _coyoteTime;
+    private float _coyoteTime = 0.1f;
 
     private float _remainingCoyoteTime;
 
-    [Tooltip("La duración del efecto jetpack")] [SerializeField]
+    [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
     private float _jetpackDuration;
+
+    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
+    private float _jetpackForce = 5f;
+
+    [SerializeField] private float _maxJetpackVelocity = 1f;
 
     [SerializeField] private bool _jetpackAlreadyUsed = false;
 
@@ -175,6 +180,16 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _jetpackDuration; }
     }
 
+    public float JetpackForce
+    {
+        get { return _jetpackForce; }
+    }
+
+    public float MaxJetpackVelocity
+    {
+        get { return _maxJetpackVelocity; }
+    }
+
     public bool JetpackAlreadyUsed
     {
         get { return _jetpackAlreadyUsed; }
@@ -216,6 +231,11 @@ public class PlayerStateMachine : MonoBehaviour
         //HandleGravity();
 
         _currentState.UpdateStates();
+
+        if (_remainingCoyoteTime > 0)
+        {
+            _remainingCoyoteTime -= Time.deltaTime;
+        }
     }
 
     void HandleRotation()
@@ -295,7 +315,11 @@ public class PlayerStateMachine : MonoBehaviour
     void OnJump(InputAction.CallbackContext context)
     {
         _isJumpPressed = context.ReadValueAsButton();
-        _requireNewJumpPress = false;
+        if (_requireNewJumpPress && !_isJumpPressed)
+        {
+            _requireNewJumpPress = false;
+        }
+        //_requireNewJumpPress = true;
     }
 
     void onRun(InputAction.CallbackContext context)

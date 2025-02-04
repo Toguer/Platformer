@@ -39,6 +39,11 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
     private float _jetpackDuration;
 
+    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
+    private float _jetpackForce = 5f;
+
+    [SerializeField] private float _maxJetpackVelocity = 1f;
+
     [SerializeField] private bool _jetpackAlreadyUsed = false;
 
     private float _initialJumpVelocity;
@@ -173,6 +178,16 @@ public class PlayerStateMachine : MonoBehaviour
     public float JetpackDuration
     {
         get { return _jetpackDuration; }
+    }
+
+    public float JetpackForce
+    {
+        get { return _jetpackForce; }
+    }
+
+    public float MaxJetpackVelocity
+    {
+        get { return _maxJetpackVelocity; }
     }
 
     public bool JetpackAlreadyUsed

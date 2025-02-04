@@ -40,6 +40,8 @@ public class PlayerFallState : PlayerBaseState, IRootState
         else if (!Ctx.JetpackAlreadyUsed && Ctx.IsJumpPressed)
         {
             Debug.Log("Jetpack from Fall");
+
+            Ctx.CurrentMovementY = Mathf.Max(Ctx.CurrentMovementY, -2.0f);
             SwitchState(Factory.Jetpack());
         }
         else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0)

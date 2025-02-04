@@ -227,7 +227,11 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
         HandleRotation();
-        _characterController.Move(_cameraRelativeMovement * (_speed * Time.deltaTime));
+        
+        Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
+        _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
+        _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
+        //_characterController.Move(_cameraRelativeMovement * (_speed * Time.deltaTime));
         //HandleGravity();
 
         _currentState.UpdateStates();
@@ -335,5 +339,10 @@ public class PlayerStateMachine : MonoBehaviour
     private void OnDisable()
     {
         _playerInput.Player.Disable();
+    }
+
+    private void OnValidate()
+    {
+        SetupJumpVariables();
     }
 }

@@ -32,11 +32,11 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("Es el margen de error que tiene un jugador para saltar despues de caer de una esquina.")]
     [SerializeField]
     [Range(0.1f, 1.0f)]
-    private float _coyoteTime;
+    private float _coyoteTime = 0.1f;
 
     private float _remainingCoyoteTime;
 
-    [Tooltip("La duración del efecto jetpack")] [SerializeField]
+    [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
     private float _jetpackDuration;
 
     [SerializeField] private bool _jetpackAlreadyUsed = false;
@@ -216,6 +216,11 @@ public class PlayerStateMachine : MonoBehaviour
         //HandleGravity();
 
         _currentState.UpdateStates();
+
+        if (_remainingCoyoteTime > 0)
+        {
+            _remainingCoyoteTime -= Time.deltaTime;
+        }
     }
 
     void HandleRotation()
@@ -295,7 +300,11 @@ public class PlayerStateMachine : MonoBehaviour
     void OnJump(InputAction.CallbackContext context)
     {
         _isJumpPressed = context.ReadValueAsButton();
-        _requireNewJumpPress = false;
+        if (_requireNewJumpPress && !_isJumpPressed)
+        {
+            _requireNewJumpPress = false;
+        }
+        //_requireNewJumpPress = true;
     }
 
     void onRun(InputAction.CallbackContext context)

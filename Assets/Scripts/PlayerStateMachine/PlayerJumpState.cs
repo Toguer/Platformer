@@ -11,6 +11,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     public override void EnterState()
     {
         Ctx.RequireNewJumpPress = true;
+        Ctx.RemainingCoyoteTime = 0;
         InitializeSubState();
         Debug.Log("Entered Jump State");
         HandleJump();

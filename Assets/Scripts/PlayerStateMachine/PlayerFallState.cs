@@ -37,7 +37,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
             Debug.Log("Grounded from Fall");
             SwitchState(Factory.Grounded());
         }
-        else if (!Ctx.JetpackAlreadyUsed && Ctx.IsJumpPressed)
+        else if (!Ctx.JetpackAlreadyUsed && Ctx.IsJumpPressed && Ctx.JetpackDuration>0)
         {
             Debug.Log("Jetpack from Fall");
 

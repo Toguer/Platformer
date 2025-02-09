@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerGroundedState : PlayerBaseState, IRootState
@@ -19,7 +20,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         InitializeSubState();
         HandleGravity();
         Ctx.JetpackAlreadyUsed = false;
-        Ctx.RemainingCoyoteTime = Ctx.CoyoteTime;
+        
     }
 
     public override void UpdateState()
@@ -29,6 +30,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public override void ExitState()
     {
+        Ctx.RemainingCoyoteTime = Ctx.CoyoteTime;
     }
 
     public override void CheckSwitchStates()

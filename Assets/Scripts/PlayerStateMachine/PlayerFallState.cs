@@ -16,7 +16,6 @@ public class PlayerFallState : PlayerBaseState, IRootState
     public override void UpdateState()
     {
         HandleGravity();
-        Ctx.RemainingCoyoteTime -= Time.deltaTime;
         CheckSwitchStates();
     }
 
@@ -37,15 +36,19 @@ public class PlayerFallState : PlayerBaseState, IRootState
         {
             Debug.Log("Grounded from Fall");
             SwitchState(Factory.Grounded());
-        }else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0)
+        }
+        else if (!Ctx.JetpackAlreadyUsed && Ctx.IsJumpPressed)
+        {
+            Debug.Log("Jetpack from Fall");
+
+            Ctx.CurrentMovementY = Mathf.Max(Ctx.CurrentMovementY, -2.0f);
+            SwitchState(Factory.Jetpack());
+        }
+        else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0)
         {
             Ctx.RemainingCoyoteTime = 0;
             Debug.Log("Usando el coyote Time!");
             SwitchState(Factory.Jump());
-        }else if (!Ctx.JetpackAlreadyUsed && Ctx.IsJumpPressed)
-        {
-            Debug.Log("Jetpack from Fall");
-            SwitchState(Factory.Jetpack());
         }
     }
 

@@ -10,6 +10,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
+        Ctx.RequireNewJumpPress = true;
         InitializeSubState();
         Debug.Log("Entered Jump State");
         HandleJump();
@@ -35,12 +36,13 @@ public class PlayerJumpState : PlayerBaseState, IRootState
         {
             Debug.Log("Grounded From Jump");
             SwitchState(Factory.Grounded());
-        }else if (!Ctx.IsJumpPressed)
+        }
+        else if (!Ctx.IsJumpPressed)
         {
             Debug.Log("Caida temprana");
             SwitchState(Factory.Fall());
         }
-        else if (Ctx.IsJumpPressed && !Ctx.JetpackAlreadyUsed)
+        else if (Ctx.IsJumpPressed && !Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
         {
             Debug.Log("JetPack From Jump");
             //SwitchState(Factory.Jetpack());

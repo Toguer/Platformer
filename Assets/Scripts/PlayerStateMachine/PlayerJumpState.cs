@@ -52,13 +52,13 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void InitializeSubState()
     {
-        if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
-        {
-            SetSubState(Factory.Idle());
-        }
-        else if (Ctx.IsMovementPressed)
+        if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
+        }
+        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        {
+            SetSubState(Factory.Idle());
         }
     }
 

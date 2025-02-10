@@ -312,7 +312,6 @@ public class PlayerStateMachine : MonoBehaviour
         _currentMovement.x = _currentMovementInput.x;
         _currentMovement.z = _currentMovementInput.y;
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
-        print("Input Magnitude" + _currentMovementInput.magnitude);
     }
 
     void OnJump(InputAction.CallbackContext context)

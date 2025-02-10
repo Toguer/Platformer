@@ -39,11 +39,12 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
         if (jetPackDuration <= 0)
         {
             SwitchState(Factory.Fall());
-        }
-
-        if (Ctx.CharacterController.isGrounded)
+        }else if (Ctx.CharacterController.isGrounded)
         {
             SwitchState(Factory.Grounded());
+        }else if (!Ctx.IsJumpPressed)
+        {
+            SwitchState(Factory.Fall());
         }
     }
 
@@ -68,10 +69,10 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
         //Ctx.CurrentMovementY = Mathf.Min(Ctx.CurrentMovementY + Ctx.JetpackForce * Time.deltaTime, Ctx.MaxJetpackVelocity);
         
         //Aceleración progresiva
-        Ctx.CurrentMovementY += Ctx.JetpackForce + Time.deltaTime * 2f;
+        Ctx.CurrentMovementY += Ctx.JetpackForce + Time.deltaTime * Ctx.JetpackAccelerationMultiplier;
 
         //Limite velocidad maxima
-        Ctx.CurrentRunMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -5f, Ctx.MaxJetpackVelocity);
+        Ctx.CurrentRunMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity, Ctx.MaxJetpackVelocity);
         
         Ctx.AppliedMovementY = Ctx.CurrentMovementY;
         /*

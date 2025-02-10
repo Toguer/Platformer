@@ -39,10 +39,19 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
     private float _jetpackDuration;
 
-    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
-    private float _jetpackForce = 5f;
+    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")]
+    [SerializeField]
+    [Range(0.05f, 0.5f)]
+    private float _jetpackForce = 0.2f;
 
-    [SerializeField] private float _maxJetpackVelocity = 1f;
+    [Tooltip("Velocidad maxima a la que puede ir el Jetpack")] [SerializeField]
+    private float _maxJetpackVelocity = 1f;
+
+    [Tooltip("Velocidad Minima a la que puede ir el Jetpack")] [SerializeField]
+    private float _minJetpackVelocity = -5f;
+
+    [SerializeField] [Tooltip("Multiplicador que se utiliza para subir lo que tardará en llegar a la altura que toca")]
+    private float _jetpackAccelerationMultiplier = 2f;
 
     [SerializeField] private bool _jetpackAlreadyUsed = false;
 
@@ -190,6 +199,16 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _maxJetpackVelocity; }
     }
 
+    public float MinJetpackVelocity
+    {
+        get { return _minJetpackVelocity; }
+    }
+
+    public float JetpackAccelerationMultiplier
+    {
+        get { return _jetpackAccelerationMultiplier; }
+    }
+
     public bool JetpackAlreadyUsed
     {
         get { return _jetpackAlreadyUsed; }
@@ -227,7 +246,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
         HandleRotation();
-        
+
         Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
         _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
         _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));

@@ -15,6 +15,11 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
     {
         jetPackDuration = Ctx.JetpackDuration;
         Ctx.JetpackAlreadyUsed = true;
+        
+        //Impulso inicial
+        Ctx.CurrentMovementY = Ctx.JetpackForce;
+        Ctx.AppliedMovementY = Ctx.JetpackForce;
+        
         InitializeSubState();
     }
 
@@ -60,7 +65,14 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
-        Ctx.CurrentMovementY = Mathf.Min(Ctx.CurrentMovementY + Ctx.JetpackForce * Time.deltaTime, Ctx.MaxJetpackVelocity);
+        //Ctx.CurrentMovementY = Mathf.Min(Ctx.CurrentMovementY + Ctx.JetpackForce * Time.deltaTime, Ctx.MaxJetpackVelocity);
+        
+        //Aceleración progresiva
+        Ctx.CurrentMovementY += Ctx.JetpackForce + Time.deltaTime * 2f;
+
+        //Limite velocidad maxima
+        Ctx.CurrentRunMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -5f, Ctx.MaxJetpackVelocity);
+        
         Ctx.AppliedMovementY = Ctx.CurrentMovementY;
         /*
         float previousYVelocity = Ctx.CurrentMovementY;

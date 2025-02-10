@@ -20,7 +20,6 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         InitializeSubState();
         HandleGravity();
         Ctx.JetpackAlreadyUsed = false;
-        
     }
 
     public override void UpdateState()
@@ -55,10 +54,6 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         else if (Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
             SetSubState(Factory.Walk());
-        }
-        else
-        {
-            SetSubState(Factory.Run());
         }
     }
 }

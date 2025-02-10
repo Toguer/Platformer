@@ -233,8 +233,6 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.Move.started += OnMovementInput;
         _playerInput.Player.Move.canceled += OnMovementInput;
         _playerInput.Player.Move.performed += OnMovementInput;
-        _playerInput.Player.Run.started += onRun;
-        _playerInput.Player.Run.canceled += onRun;
         _playerInput.Player.Jump.started += OnJump;
         _playerInput.Player.Jump.canceled += OnJump;
 
@@ -301,23 +299,6 @@ public class PlayerStateMachine : MonoBehaviour
         return vectorRotatedToCamearSpace;
     }
 
-    void HandleGravity()
-    {
-        bool isFalling = _currentMovement.y <= 0.0f || !_isJumpPressed;
-        float fallMultiplier = 2.0f;
-        if (_characterController.isGrounded)
-        {
-            _currentMovement.y = _groundedGravity;
-            _currentRunMovement.y = _groundedGravity;
-        }
-        else if (isFalling)
-        {
-            float previousYVelocity = _currentMovement.y;
-            _currentMovement.y = _currentMovement.y + (_gravity * fallMultiplier * Time.deltaTime);
-            _appliedMovement.y = Mathf.Max((previousYVelocity + _currentMovement.y) * 0.5f, -20.0f);
-        }
-    }
-
     void SetupJumpVariables()
     {
         float timeToApex = _maxJumpTime / 2;
@@ -330,9 +311,8 @@ public class PlayerStateMachine : MonoBehaviour
         _currentMovementInput = context.ReadValue<Vector2>();
         _currentMovement.x = _currentMovementInput.x;
         _currentMovement.z = _currentMovementInput.y;
-        _currentRunMovement.x = _currentMovementInput.x * _runMultiplier;
-        _currentRunMovement.z = _currentMovementInput.y * _runMultiplier;
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
+        print("Input Magnitude" + _currentMovementInput.magnitude);
     }
 
     void OnJump(InputAction.CallbackContext context)
@@ -343,11 +323,6 @@ public class PlayerStateMachine : MonoBehaviour
             _requireNewJumpPress = false;
         }
         //_requireNewJumpPress = true;
-    }
-
-    void onRun(InputAction.CallbackContext context)
-    {
-        _isRunPressed = context.ReadValueAsButton();
     }
 
     private void OnEnable()

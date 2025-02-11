@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlatfromController : MonoBehaviour
 {
     [Header("Bool")]
-    [SerializeField] private bool isElevator;
+    [SerializeField] private bool waitATime;
     [SerializeField] private bool isLadderButton;
 
     [Header("Points")]
@@ -40,7 +40,7 @@ public class PlatfromController : MonoBehaviour
     void Update()
     {
         // movimiento de plataformas a distintos puntos
-        if (isElevator)
+        if (!waitATime)
         {
             //este es como un ascensor que sube y baja depenciendo que llegue a al siguente punto, tambien se peude utilizar en movimiento lateral
             if (Vector2.Distance(transform.position, points[i].position) < 0.01f)

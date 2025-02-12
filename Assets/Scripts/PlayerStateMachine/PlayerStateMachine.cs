@@ -39,9 +39,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
     private float _jetpackDuration;
 
-    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")]
-    [SerializeField]
-    [Range(0.05f, 1f)]
+    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
     private float _jetpackForce = 0.2f;
 
     [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")]

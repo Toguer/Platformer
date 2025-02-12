@@ -7,6 +7,11 @@ public class MovementBehaviour : MonoBehaviour
     private Rigidbody RB;
     private float walkSpeed;
 
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
     void Start()
     {
         RB = GetComponent<Rigidbody>();
@@ -19,4 +24,12 @@ public class MovementBehaviour : MonoBehaviour
         Vector3 velocityXZ = input.normalized * speed;
         RB.linearVelocity = new Vector3(velocityXZ.x, RB.linearVelocity.y, velocityXZ.z);
     }
+    public void Move(Vector3 d)
+    {
+        //Movimineto de las plataformas (ascensores) 
+        d.Normalize();
+        transform.position += d * speed * Time.deltaTime;
+    }
+
+
 }

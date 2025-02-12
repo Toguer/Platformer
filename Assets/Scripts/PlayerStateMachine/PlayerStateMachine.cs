@@ -41,8 +41,13 @@ public class PlayerStateMachine : MonoBehaviour
 
     [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")]
     [SerializeField]
-    [Range(0.05f, 0.5f)]
+    [Range(0.05f, 1f)]
     private float _jetpackForce = 0.2f;
+
+    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")]
+    [SerializeField]
+    [Range(0.05f, 0.5f)]
+    private float _jetpackGlideForce = 0.1f;
 
     [Tooltip("Velocidad maxima a la que puede ir el Jetpack")] [SerializeField]
     private float _maxJetpackVelocity = 1f;
@@ -50,10 +55,14 @@ public class PlayerStateMachine : MonoBehaviour
     [Tooltip("Velocidad Minima a la que puede ir el Jetpack")] [SerializeField]
     private float _minJetpackVelocity = -5f;
 
-    [SerializeField] [Tooltip("Multiplicador que se utiliza para subir lo que tardará en llegar a la altura que toca")]
-    private float _jetpackAccelerationMultiplier = 2f;
+    [SerializeField] [Tooltip("Porcentaje sobre la duración maxima que durará la subida del jetpack")] [Range(0, 1)]
+    private float _jetpackBoostDuration;
+
+    [SerializeField] [Tooltip("Porcentaje sobre la duración maxima que durará la bajada del jetpack")] [Range(0, 1)]
+    private float _jetpackGlideDuration;
 
     [SerializeField] private bool _jetpackAlreadyUsed = false;
+
 
     private float _initialJumpVelocity;
 
@@ -194,6 +203,11 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _jetpackForce; }
     }
 
+    public float JetpackGlideForce
+    {
+        get { return _jetpackGlideForce; }
+    }
+
     public float MaxJetpackVelocity
     {
         get { return _maxJetpackVelocity; }
@@ -204,9 +218,14 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _minJetpackVelocity; }
     }
 
-    public float JetpackAccelerationMultiplier
+    public float JetpackBoostDuration
     {
-        get { return _jetpackAccelerationMultiplier; }
+        get { return _jetpackBoostDuration; }
+    }
+
+    public float JetpackGlideDuration
+    {
+        get { return _jetpackGlideDuration; }
     }
 
     public bool JetpackAlreadyUsed

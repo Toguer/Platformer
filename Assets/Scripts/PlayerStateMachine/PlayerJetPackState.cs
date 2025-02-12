@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class PlayerJetPackState : PlayerBaseState, IRootState
 {
-    private float jetPackDuration;
+    private float _jetpackBoostDuration;
+    private float _jetpackGlideDuration;
 
     public PlayerJetPackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
@@ -13,12 +14,15 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
-        jetPackDuration = Ctx.JetpackDuration;
+        _jetpackBoostDuration = Ctx.JetpackDuration * Ctx.JetpackBoostDuration;
+        _jetpackGlideDuration = Ctx.JetpackDuration * Ctx.JetpackGlideDuration;
+
+        //_jetPackDuration = Ctx.JetpackDuration;
         Ctx.JetpackAlreadyUsed = true;
 
         //Impulso inicial
-        Ctx.CurrentMovementY = Ctx.JetpackForce;
-        Ctx.AppliedMovementY = Ctx.JetpackForce;
+        Ctx.CurrentMovementY = Ctx.JetpackForce * 1.5f;
+        Ctx.AppliedMovementY = Ctx.CurrentMovementY * 1.5f;
 
         InitializeSubState();
     }
@@ -35,7 +39,7 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (jetPackDuration <= 0)
+        if (_jetpackBoostDuration <= 0 && _jetpackGlideDuration <= 0)
         {
             SwitchState(Factory.Fall());
         }
@@ -67,18 +71,31 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
-        if (jetPackDuration > 0)
+        if (_jetpackBoostDuration > 0)
         {
-            // Suavizar la aceleración inicial y desacelerar progresivamente
-            float t = Mathf.Clamp01(jetPackDuration / Ctx.JetpackDuration); // Normalizar el tiempo restante
-            float smoothJetpackForce = Mathf.Lerp(0, Ctx.JetpackForce, t); // Interpolar la fuerza de jetpack
+            float t = Mathf.Clamp01(_jetpackBoostDuration / (Ctx.JetpackDuration * Ctx.JetpackBoostDuration));
+            float smoothJetpackForce = Mathf.Lerp(0, Ctx.JetpackForce * 1.5f, t);
 
-            Ctx.CurrentMovementY += smoothJetpackForce + Time.deltaTime;
-            
+            Ctx.CurrentMovementY += smoothJetpackForce * Time.deltaTime;
             Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity, Ctx.MaxJetpackVelocity);
+            Ctx.AppliedMovementY = Ctx.CurrentMovementY;
+
+            _jetpackBoostDuration -= Time.deltaTime;
+        }
+        else if (_jetpackGlideDuration > 0)
+        {
+            Debug.Log("Jetpack Gliding");
+
+            float floatgravity = -Mathf.Abs(Ctx.Gravity) * Ctx.JetpackGlideForce;
+
+            Ctx.CurrentMovementY += (Ctx.JetpackForce * Ctx.JetpackGlideForce + floatgravity) * Time.deltaTime;
+
+            Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity * Ctx.JetpackGlideForce,
+                Ctx.MaxJetpackVelocity * Ctx.JetpackBoostDuration);
 
             Ctx.AppliedMovementY = Ctx.CurrentMovementY;
-            jetPackDuration -= Time.deltaTime;
+
+            _jetpackGlideDuration -= Time.deltaTime;
         }
         else
         {

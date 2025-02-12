@@ -1941,8 +1941,8 @@ GameObject:
   - component: {fileID: 539745478100655087}
   - component: {fileID: 7635726066119915157}
   - component: {fileID: 4757836856755875627}
-  - component: {fileID: 5860977835031877126}
-  - component: {fileID: 5713861166603289400}
+  - component: {fileID: 2410309557481029448}
+  - component: {fileID: 8576395532979056040}
   m_Layer: 0
   m_Name: Jammo_Player
   m_TagString: Player
@@ -2038,7 +2038,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.98, z: 0}
---- !u!114 &5860977835031877126
+--- !u!114 &2410309557481029448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2052,7 +2052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstSpawnPoint: {fileID: 0}
   player: {fileID: 3541754002163558908}
---- !u!114 &5713861166603289400
+--- !u!114 &8576395532979056040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2068,11 +2068,13 @@ MonoBehaviour:
   _maxJumpTime: 1
   _fallMultiplier: 2
   _coyoteTime: 0.3
-  _jetpackDuration: 0.62
-  _jetpackForce: 0.05
-  _maxJetpackVelocity: 0
-  _minJetpackVelocity: -5
-  _jetpackAccelerationMultiplier: 2
+  _jetpackDuration: 2
+  _jetpackForce: 1
+  _jetpackGlideForce: 0.3
+  _maxJetpackVelocity: 2
+  _minJetpackVelocity: 5
+  _jetpackBoostDuration: 0.6
+  _jetpackGlideDuration: 0.4
   _jetpackAlreadyUsed: 0
   _isJumpPressed: 0
   _runMultiplier: 2

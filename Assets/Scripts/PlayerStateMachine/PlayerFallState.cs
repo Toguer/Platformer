@@ -55,11 +55,18 @@ public class PlayerFallState : PlayerBaseState, IRootState
 
     public override void InitializeSubState()
     {
-        if (Ctx.IsMovementPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SetSubState(Factory.Dash());
+        }
+        else if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude > 0.5f)
+        {
+            SetSubState(Factory.Run());
+        }else if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
         }
-        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        else if (!Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Idle());
         }

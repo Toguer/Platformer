@@ -55,7 +55,11 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void InitializeSubState()
     {
-        if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SetSubState(Factory.Dash());
+        }
+        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
             SetSubState(Factory.Idle());
         }

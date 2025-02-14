@@ -26,6 +26,11 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            Ctx.DashAlreadyUsed = true;
+            SwitchState(Factory.Dash());
+        }
         if (Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Walk());

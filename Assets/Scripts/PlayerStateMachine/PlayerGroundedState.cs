@@ -24,6 +24,12 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public override void UpdateState()
     {
+        Ctx.DashRemainingCooldown -= Time.deltaTime;
+        if (Ctx.DashRemainingCooldown <= 0)
+        {
+            Ctx.DashAlreadyUsed = false;
+            Ctx.DashRemainingCooldown = 0;
+        }
         CheckSwitchStates();
     }
 
@@ -47,7 +53,11 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public override void InitializeSubState()
     {
-        if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SetSubState(Factory.Dash());
+        }
+        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
             SetSubState(Factory.Idle());
         }

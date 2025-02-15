@@ -6146,7 +6146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durationBox: 0.5
-  finalTargerZ: 2
+  finalTargerX: 0
 --- !u!65 &1912760783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6187,7 +6187,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.175847, y: 1, z: 1}
+  m_Size: {x: 2, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1912760785
 MeshRenderer:

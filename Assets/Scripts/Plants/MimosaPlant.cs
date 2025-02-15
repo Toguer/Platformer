@@ -3,11 +3,11 @@ using UnityEngine;
 public class MimosaPlant : MonoBehaviour
 {
     [SerializeField] private float durationBox;
-    [SerializeField] private float finalTargerZ;
+    [SerializeField] private float finalTargerX;
 
     private BoxCollider boxCollider;
-    private float initialSizeZ;
-    private float targetSizeZ;
+    private float initialSizeX;
+    private float targetSizeX;
     private float duration;
     private float elapsedTime = 0f;
     private bool isReducing = false;
@@ -20,7 +20,7 @@ public class MimosaPlant : MonoBehaviour
             Debug.LogError("No hay un BoxCollider en este objeto.");
             return;
         }
-        initialSizeZ = boxCollider.size.x;
+        initialSizeX = boxCollider.size.x;
     }
 
     void Update()
@@ -30,35 +30,38 @@ public class MimosaPlant : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
 
-            // Interpolación del tamaño en Z
-            float newSizeZ = Mathf.Lerp(initialSizeZ, targetSizeZ, t);
+            // Reducir el tamaño desde la derecha hacia la izquierda
+            float newSizeX = Mathf.Lerp(initialSizeX, targetSizeX, t);
+            float sizeDifference = initialSizeX - newSizeX;
 
             Vector3 newSize = boxCollider.size;
-            newSize.x = newSizeZ;
+            newSize.x = newSizeX;
 
             Vector3 newCenter = boxCollider.center;
-            newCenter.x -= 0;
+            newCenter.x -= sizeDifference / 2;  // Desplazar el centro para cerrar de derecha a izquierda
 
             boxCollider.size = newSize;
             boxCollider.center = newCenter;
+
             if (t >= 1f) isReducing = false;
         }
     }
 
-    public void StartReducing(float newTargetSizeZ, float newDuration)
+    public void StartReducing(float newTargetSizeX, float newDuration)
     {
-        targetSizeZ = Mathf.Max(0, newTargetSizeZ);
+        targetSizeX = Mathf.Max(0, newTargetSizeX);
         duration = Mathf.Max(0.1f, newDuration);
-        initialSizeZ = boxCollider.size.x;
+        initialSizeX = boxCollider.size.x;
         elapsedTime = 0f;
         isReducing = true;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            // aqui haria la animacion de la flor recogiendose
-            StartReducing(durationBox, finalTargerZ);
+            // Iniciar la reducción del BoxCollider
+            StartReducing(finalTargerX, durationBox);
         }
     }
 }

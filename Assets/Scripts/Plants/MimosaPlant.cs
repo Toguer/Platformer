@@ -17,6 +17,7 @@ public class MimosaPlant : MonoBehaviour
     private float elapsedTime = 0f;
     private bool isReducing = false;
 
+    [Header("CoolDown")]
     [SerializeField] private float timeBetweenCollider;
     private int i;
     private float coolDown = 0;

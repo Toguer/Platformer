@@ -1941,6 +1941,8 @@ GameObject:
   - component: {fileID: 539745478100655087}
   - component: {fileID: 7635726066119915157}
   - component: {fileID: 4757836856755875627}
+  - component: {fileID: 2162761779360473866}
+  - component: {fileID: 1330811826399629520}
   m_Layer: 0
   m_Name: Jammo_Player
   m_TagString: Player
@@ -2032,10 +2034,56 @@ CharacterController:
   m_Height: 1.8
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.98, z: 0}
+--- !u!114 &2162761779360473866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541754002163558908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e970281b795affb45a8197580b44ca90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSpawnPoint: {fileID: 0}
+  player: {fileID: 3541754002163558908}
+--- !u!114 &1330811826399629520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541754002163558908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f8cf6e46e0d16345bbcaf1427500b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxJumpHeight: 4
+  _maxJumpTime: 1
+  _fallMultiplier: 2
+  _coyoteTime: 0.2
+  _jetpackDuration: 1
+  _jetpackForce: 4
+  _jetpackGlideForce: 0.5
+  _maxJetpackVelocity: 16
+  _minJetpackVelocity: 2
+  _jetpackBoostDuration: 0.25
+  _jetpackGlideDuration: 1
+  _jetpackAlreadyUsed: 0
+  _isJumpPressed: 0
+  _runMultiplier: 2
+  _speed: 6
+  _dashDuration: 0.1
+  _dashSpeed: 10
+  _dashPressed: 0
+  _dashAlreadyUsed: 0
+  _dashCooldown: 0.5
 --- !u!1 &3921334144448749991
 GameObject:
   m_ObjectHideFlags: 0

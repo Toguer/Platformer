@@ -2034,7 +2034,7 @@ CharacterController:
   m_Height: 1.8
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.98, z: 0}
@@ -2067,18 +2067,23 @@ MonoBehaviour:
   _maxJumpHeight: 4
   _maxJumpTime: 1
   _fallMultiplier: 2
-  _coyoteTime: 0.3
-  _jetpackDuration: 2
-  _jetpackForce: 1
-  _jetpackGlideForce: 0.3
-  _maxJetpackVelocity: 2
-  _minJetpackVelocity: 5
-  _jetpackBoostDuration: 0.6
-  _jetpackGlideDuration: 0.4
+  _coyoteTime: 0.2
+  _jetpackDuration: 1
+  _jetpackForce: 4
+  _jetpackGlideForce: 0.5
+  _maxJetpackVelocity: 16
+  _minJetpackVelocity: 2
+  _jetpackBoostDuration: 0.25
+  _jetpackGlideDuration: 1
   _jetpackAlreadyUsed: 0
   _isJumpPressed: 0
   _runMultiplier: 2
   _speed: 6
+  _dashDuration: 0.5
+  _dashSpeed: 50
+  _dashPressed: 0
+  _dashAlreadyUsed: 0
+  _dashCooldown: 0.5
 --- !u!1 &3921334144448749991
 GameObject:
   m_ObjectHideFlags: 0

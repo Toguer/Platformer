@@ -32,8 +32,7 @@ public class PlayerDashState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (_dashTimeRemaining <= 0)
-        {
+        
             if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude > 0.5f)
             {
                 SwitchState(Factory.Run());
@@ -46,7 +45,7 @@ public class PlayerDashState : PlayerBaseState, IRootState
             {
                 SwitchState(Factory.Idle());
             }
-        }
+
     }
 
     public override void InitializeSubState()

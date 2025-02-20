@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 539745478100655087, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -310
+      value: -304
       objectReference: {fileID: 0}
     - target: {fileID: 539745478100655087, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 539745478100655087, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.00000166893
       objectReference: {fileID: 0}
     - target: {fileID: 539745478100655087, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4757836856755875627, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
+      propertyPath: m_StepOffset
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5713861166603289400, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _speed
       value: 5
@@ -89,16 +93,28 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
+      propertyPath: _dashSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _coyoteTime
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
+      propertyPath: _dashCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
+      propertyPath: _dashDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _jetpackForce
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _jetpackDuration
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _jetpackGlideForce
@@ -106,11 +122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _maxJetpackVelocity
-      value: 6
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _minJetpackVelocity
-      value: 0.25
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _jetpackBoostDuration
@@ -118,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
       propertyPath: _jetpackGlideDuration
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

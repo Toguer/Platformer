@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private float _remainingCoyoteTime;
 
-    [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
+    [Header("Jetpack")] [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
     private float _jetpackDuration;
 
     [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
@@ -67,6 +68,8 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
 
+    private float _JumpForcePress;
+
     [Header("Movement Variables")]
     //movement variables
     [SerializeField]
@@ -81,6 +84,13 @@ public class PlayerStateMachine : MonoBehaviour
     // state variables
     [SerializeField] private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
+
+    [Header("Dash")] [SerializeField] private float _dashDuration;
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private bool _dashPressed;
+    [SerializeField] private bool _dashAlreadyUsed;
+    [SerializeField] private float _dashCooldown = 1;
+    private float _dashRemainingCooldown;
 
     #endregion
 
@@ -232,6 +242,39 @@ public class PlayerStateMachine : MonoBehaviour
         set { _jetpackAlreadyUsed = value; }
     }
 
+    public float DashDuration
+    {
+        get { return _dashDuration; }
+    }
+
+    public float DashSpeed
+    {
+        get { return _dashSpeed; }
+    }
+
+    public bool DashAlreadyUsed
+    {
+        get { return _dashAlreadyUsed; }
+        set { _dashAlreadyUsed = value; }
+    }
+
+    public bool DashPressed
+    {
+        get { return _dashPressed; }
+    }
+
+    public float DashCooldown
+    {
+        get { return _dashCooldown; }
+        set { _dashCooldown = value; }
+    }
+
+    public float DashRemainingCooldown
+    {
+        get { return _dashRemainingCooldown; }
+        set { _dashRemainingCooldown = value; }
+    }
+
     #endregion
 
 
@@ -252,7 +295,8 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.Move.performed += OnMovementInput;
         _playerInput.Player.Jump.started += OnJump;
         _playerInput.Player.Jump.canceled += OnJump;
-
+        _playerInput.Player.Dash.started += OnDash;
+        _playerInput.Player.Dash.canceled += OnDash;
         SetupJumpVariables();
     }
 
@@ -334,11 +378,16 @@ public class PlayerStateMachine : MonoBehaviour
     void OnJump(InputAction.CallbackContext context)
     {
         _isJumpPressed = context.ReadValueAsButton();
+        _JumpForcePress = context.ReadValue<float>();
         if (_requireNewJumpPress && !_isJumpPressed)
         {
             _requireNewJumpPress = false;
         }
-        //_requireNewJumpPress = true;
+    }
+
+    void OnDash(InputAction.CallbackContext context)
+    {
+        _dashPressed = context.ReadValueAsButton();
     }
 
     private void OnEnable()

@@ -24,11 +24,15 @@ public class PlayerRunState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        if (!Ctx.IsMovementPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SwitchState(Factory.Dash());
+        }
+        else if (!Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Idle());
         }
-        else if (Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        else if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude < 0.5f)
         {
             SwitchState(Factory.Walk());
         }

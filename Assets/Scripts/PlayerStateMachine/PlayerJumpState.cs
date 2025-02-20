@@ -19,6 +19,11 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void UpdateState()
     {
+        Ctx.DashRemainingCooldown -= Time.deltaTime;
+        if (Ctx.DashRemainingCooldown < 0)
+        {
+            Ctx.DashAlreadyUsed = false;
+        }
         HandleGravity();
         CheckSwitchStates();
     }
@@ -52,7 +57,11 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void InitializeSubState()
     {
-        if (Ctx.IsMovementPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SetSubState(Factory.Dash());
+        }
+        else if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
         }

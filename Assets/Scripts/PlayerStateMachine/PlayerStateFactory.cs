@@ -9,7 +9,8 @@ enum PlayerStates
     Grounded,
     Jump,
     Fall,
-    Jetpack
+    Jetpack,
+    Dash
 }
 
 public class PlayerStateFactory
@@ -27,6 +28,7 @@ public class PlayerStateFactory
         _states[PlayerStates.Grounded] = new PlayerGroundedState(_context, this);
         _states[PlayerStates.Fall] = new PlayerFallState(_context, this);
         _states[PlayerStates.Jetpack] = new PlayerJetPackState(_context, this);
+        _states[PlayerStates.Dash] = new PlayerDashState(_context, this);
     }
 
     public PlayerBaseState Idle()
@@ -62,5 +64,10 @@ public class PlayerStateFactory
     public PlayerBaseState Jetpack()
     {
         return _states[PlayerStates.Jetpack];
+    }
+
+    public PlayerBaseState Dash()
+    {
+        return _states[PlayerStates.Dash];
     }
 }

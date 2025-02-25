@@ -11,6 +11,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     public override void EnterState()
     {
         Ctx.RequireNewJumpPress = true;
+        Ctx.RemainingCoyoteTime = 0;
         InitializeSubState();
         Debug.Log("Entered Jump State");
         HandleJump();
@@ -18,6 +19,11 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void UpdateState()
     {
+        Ctx.DashRemainingCooldown -= Time.deltaTime;
+        if (Ctx.DashRemainingCooldown < 0)
+        {
+            Ctx.DashAlreadyUsed = false;
+        }
         HandleGravity();
         CheckSwitchStates();
     }
@@ -51,17 +57,17 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void InitializeSubState()
     {
-        if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
-            SetSubState(Factory.Idle());
+            SetSubState(Factory.Dash());
         }
-        else if (Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        else if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
         }
-        else
+        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
-            SetSubState(Factory.Run());
+            SetSubState(Factory.Idle());
         }
     }
 

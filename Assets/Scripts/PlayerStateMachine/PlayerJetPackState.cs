@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class PlayerJetPackState : PlayerBaseState, IRootState
 {
-    private float jetPackDuration;
+    private float _jetpackBoostDuration;
+    private float _jetpackGlideDuration;
 
     public PlayerJetPackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
@@ -13,14 +14,21 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
-        jetPackDuration = Ctx.JetpackDuration;
+        _jetpackBoostDuration = Ctx.JetpackDuration * Ctx.JetpackBoostDuration;
+        _jetpackGlideDuration = Ctx.JetpackDuration * Ctx.JetpackGlideDuration;
+
+        //_jetPackDuration = Ctx.JetpackDuration;
         Ctx.JetpackAlreadyUsed = true;
+
+        //Impulso inicial
+        Ctx.CurrentMovementY = Ctx.JetpackForce * 1.5f;
+        Ctx.AppliedMovementY = Ctx.CurrentMovementY * 1.5f;
+
         InitializeSubState();
     }
 
     public override void UpdateState()
     {
-        jetPackDuration -= Time.deltaTime;
         HandleGravity();
         CheckSwitchStates();
     }
@@ -31,20 +39,27 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (jetPackDuration <= 0)
+        if (_jetpackBoostDuration <= 0 && _jetpackGlideDuration <= 0)
         {
             SwitchState(Factory.Fall());
         }
-
-        if (Ctx.CharacterController.isGrounded)
+        else if (Ctx.CharacterController.isGrounded)
         {
             SwitchState(Factory.Grounded());
+        }
+        else if (!Ctx.IsJumpPressed)
+        {
+            SwitchState(Factory.Fall());
         }
     }
 
     public override void InitializeSubState()
     {
-        if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SetSubState(Factory.Dash());
+        }
+        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
             SetSubState(Factory.Idle());
         }
@@ -60,13 +75,36 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
-        Ctx.CurrentMovementY = Mathf.Min(Ctx.CurrentMovementY + Ctx.JetpackForce * Time.deltaTime, Ctx.MaxJetpackVelocity);
-        Ctx.AppliedMovementY = Ctx.CurrentMovementY;
-        /*
-        float previousYVelocity = Ctx.CurrentMovementY;
-        Ctx.CurrentMovementY = Ctx.CurrentMovementY * Time.deltaTime;
-        Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
-        */
-        //Ctx.AppliedMovementY = previousYVelocity + Ctx.CurrentMovementY;
+        if (_jetpackBoostDuration > 0)
+        {
+            float t = Mathf.Clamp01(_jetpackBoostDuration / (Ctx.JetpackDuration * Ctx.JetpackBoostDuration));
+            float smoothJetpackForce = Mathf.Lerp(0, Ctx.JetpackForce * 1.5f, t);
+
+            Ctx.CurrentMovementY += smoothJetpackForce * Time.deltaTime;
+            Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity, Ctx.MaxJetpackVelocity);
+            Ctx.AppliedMovementY = Ctx.CurrentMovementY;
+
+            _jetpackBoostDuration -= Time.deltaTime;
+        }
+        else if (_jetpackGlideDuration > 0)
+        {
+            Debug.Log("Jetpack Gliding");
+
+            float floatgravity = -Mathf.Abs(Ctx.Gravity) * Ctx.JetpackGlideForce;
+
+            Ctx.CurrentMovementY += (Ctx.JetpackForce * Ctx.JetpackGlideForce + floatgravity) * Time.deltaTime;
+
+            Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity * Ctx.JetpackGlideForce,
+                Ctx.MaxJetpackVelocity * Ctx.JetpackBoostDuration);
+
+            Ctx.AppliedMovementY = Ctx.CurrentMovementY;
+
+            _jetpackGlideDuration -= Time.deltaTime;
+        }
+        else
+        {
+            Ctx.CurrentMovementY += Ctx.Gravity * Time.deltaTime;
+            Ctx.AppliedMovementY = Mathf.Max(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity);
+        }
     }
 }

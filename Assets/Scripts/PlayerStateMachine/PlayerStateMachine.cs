@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -36,20 +37,38 @@ public class PlayerStateMachine : MonoBehaviour
 
     private float _remainingCoyoteTime;
 
-    [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
+    [Header("Jetpack")] [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
     private float _jetpackDuration;
 
     [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
-    private float _jetpackForce = 5f;
+    private float _jetpackForce = 0.2f;
 
-    [SerializeField] private float _maxJetpackVelocity = 1f;
+    [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")]
+    [SerializeField]
+    [Range(0.05f, 0.5f)]
+    private float _jetpackGlideForce = 0.1f;
+
+    [Tooltip("Velocidad maxima a la que puede ir el Jetpack")] [SerializeField]
+    private float _maxJetpackVelocity = 1f;
+
+    [Tooltip("Velocidad Minima a la que puede ir el Jetpack")] [SerializeField]
+    private float _minJetpackVelocity = -5f;
+
+    [SerializeField] [Tooltip("Porcentaje sobre la duración maxima que durará la subida del jetpack")] [Range(0, 1)]
+    private float _jetpackBoostDuration;
+
+    [SerializeField] [Tooltip("Porcentaje sobre la duración maxima que durará la bajada del jetpack")] [Range(0, 1)]
+    private float _jetpackGlideDuration;
 
     [SerializeField] private bool _jetpackAlreadyUsed = false;
+
 
     private float _initialJumpVelocity;
 
     [SerializeField] private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
+
+    private float _JumpForcePress;
 
     [Header("Movement Variables")]
     //movement variables
@@ -65,6 +84,13 @@ public class PlayerStateMachine : MonoBehaviour
     // state variables
     [SerializeField] private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
+
+    [Header("Dash")] [SerializeField] private float _dashDuration;
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private bool _dashPressed;
+    [SerializeField] private bool _dashAlreadyUsed;
+    [SerializeField] private float _dashCooldown = 1;
+    private float _dashRemainingCooldown;
 
     #endregion
 
@@ -185,15 +211,68 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _jetpackForce; }
     }
 
+    public float JetpackGlideForce
+    {
+        get { return _jetpackGlideForce; }
+    }
+
     public float MaxJetpackVelocity
     {
         get { return _maxJetpackVelocity; }
+    }
+
+    public float MinJetpackVelocity
+    {
+        get { return _minJetpackVelocity; }
+    }
+
+    public float JetpackBoostDuration
+    {
+        get { return _jetpackBoostDuration; }
+    }
+
+    public float JetpackGlideDuration
+    {
+        get { return _jetpackGlideDuration; }
     }
 
     public bool JetpackAlreadyUsed
     {
         get { return _jetpackAlreadyUsed; }
         set { _jetpackAlreadyUsed = value; }
+    }
+
+    public float DashDuration
+    {
+        get { return _dashDuration; }
+    }
+
+    public float DashSpeed
+    {
+        get { return _dashSpeed; }
+    }
+
+    public bool DashAlreadyUsed
+    {
+        get { return _dashAlreadyUsed; }
+        set { _dashAlreadyUsed = value; }
+    }
+
+    public bool DashPressed
+    {
+        get { return _dashPressed; }
+    }
+
+    public float DashCooldown
+    {
+        get { return _dashCooldown; }
+        set { _dashCooldown = value; }
+    }
+
+    public float DashRemainingCooldown
+    {
+        get { return _dashRemainingCooldown; }
+        set { _dashRemainingCooldown = value; }
     }
 
     #endregion
@@ -214,11 +293,10 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.Move.started += OnMovementInput;
         _playerInput.Player.Move.canceled += OnMovementInput;
         _playerInput.Player.Move.performed += OnMovementInput;
-        _playerInput.Player.Run.started += onRun;
-        _playerInput.Player.Run.canceled += onRun;
         _playerInput.Player.Jump.started += OnJump;
         _playerInput.Player.Jump.canceled += OnJump;
-
+        _playerInput.Player.Dash.started += OnDash;
+        _playerInput.Player.Dash.canceled += OnDash;
         SetupJumpVariables();
     }
 
@@ -227,7 +305,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
         HandleRotation();
-        
+
         Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
         _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
         _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
@@ -282,23 +360,6 @@ public class PlayerStateMachine : MonoBehaviour
         return vectorRotatedToCamearSpace;
     }
 
-    void HandleGravity()
-    {
-        bool isFalling = _currentMovement.y <= 0.0f || !_isJumpPressed;
-        float fallMultiplier = 2.0f;
-        if (_characterController.isGrounded)
-        {
-            _currentMovement.y = _groundedGravity;
-            _currentRunMovement.y = _groundedGravity;
-        }
-        else if (isFalling)
-        {
-            float previousYVelocity = _currentMovement.y;
-            _currentMovement.y = _currentMovement.y + (_gravity * fallMultiplier * Time.deltaTime);
-            _appliedMovement.y = Mathf.Max((previousYVelocity + _currentMovement.y) * 0.5f, -20.0f);
-        }
-    }
-
     void SetupJumpVariables()
     {
         float timeToApex = _maxJumpTime / 2;
@@ -311,24 +372,22 @@ public class PlayerStateMachine : MonoBehaviour
         _currentMovementInput = context.ReadValue<Vector2>();
         _currentMovement.x = _currentMovementInput.x;
         _currentMovement.z = _currentMovementInput.y;
-        _currentRunMovement.x = _currentMovementInput.x * _runMultiplier;
-        _currentRunMovement.z = _currentMovementInput.y * _runMultiplier;
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
     }
 
     void OnJump(InputAction.CallbackContext context)
     {
         _isJumpPressed = context.ReadValueAsButton();
+        _JumpForcePress = context.ReadValue<float>();
         if (_requireNewJumpPress && !_isJumpPressed)
         {
             _requireNewJumpPress = false;
         }
-        //_requireNewJumpPress = true;
     }
 
-    void onRun(InputAction.CallbackContext context)
+    void OnDash(InputAction.CallbackContext context)
     {
-        _isRunPressed = context.ReadValueAsButton();
+        _dashPressed = context.ReadValueAsButton();
     }
 
     private void OnEnable()

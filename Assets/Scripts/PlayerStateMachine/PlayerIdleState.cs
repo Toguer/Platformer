@@ -9,11 +9,10 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void EnterState()
     {
-         //animaciones
+        //animaciones
 
-         Ctx.AppliedMovementX = 0;
-         Ctx.AppliedMovementZ = 0;
-         
+        Ctx.AppliedMovementX = 0;
+        Ctx.AppliedMovementZ = 0;
     }
 
     public override void UpdateState()
@@ -27,10 +26,12 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
+        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
-            SwitchState(Factory.Run());
-        }else if (Ctx.IsMovementPressed)
+            Ctx.DashAlreadyUsed = true;
+            SwitchState(Factory.Dash());
+        }
+        if (Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Walk());
         }

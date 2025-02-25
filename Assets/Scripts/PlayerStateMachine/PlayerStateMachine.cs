@@ -339,7 +339,7 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
-    Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
+    public Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
     {
         float currentYValue = vectorToRotate.y;
 

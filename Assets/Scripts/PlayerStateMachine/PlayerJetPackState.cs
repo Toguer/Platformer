@@ -82,12 +82,15 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
+        
+
         if (_jetpackBoostDuration > 0)
         {
             float t = Mathf.Clamp01(_jetpackBoostDuration / (Ctx.JetpackDuration * Ctx.JetpackBoostDuration));
+
             float smoothJetpackForce = Mathf.Lerp(0, Ctx.JetpackForce * 1.5f, t);
 
-            Ctx.CurrentMovementY += smoothJetpackForce * Time.deltaTime;
+            Ctx.CurrentMovementY += smoothJetpackForce * Ctx.JetpackTrigger * Time.deltaTime;
             Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity, Ctx.MaxJetpackVelocity);
             Ctx.AppliedMovementY = Ctx.CurrentMovementY;
 
@@ -99,7 +102,8 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
             float floatgravity = -Mathf.Abs(Ctx.Gravity) * Ctx.JetpackGlideForce;
 
-            Ctx.CurrentMovementY += (Ctx.JetpackForce * Ctx.JetpackGlideForce + floatgravity) * Time.deltaTime;
+            Ctx.CurrentMovementY += (Ctx.JetpackForce * Ctx.JetpackGlideForce * Ctx.JetpackTrigger + floatgravity) *
+                                    Time.deltaTime;
 
             Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity * Ctx.JetpackGlideForce,
                 Ctx.MaxJetpackVelocity * Ctx.JetpackBoostDuration);

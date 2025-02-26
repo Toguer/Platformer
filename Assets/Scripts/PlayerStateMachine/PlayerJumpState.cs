@@ -52,9 +52,16 @@ public class PlayerJumpState : PlayerBaseState, IRootState
             SwitchState(Factory.Fall());
         }
         else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress &&
-                 Ctx.JetpackTrigger > 0.1f)
+                 Ctx.JetpackTrigger > 0.1f || Ctx.IsJumpPressed)
         {
-            SwitchState(Factory.Jetpack());
+            if (Ctx.IsGamepad)
+            {
+                SwitchState(Factory.Jetpack());
+            }
+            else
+            {
+                SwitchState(Factory.Jetpack());
+            }
 
             Debug.Log("JetPack From Jump");
         }

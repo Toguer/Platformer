@@ -5,7 +5,6 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 {
     private float _jetpackBoostDuration;
     private float _jetpackGlideDuration;
-    private bool _continue = true;
 
     public PlayerJetPackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
@@ -15,18 +14,15 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
-        if (_continue)
-        {
-            _jetpackBoostDuration = Ctx.JetpackDuration * Ctx.JetpackBoostDuration;
-            _jetpackGlideDuration = Ctx.JetpackDuration * Ctx.JetpackGlideDuration;
+        _jetpackBoostDuration = Ctx.JetpackDuration * Ctx.JetpackBoostDuration;
+        _jetpackGlideDuration = Ctx.JetpackDuration * Ctx.JetpackGlideDuration;
 
-            //_jetPackDuration = Ctx.JetpackDuration;
+        //_jetPackDuration = Ctx.JetpackDuration;
+        Ctx.JetpackAlreadyUsed = true;
 
-
-            //Impulso inicial
-            Ctx.CurrentMovementY = Ctx.JetpackForce * 1.5f;
-            Ctx.AppliedMovementY = Ctx.CurrentMovementY * 1.5f;
-        }
+        //Impulso inicial
+        Ctx.CurrentMovementY = Ctx.JetpackForce * 1.5f;
+        Ctx.AppliedMovementY = Ctx.CurrentMovementY * 1.5f;
 
         InitializeSubState();
     }
@@ -45,8 +41,6 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
     {
         if (_jetpackBoostDuration <= 0 && _jetpackGlideDuration <= 0)
         {
-            _continue = true;
-            Ctx.JetpackAlreadyUsed = true;
             SwitchState(Factory.Fall());
         }
         else if (Ctx.CharacterController.isGrounded)
@@ -55,7 +49,6 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
         }
         else if (!Ctx.IsJumpPressed)
         {
-            _continue = false;
             SwitchState(Factory.Fall());
         }
     }
@@ -82,15 +75,12 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
-        
-
         if (_jetpackBoostDuration > 0)
         {
             float t = Mathf.Clamp01(_jetpackBoostDuration / (Ctx.JetpackDuration * Ctx.JetpackBoostDuration));
-
             float smoothJetpackForce = Mathf.Lerp(0, Ctx.JetpackForce * 1.5f, t);
 
-            Ctx.CurrentMovementY += smoothJetpackForce * Ctx.JetpackTrigger * Time.deltaTime;
+            Ctx.CurrentMovementY += smoothJetpackForce * Time.deltaTime;
             Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity, Ctx.MaxJetpackVelocity);
             Ctx.AppliedMovementY = Ctx.CurrentMovementY;
 
@@ -102,8 +92,7 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
             float floatgravity = -Mathf.Abs(Ctx.Gravity) * Ctx.JetpackGlideForce;
 
-            Ctx.CurrentMovementY += (Ctx.JetpackForce * Ctx.JetpackGlideForce * Ctx.JetpackTrigger + floatgravity) *
-                                    Time.deltaTime;
+            Ctx.CurrentMovementY += (Ctx.JetpackForce * Ctx.JetpackGlideForce + floatgravity) * Time.deltaTime;
 
             Ctx.CurrentMovementY = Mathf.Clamp(Ctx.CurrentMovementY, -Ctx.MinJetpackVelocity * Ctx.JetpackGlideForce,
                 Ctx.MaxJetpackVelocity * Ctx.JetpackBoostDuration);

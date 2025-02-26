@@ -43,28 +43,13 @@ public class PlayerFallState : PlayerBaseState, IRootState
             Debug.Log("Usando el coyote Time!");
             SwitchState(Factory.Jump());
         }
-        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0)
+        else if (!Ctx.JetpackAlreadyUsed && Ctx.IsJumpPressed && Ctx.JetpackDuration > 0)
         {
-            if (Ctx.IsGamepad)
-            {
-                if (Ctx.JetpackTrigger > 0.1f)
-                {
-                    Ctx.CurrentMovementY = Ctx.JetpackForce;
-                    Ctx.AppliedMovementY = Ctx.JetpackForce;
-                    Debug.Log("Jetpack from Fall");
-                    SwitchState(Factory.Jetpack());
-                }
-            }
-            else
-            {
-                if (Ctx.IsJumpPressed)
-                {
-                    Ctx.CurrentMovementY = Ctx.JetpackForce;
-                    Ctx.AppliedMovementY = Ctx.JetpackForce;
-                    Debug.Log("Jetpack from Fall");
-                    SwitchState(Factory.Jetpack());
-                }
-            }
+            Debug.Log("Jetpack from Fall");
+
+            Ctx.CurrentMovementY = Ctx.JetpackForce;
+            Ctx.AppliedMovementY = Ctx.JetpackForce;
+            SwitchState(Factory.Jetpack());
         }
     }
 
@@ -77,8 +62,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
         else if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude > 0.5f)
         {
             SetSubState(Factory.Run());
-        }
-        else if (Ctx.IsMovementPressed)
+        }else if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
         }

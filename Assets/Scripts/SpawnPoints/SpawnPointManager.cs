@@ -5,21 +5,22 @@ using System.Collections.Generic;
 public class SpawnPointManager : MonoBehaviour
 {
     [SerializeField] GameObject firstSpawnPoint;
-    private Vector3 lastSpawnPoint;
+    private GameObject lastSpawnPoint;
+    private Vector3 lastSpawnPointVector;
     public GameObject player;
-    public void SetLastpoint(Vector3 LCP)
+    public void SetLastpoint(GameObject LCP, Vector3 LCV)
     {
         lastSpawnPoint = LCP;
+        lastSpawnPointVector = LCV;
     }
     void Start()
     {
-        lastSpawnPoint = firstSpawnPoint.transform.position;
+        lastSpawnPointVector = firstSpawnPoint.transform.position;
     }
 
     public void Onhurt()
     {
         StartCoroutine(DelayGravity());
-
     }
 
     IEnumerator DelayGravity()
@@ -29,8 +30,9 @@ public class SpawnPointManager : MonoBehaviour
 
         player.GetComponent<CharacterController>().enabled = false;
         // Corregir la posici�n
-        player.transform.position = lastSpawnPoint;
-        Debug.Log("Posici�n restablecida a: " + lastSpawnPoint);
+        player.transform.position = lastSpawnPointVector;
+        //player.transform.rotation = Quaternion.LookRotation(lastSpawnPoint.transform.forward);
+
         player.GetComponent<CharacterController>().enabled = true;
     }
 }

@@ -34,7 +34,9 @@ public class MimosaPlant : MonoBehaviour
         }
         initialSizeX = boxCollider.size.x;
 
+        coolDown = timeBetweenCollider;
         i = 0;
+        AdjustGameObjects();
     }
 
     void Update()
@@ -55,16 +57,6 @@ public class MimosaPlant : MonoBehaviour
         }
         
     }
-
-    public void StartReducing(float newTargetSizeX, float newDuration)
-    {
-        targetSizeX = Mathf.Max(0, newTargetSizeX);
-        duration = Mathf.Max(0.1f, newDuration);
-        initialSizeX = boxCollider.size.x;
-        elapsedTime = 0f;
-        isReducing = true;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -92,6 +84,26 @@ public class MimosaPlant : MonoBehaviour
             isCooldown = false;
         }
     }
+    private void AdjustGameObjects()
+    {
+        if (boxList.Count == 0) return;
+
+        Bounds bounds = GetComponent<Renderer>().bounds;
+        Vector3 size = bounds.size;
+        Vector3 startPos = bounds.min;
+
+        for (int i = 0; i < boxList.Count; i++)
+        {
+            BoxCollider collider = boxList[i];
+
+            // Ajusta el tamaño dependiendo de la cantidad de colisionadores
+            boxList[i].size = new Vector3(size.x / boxList.Count, size.y, size.z);
+
+            // Ajusta la posición de cada colisionador
+            float offsetX = (size.x / boxList.Count) * i + (boxList[i].size.x / 2);
+            boxList[i].center = new Vector3(startPos.x + offsetX - transform.position.x, 0, 0);
+        }
+    }
     private void reducieCollider()
     {
         elapsedTime += Time.deltaTime;
@@ -112,4 +124,13 @@ public class MimosaPlant : MonoBehaviour
 
         if (t >= 1f) isReducing = false;
     }
+    public void StartReducing(float newTargetSizeX, float newDuration)
+    {
+        targetSizeX = Mathf.Max(0, newTargetSizeX);
+        duration = Mathf.Max(0.1f, newDuration);
+        initialSizeX = boxCollider.size.x;
+        elapsedTime = 0f;
+        isReducing = true;
+    }
+
 }

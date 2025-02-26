@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class PlayerJumpState : PlayerBaseState, IRootState
 {
@@ -24,6 +26,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
         {
             Ctx.DashAlreadyUsed = false;
         }
+
         HandleGravity();
         CheckSwitchStates();
     }
@@ -48,10 +51,25 @@ public class PlayerJumpState : PlayerBaseState, IRootState
             Debug.Log("Caida temprana");
             SwitchState(Factory.Fall());
         }
-        else if (Ctx.IsJumpPressed && !Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
+        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
         {
+            if (Ctx.IsGamepad)
+            {
+                if (Ctx.JetpackTrigger > 0.1f)
+                {
+                    SwitchState(Factory.Jetpack());
+                }
+            }
+            else
+            {
+                if (Ctx.IsJumpPressed)
+                {
+                    SwitchState(Factory.Jetpack());
+                }
+            }
+
             Debug.Log("JetPack From Jump");
-            //SwitchState(Factory.Jetpack());
+            
         }
     }
 

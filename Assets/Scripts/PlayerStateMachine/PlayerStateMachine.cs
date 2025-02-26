@@ -19,6 +19,10 @@ public class PlayerStateMachine : MonoBehaviour
 
     private bool _isMovementPressed;
     private bool _isRunPressed;
+    private float _jetpackTrigger;
+
+    private bool _isGamepad;
+
     private float _rotationFactorPerFrame = 15.0f;
 
     [Header("Jump Variables")] [Tooltip("Altura maxima de salto")] [SerializeField]
@@ -37,7 +41,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private float _remainingCoyoteTime;
 
-    [Header("Jetpack")] [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 2.0f)]
+    [Header("Jetpack")] [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 10.0f)]
     private float _jetpackDuration;
 
     [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
@@ -60,6 +64,9 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] [Tooltip("Porcentaje sobre la duración maxima que durará la bajada del jetpack")] [Range(0, 1)]
     private float _jetpackGlideDuration;
 
+    [SerializeField] [Tooltip("Fuerza maxima que se aplica cuando apretas el gatillo al maximo")] [Range(1, 100)]
+    private float _jetpackTriggerMaxForce;
+
     [SerializeField] private bool _jetpackAlreadyUsed = false;
 
 
@@ -67,8 +74,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     [SerializeField] private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
-
-    private float _JumpForcePress;
 
     [Header("Movement Variables")]
     //movement variables
@@ -275,6 +280,16 @@ public class PlayerStateMachine : MonoBehaviour
         set { _dashRemainingCooldown = value; }
     }
 
+    public float JetpackTrigger
+    {
+        get { return _jetpackTrigger; }
+    }
+
+    public bool IsGamepad
+    {
+        get { return _isGamepad; }
+    }
+
     #endregion
 
 
@@ -297,6 +312,9 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.Jump.canceled += OnJump;
         _playerInput.Player.Dash.started += OnDash;
         _playerInput.Player.Dash.canceled += OnDash;
+        _playerInput.Player.JetPack.started += onJetpack;
+        _playerInput.Player.JetPack.performed += onJetpack;
+        _playerInput.Player.JetPack.canceled += onJetpack;
         SetupJumpVariables();
     }
 
@@ -307,6 +325,11 @@ public class PlayerStateMachine : MonoBehaviour
         HandleRotation();
 
         Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
+        if (AppliedMovementY > 0)
+        {
+            print("\"AppliedMovement Y: " + AppliedMovementY);
+        }
+
         _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
         _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
         //_characterController.Move(_cameraRelativeMovement * (_speed * Time.deltaTime));
@@ -339,7 +362,7 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
-    Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
+    public Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
     {
         float currentYValue = vectorToRotate.y;
 
@@ -378,7 +401,6 @@ public class PlayerStateMachine : MonoBehaviour
     void OnJump(InputAction.CallbackContext context)
     {
         _isJumpPressed = context.ReadValueAsButton();
-        _JumpForcePress = context.ReadValue<float>();
         if (_requireNewJumpPress && !_isJumpPressed)
         {
             _requireNewJumpPress = false;
@@ -388,6 +410,14 @@ public class PlayerStateMachine : MonoBehaviour
     void OnDash(InputAction.CallbackContext context)
     {
         _dashPressed = context.ReadValueAsButton();
+    }
+
+    void onJetpack(InputAction.CallbackContext context)
+    {
+        float rawTrigger = context.ReadValue<float>();
+        _jetpackTrigger = Mathf.Lerp(0.5f, _jetpackTriggerMaxForce, rawTrigger);
+        _isGamepad = true;
+        //print(_jetpackTrigger);
     }
 
     private void OnEnable()

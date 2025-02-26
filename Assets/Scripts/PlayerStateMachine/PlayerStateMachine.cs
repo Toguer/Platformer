@@ -325,9 +325,15 @@ public class PlayerStateMachine : MonoBehaviour
         HandleRotation();
 
         Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
+        if (AppliedMovementY > 0)
+        {
+            print("\"AppliedMovement Y: " + AppliedMovementY);
+        }
 
         _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
         _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
+        //_characterController.Move(_cameraRelativeMovement * (_speed * Time.deltaTime));
+        //HandleGravity();
 
         _currentState.UpdateStates();
 
@@ -408,16 +414,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     void onJetpack(InputAction.CallbackContext context)
     {
-        if (!context.ReadValueAsButton())
-        {
-            _jetpackTrigger = 0;
-        }
-        else
-        {
-            float rawTrigger = context.ReadValue<float>();
-            _jetpackTrigger = Mathf.Lerp(0.5f, _jetpackTriggerMaxForce, rawTrigger);
-        }
-
+        float rawTrigger = context.ReadValue<float>();
+        _jetpackTrigger = Mathf.Lerp(0.5f, _jetpackTriggerMaxForce, rawTrigger);
         _isGamepad = true;
         //print(_jetpackTrigger);
     }

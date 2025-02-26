@@ -51,19 +51,25 @@ public class PlayerJumpState : PlayerBaseState, IRootState
             Debug.Log("Caida temprana");
             SwitchState(Factory.Fall());
         }
-        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress &&
-                 Ctx.JetpackTrigger > 0.1f || Ctx.IsJumpPressed)
+        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
         {
             if (Ctx.IsGamepad)
             {
-                SwitchState(Factory.Jetpack());
+                if (Ctx.JetpackTrigger > 0.1f)
+                {
+                    SwitchState(Factory.Jetpack());
+                }
             }
             else
             {
-                SwitchState(Factory.Jetpack());
+                if (Ctx.IsJumpPressed)
+                {
+                    SwitchState(Factory.Jetpack());
+                }
             }
 
             Debug.Log("JetPack From Jump");
+            
         }
     }
 

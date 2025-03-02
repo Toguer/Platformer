@@ -2828,6 +2828,7 @@ MonoBehaviour:
   _minJetpackVelocity: 2
   _jetpackBoostDuration: 0.25
   _jetpackGlideDuration: 1
+  _jetpackTriggerMaxForce: 1
   _jetpackAlreadyUsed: 0
   _isJumpPressed: 0
   _runMultiplier: 2

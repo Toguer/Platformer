@@ -105,8 +105,23 @@ MonoBehaviour:
   _maxJumpTime: 1.5
   _fallMultiplier: 2
   _coyoteTime: 1
+  _jetpackDuration: 0
+  _jetpackForce: 0.2
+  _jetpackGlideForce: 0.1
+  _maxJetpackVelocity: 1
+  _minJetpackVelocity: -5
+  _jetpackBoostDuration: 0
+  _jetpackGlideDuration: 0
+  _jetpackTriggerMaxForce: 1
+  _jetpackAlreadyUsed: 0
+  _isJumpPressed: 0
   _runMultiplier: 3
   _speed: 5
+  _dashDuration: 0
+  _dashSpeed: 0
+  _dashPressed: 0
+  _dashAlreadyUsed: 0
+  _dashCooldown: 1
 --- !u!143 &4650900756949875283
 CharacterController:
   m_ObjectHideFlags: 0

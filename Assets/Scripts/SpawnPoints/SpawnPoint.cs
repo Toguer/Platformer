@@ -6,7 +6,7 @@ public class SpawnPoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<SpawnPointManager>().SetLastpoint(transform.position);
+            other.GetComponent<SpawnPointManager>().SetLastpoint(this.gameObject , transform.position);
         }
     }
 }

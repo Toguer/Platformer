@@ -116,6 +116,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""State"",
+                    ""type"": ""Button"",
+                    ""id"": ""f1340daf-df1d-4499-90bc-435e1809a22a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -457,6 +466,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""EarthPower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""687fc61d-9bc0-4587-afa7-2be4430b4239"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""State"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1054,6 +1074,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_JetPack = m_Player.FindAction("JetPack", throwIfNotFound: true);
         m_Player_EarthPower = m_Player.FindAction("EarthPower", throwIfNotFound: true);
+        m_Player_State = m_Player.FindAction("State", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1143,6 +1164,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_JetPack;
     private readonly InputAction m_Player_EarthPower;
+    private readonly InputAction m_Player_State;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1157,6 +1179,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @JetPack => m_Wrapper.m_Player_JetPack;
         public InputAction @EarthPower => m_Wrapper.m_Player_EarthPower;
+        public InputAction @State => m_Wrapper.m_Player_State;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1196,6 +1219,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @EarthPower.started += instance.OnEarthPower;
             @EarthPower.performed += instance.OnEarthPower;
             @EarthPower.canceled += instance.OnEarthPower;
+            @State.started += instance.OnState;
+            @State.performed += instance.OnState;
+            @State.canceled += instance.OnState;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1230,6 +1256,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @EarthPower.started -= instance.OnEarthPower;
             @EarthPower.performed -= instance.OnEarthPower;
             @EarthPower.canceled -= instance.OnEarthPower;
+            @State.started -= instance.OnState;
+            @State.performed -= instance.OnState;
+            @State.canceled -= instance.OnState;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1422,6 +1451,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnJetPack(InputAction.CallbackContext context);
         void OnEarthPower(InputAction.CallbackContext context);
+        void OnState(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

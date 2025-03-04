@@ -28,6 +28,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
         float previousYVelocity = Ctx.CurrentMovementY;
         Ctx.CurrentMovementY = Ctx.CurrentMovementY + Ctx.Gravity * Time.deltaTime;
         Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
+        
     }
 
     public override void CheckSwitchStates()
@@ -41,6 +42,11 @@ public class PlayerFallState : PlayerBaseState, IRootState
             Ctx.RemainingCoyoteTime = 0;
             Debug.Log("Usando el coyote Time!");
             SwitchState(Factory.Jump());
+        }
+        else if (Ctx.CharacterController.isGrounded)
+        {
+            SwitchState(Factory.Grounded());
+            Debug.Log("Grounded from Fall");
         }
         else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0)
         {
@@ -64,11 +70,6 @@ public class PlayerFallState : PlayerBaseState, IRootState
                     SwitchState(Factory.Jetpack());
                 }
             }
-        }
-        else if (Ctx.CharacterController.isGrounded)
-        {
-            Debug.Log("Grounded from Fall");
-            SwitchState(Factory.Grounded());
         }
     }
 

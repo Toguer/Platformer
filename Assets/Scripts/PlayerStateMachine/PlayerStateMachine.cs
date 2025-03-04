@@ -345,6 +345,7 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.JetPack.canceled += onJetpack;
         _playerInput.Player.EarthPower.started += onEarth;
         _playerInput.Player.EarthPower.canceled += onEarth;
+        _playerInput.Player.State.started += stateCheck;
         SetupJumpVariables();
     }
 
@@ -354,7 +355,8 @@ public class PlayerStateMachine : MonoBehaviour
         if ((_currentState is PlayerBurrowState))
         {
             _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
-            _characterController.Move(new Vector3(_appliedMovement.x * _speed, 0, _appliedMovement.z * _speed) * Time.deltaTime);
+            _characterController.Move(new Vector3(_appliedMovement.x * _speed, 0, _appliedMovement.z * _speed) *
+                                      Time.deltaTime);
         }
         else
         {
@@ -362,8 +364,8 @@ public class PlayerStateMachine : MonoBehaviour
             HandleRotation();
 
             Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
-
             _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
+            _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
         }
 
 
@@ -470,6 +472,20 @@ public class PlayerStateMachine : MonoBehaviour
         Collider[] hitColliders =
             Physics.OverlapSphere(transform.position, _detectionRadius, LayerMask.GetMask("Sand"));
         return hitColliders.Length > 0;
+    }
+
+    void stateCheck(InputAction.CallbackContext contenxt)
+    {
+        print("El estado actual es: " + _currentState);
+        if (_currentState.CurrentSuperState != null)
+        {
+            print("El estado super es: " + _currentState.CurrentSuperState);
+        }
+
+        if (_currentState.CurrentSubState != null)
+        {
+            print("El estado sub es: " + _currentState.CurrentSubState);
+        }
     }
 
     private void OnEnable()

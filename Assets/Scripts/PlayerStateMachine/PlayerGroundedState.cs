@@ -48,6 +48,9 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         else if (!Ctx.CharacterController.isGrounded)
         {
             SwitchState(Factory.Fall());
+        }else if (Ctx.IsEarthPressed && Ctx.Interactable is EarthWall)
+        {
+            SwitchState(Factory.Burrow());
         }
     }
 

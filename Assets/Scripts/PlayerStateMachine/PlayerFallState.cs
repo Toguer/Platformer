@@ -32,10 +32,9 @@ public class PlayerFallState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.CharacterController.isGrounded)
+        if (Ctx.IsEarthPressed && Ctx.Interactable is EarthWall)
         {
-            Debug.Log("Grounded from Fall");
-            SwitchState(Factory.Grounded());
+            SwitchState(Factory.Burrow());
         }
         else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0)
         {
@@ -65,6 +64,11 @@ public class PlayerFallState : PlayerBaseState, IRootState
                     SwitchState(Factory.Jetpack());
                 }
             }
+        }
+        else if (Ctx.CharacterController.isGrounded)
+        {
+            Debug.Log("Grounded from Fall");
+            SwitchState(Factory.Grounded());
         }
     }
 

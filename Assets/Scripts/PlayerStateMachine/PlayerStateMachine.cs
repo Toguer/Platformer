@@ -75,6 +75,12 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
 
+    [Header("Burrow")] [SerializeField] private bool _isEarthPressed;
+
+    [SerializeField] private float _burrowSpeed = 2f;
+
+    private Interactable _interactable;
+
     [Header("Movement Variables")]
     //movement variables
     [SerializeField]
@@ -290,6 +296,22 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _isGamepad; }
     }
 
+    public bool IsEarthPressed
+    {
+        get { return _isEarthPressed; }
+        set { _isEarthPressed = value; }
+    }
+
+    public float BurrowSpeed
+    {
+        get { return _burrowSpeed; }
+    }
+
+    public Interactable Interactable
+    {
+        get { return _interactable; }
+    }
+
     #endregion
 
 
@@ -315,6 +337,8 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.JetPack.started += onJetpack;
         _playerInput.Player.JetPack.performed += onJetpack;
         _playerInput.Player.JetPack.canceled += onJetpack;
+        _playerInput.Player.EarthPower.started += onEarth;
+        _playerInput.Player.EarthPower.canceled += onEarth;
         SetupJumpVariables();
     }
 
@@ -327,7 +351,11 @@ public class PlayerStateMachine : MonoBehaviour
         Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
 
         _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
-        _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
+        if (!(_currentState is PlayerBurrowState))
+        {
+            _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
+        }
+
 
         _currentState.UpdateStates();
 
@@ -422,6 +450,11 @@ public class PlayerStateMachine : MonoBehaviour
         //print(_jetpackTrigger);
     }
 
+    void onEarth(InputAction.CallbackContext context)
+    {
+        IsEarthPressed = context.ReadValueAsButton();
+    }
+
     private void OnEnable()
     {
         _playerInput.Player.Enable();
@@ -435,5 +468,21 @@ public class PlayerStateMachine : MonoBehaviour
     private void OnValidate()
     {
         SetupJumpVariables();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Interactable"))
+        {
+            _interactable = other.GetComponent<Interactable>();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Interactable"))
+        {
+            _interactable = null;
+        }
     }
 }

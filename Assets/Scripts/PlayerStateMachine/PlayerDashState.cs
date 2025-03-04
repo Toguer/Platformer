@@ -32,7 +32,12 @@ public class PlayerDashState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (_dashTimeRemaining <= 0)
+        if (Ctx.IsEarthPressed && Ctx.Interactable is EarthWall)
+        {
+            Debug.Log("Entrando en la arena desde un Dash");
+            SwitchState(Factory.Burrow());
+        }
+        else if (_dashTimeRemaining <= 0)
         {
             if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude > 0.5f)
             {

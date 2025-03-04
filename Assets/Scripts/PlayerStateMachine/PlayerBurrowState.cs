@@ -21,43 +21,51 @@ public class PlayerBurrowState : PlayerBaseState, IRootState
 
     public override void UpdateState()
     {
-        _burrowDirection = new Vector3(Ctx.CurrentMovementInput.x, 0, Ctx.CurrentMovementInput.y);
-        Ctx.AppliedMovementX = _burrowDirection.x * Ctx.BurrowSpeed;
-        Ctx.AppliedMovementZ = _burrowDirection.z * Ctx.BurrowSpeed;
+        Vector3 forwardDirection = Ctx.Interactable.transform.forward;
+        Debug.Log("EarthWall forward direction: " + Ctx.Interactable.transform.forward);
+        //forwardDirection.y = 0; // Evita que el personaje se incline hacia arriba o abajo
+
+
+        //_burrowDirection = new Vector3(Ctx.CurrentMovementInput.x, 0, Ctx.CurrentMovementInput.y);
+
+        Ctx.AppliedMovementX = forwardDirection.x * Ctx.BurrowSpeed;
+        Ctx.AppliedMovementZ = forwardDirection.z * Ctx.BurrowSpeed;
 
         CheckSwitchStates();
     }
+
 
     public override void ExitState()
     {
         Debug.Log("Saliendo en estado de excavar");
 
         Ctx.gameObject.layer = LayerMask.NameToLayer("Player");
-
+        Ctx.AppliedMovementX = 0;
+        Ctx.AppliedMovementZ = 0;
         Ctx.CharacterController.detectCollisions = true;
     }
 
     public override void CheckSwitchStates()
     {
-        if (!Ctx.IsEarthPressed && Ctx.CharacterController.isGrounded)
+        if (!Ctx.IsNearSand())
         {
-            ExitState();
-            SwitchState(Factory.Grounded());
+            if (Ctx.CharacterController.isGrounded)
+            {
+                ExitState();
+                Debug.Log("Saliendo de Burrow - Regresando a Grounded");
+                SwitchState(Factory.Grounded());
+            }
+            else
+            {
+                ExitState();
+                Debug.Log("Saliendo de Burrow - Cayendo");
+                SwitchState(Factory.Fall());
+            }
         }
-        else if (!Ctx.IsEarthPressed && !Ctx.CharacterController.isGrounded)
-        {
-            Debug.Log("Cayendo fuera de la arena");
-            SwitchState(Factory.Fall());
-        }
-        else if (Ctx.IsJumpPressed)
-        {
-            Debug.Log("Saltando fuera de la arena");
-            SwitchState(Factory.Jump());
-        }
-        // Dash dentro de la arena
         else if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
-            Debug.Log("Dashando dentro de la arena");
+            ExitState();
+            Debug.Log("Dashendo dentro de la arena");
             SwitchState(Factory.Dash());
         }
     }

@@ -78,6 +78,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("Burrow")] [SerializeField] private bool _isEarthPressed;
 
     [SerializeField] private float _burrowSpeed = 2f;
+    [SerializeField] private float _detectionRadius = 0.5f;
 
     private Interactable _interactable;
 
@@ -312,6 +313,11 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _interactable; }
     }
 
+    public float RotationSpeed
+    {
+        get { return _rotationFactorPerFrame; }
+    }
+
     #endregion
 
 
@@ -345,15 +351,19 @@ public class PlayerStateMachine : MonoBehaviour
 // Update is called once per frame
     void Update()
     {
-        _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
-        HandleRotation();
-
-        Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
-
-        _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
-        if (!(_currentState is PlayerBurrowState))
+        if ((_currentState is PlayerBurrowState))
         {
             _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
+            _characterController.Move(new Vector3(_appliedMovement.x * _speed, 0, _appliedMovement.z * _speed) * Time.deltaTime);
+        }
+        else
+        {
+            _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
+            HandleRotation();
+
+            Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
+
+            _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
         }
 
 
@@ -365,7 +375,7 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
-    void HandleRotation()
+    public void HandleRotation()
     {
         Vector3 positionToLookAt;
 
@@ -455,6 +465,13 @@ public class PlayerStateMachine : MonoBehaviour
         IsEarthPressed = context.ReadValueAsButton();
     }
 
+    public bool IsNearSand()
+    {
+        Collider[] hitColliders =
+            Physics.OverlapSphere(transform.position, _detectionRadius, LayerMask.GetMask("Sand"));
+        return hitColliders.Length > 0;
+    }
+
     private void OnEnable()
     {
         _playerInput.Player.Enable();
@@ -482,7 +499,12 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Interactable"))
         {
-            _interactable = null;
+            if (!IsNearSand())
+            {
+                Debug.Log("Saliendo de la arena");
+                _interactable = null;
+                IsEarthPressed = false;
+            }
         }
     }
 }

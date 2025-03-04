@@ -9,6 +9,8 @@ public class GameManager : PersistentSingleton<GameManager>
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         Application.targetFrameRate = _frameCap;
     }
 }

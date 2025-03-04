@@ -32,7 +32,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.IsEarthPressed && Ctx.Interactable is EarthWall)
+        if (Ctx.IsEarthPressed && Ctx.IsNearSand())
         {
             SwitchState(Factory.Burrow());
         }

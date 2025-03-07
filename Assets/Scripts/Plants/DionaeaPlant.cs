@@ -35,7 +35,7 @@ public class DionaeaPlant : MonoBehaviour
 
     private IEnumerator closePlant()
     {
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.05f);
         boca1.GetComponent<Animator>().SetBool("isClosed", true);
         boca2.GetComponent<Animator>().SetBool("isClosed", true);
         GetComponent<BoxCollider>().enabled = false;

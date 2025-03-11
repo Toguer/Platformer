@@ -1,16 +1,35 @@
+using System;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class CollectObject : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private string objectName;
+    [SerializeField] private int cointsValue;
+    [SerializeField] private bool unicObj;
+
+    public static event Action<int> OnUpdateCoinsScore = delegate { };
     void Start()
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            ComprobeObject();
+        }
+    }
+    private void ComprobeObject()
+    {
+        switch(objectName)
+        {
+            case "coins":
+                OnUpdateCoinsScore.Invoke(cointsValue);
+
+                break;
+            case "key":
+                break;
+        }
     }
 }

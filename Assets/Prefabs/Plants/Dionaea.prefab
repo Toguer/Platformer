@@ -186,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8971029881481683058}
   m_Layer: 0
-  m_Name: carnivora_platform
+  m_Name: Dionaea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

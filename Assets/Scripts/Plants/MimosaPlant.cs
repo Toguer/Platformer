@@ -1,28 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class MimosaPlant : MonoBehaviour
 {
-    [SerializeField] private float durationBox;
-    [SerializeField] private float finalTargerX;
-
-
     [SerializeField] private List<BoxCollider> boxList = new List<BoxCollider>();
 
     private BoxCollider boxCollider;
-    private float initialSizeX;
-    private float targetSizeX;
-    private float duration;
-    private float elapsedTime = 0f;
-    private bool isReducing = false;
+    public bool isReducing = false;
+    public bool isAllBox;
 
     [Header("CoolDown")]
     [SerializeField] private float timeBetweenCollider;
     private int i;
     private float coolDown = 0;
     private bool isCooldown;
-    private bool isAllBox;
+   
+
+    [Header("Restart")]
+    [SerializeField] private float timeToRestartColliders;
 
     void Start()
     {
@@ -32,7 +29,6 @@ public class MimosaPlant : MonoBehaviour
             Debug.LogError("No hay un BoxCollider en este objeto.");
             return;
         }
-        initialSizeX = boxCollider.size.x;
 
         coolDown = timeBetweenCollider;
         i = 0;
@@ -41,9 +37,8 @@ public class MimosaPlant : MonoBehaviour
 
     void Update()
     {
-        if (isReducing & !isAllBox)
+        if (isReducing && !isAllBox)
         {
-            //reducieCollider();
             coolDown -= Time.deltaTime;
             if (i < boxList.Count)
             {
@@ -53,6 +48,7 @@ public class MimosaPlant : MonoBehaviour
             {
                 isReducing = false;
                 isAllBox = true;
+                StartCoroutine(_RestartColiiders());
             }
         }
         
@@ -62,8 +58,8 @@ public class MimosaPlant : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             // Iniciar la reducción del BoxCollider
-            //StartReducing(finalTargerX, durationBox);
             isReducing = true;
+            Debug.Log("enter");
         }
     }
     private void reduceListCollider()
@@ -94,8 +90,6 @@ public class MimosaPlant : MonoBehaviour
 
         for (int i = 0; i < boxList.Count; i++)
         {
-            BoxCollider collider = boxList[i];
-
             // Ajusta el tamaño dependiendo de la cantidad de colisionadores
             boxList[i].size = new Vector3(size.x / boxList.Count, size.y, size.z);
 
@@ -104,33 +98,15 @@ public class MimosaPlant : MonoBehaviour
             boxList[i].center = new Vector3(startPos.x + offsetX - transform.position.x, 0, 0);
         }
     }
-    private void reducieCollider()
+    private IEnumerator _RestartColiiders()
     {
-        elapsedTime += Time.deltaTime;
-        float t = Mathf.Clamp01(elapsedTime / duration);
+        yield return new WaitForSeconds(timeToRestartColliders);
 
-        // Reducir el tamaño desde la derecha hacia la izquierda
-        float newSizeX = Mathf.Lerp(initialSizeX, targetSizeX, t);
-        float sizeDifference = initialSizeX - newSizeX;
-
-        Vector3 newSize = boxCollider.size;
-        newSize.x = newSizeX;
-
-        Vector3 newCenter = boxCollider.center;
-        newCenter.x -= sizeDifference / 2;  // Desplazar el centro para cerrar de derecha a izquierda
-
-        boxCollider.size = newSize;
-        boxCollider.center = newCenter;
-
-        if (t >= 1f) isReducing = false;
+        for (int i = 0; i < boxList.Count; i++)
+        {
+            boxList[i].enabled = true;
+        }
+        isAllBox = false;
+        i = 0;
     }
-    public void StartReducing(float newTargetSizeX, float newDuration)
-    {
-        targetSizeX = Mathf.Max(0, newTargetSizeX);
-        duration = Mathf.Max(0.1f, newDuration);
-        initialSizeX = boxCollider.size.x;
-        elapsedTime = 0f;
-        isReducing = true;
-    }
-
 }

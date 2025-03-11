@@ -1,12 +1,14 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class CollectObject : MonoBehaviour
 {
     [SerializeField] private string objectName;
-    [SerializeField] private int cointsValue;
     [SerializeField] private bool unicObj;
+
+    [Header("If is coin")]
+    [SerializeField] private int cointsValue;
 
     public static event Action<int> OnUpdateCoinsScore = delegate { };
     void Start()
@@ -22,14 +24,16 @@ public class CollectObject : MonoBehaviour
     }
     private void ComprobeObject()
     {
-        switch(objectName)
+        if(unicObj)
         {
-            case "coins":
-                OnUpdateCoinsScore.Invoke(cointsValue);
+            List<string> objList = GameManager.Instance.GetObjList();
 
-                break;
-            case "key":
-                break;
+            objList.Add(objectName);
+            GameManager.Instance.SetObjList(objList);
+        }
+        else
+        {
+            OnUpdateCoinsScore.Invoke(cointsValue);
         }
     }
 }

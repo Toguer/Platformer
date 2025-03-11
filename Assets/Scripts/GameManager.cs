@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Singleton;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +13,8 @@ public class GameManager : PersistentSingleton<GameManager>
     private int coinsScore;
     [SerializeField] private UnityEvent<int> updateCoinCanvas;
 
+    private List<string> objCollected = new List<string>();
+    
     #endregion
 
     #region getters and setters
@@ -24,6 +26,14 @@ public class GameManager : PersistentSingleton<GameManager>
     public int GetCoinsScore()
     {
         return this.coinsScore;
+    }
+    public void SetObjList(List<string> objCollected)
+    {
+        this.objCollected = objCollected;
+    }
+    public List<string> GetObjList()
+    {
+        return this.objCollected;
     }
     #endregion
 

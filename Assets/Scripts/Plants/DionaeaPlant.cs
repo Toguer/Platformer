@@ -6,17 +6,11 @@ public class DionaeaPlant : MonoBehaviour
     [Header("Plants Parts")]
     [SerializeField] GameObject boca1;
     [SerializeField] GameObject boca2;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("Variables")]
+    [SerializeField] private float timeToClose;
+    [SerializeField] private float timeToOpen;
+  
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -35,7 +29,7 @@ public class DionaeaPlant : MonoBehaviour
 
     private IEnumerator closePlant()
     {
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(timeToClose);
         boca1.GetComponent<Animator>().SetBool("isClosed", true);
         boca2.GetComponent<Animator>().SetBool("isClosed", true);
         GetComponent<BoxCollider>().enabled = false;
@@ -43,7 +37,7 @@ public class DionaeaPlant : MonoBehaviour
     }
     private IEnumerator openPlant()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(timeToOpen);
         boca1.GetComponent<Animator>().SetBool("isClosed", false);
         boca2.GetComponent<Animator>().SetBool("isClosed", false);
         GetComponent<BoxCollider>().enabled = true;

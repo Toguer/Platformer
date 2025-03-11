@@ -7619,7 +7619,7 @@ PrefabInstance:
       objectReference: {fileID: 875642649}
     - target: {fileID: 52294604410007048, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_VersionIndex
-      value: 6325
+      value: 6331
       objectReference: {fileID: 0}
     - target: {fileID: 335482341689882164, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_Mesh
@@ -7627,7 +7627,15 @@ PrefabInstance:
       objectReference: {fileID: 1736412194}
     - target: {fileID: 335482341689882164, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_VersionIndex
-      value: 2898
+      value: 2904
+      objectReference: {fileID: 0}
+    - target: {fileID: 795957212441433873, guid: d97485772f7094b4db364dd96ee869df, type: 3}
+      propertyPath: timeToOpen
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 795957212441433873, guid: d97485772f7094b4db364dd96ee869df, type: 3}
+      propertyPath: timeToClose
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1146861026877216501, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_Mesh
@@ -7635,7 +7643,7 @@ PrefabInstance:
       objectReference: {fileID: 916714944}
     - target: {fileID: 1146861026877216501, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_VersionIndex
-      value: 6304
+      value: 6310
       objectReference: {fileID: 0}
     - target: {fileID: 1531934268409104860, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_Mesh
@@ -7667,7 +7675,7 @@ PrefabInstance:
       objectReference: {fileID: 344956434}
     - target: {fileID: 6278422956890600600, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_VersionIndex
-      value: 6342
+      value: 6348
       objectReference: {fileID: 0}
     - target: {fileID: 7730556632418922124, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_Mesh
@@ -7735,7 +7743,7 @@ PrefabInstance:
       objectReference: {fileID: 790610516}
     - target: {fileID: 9102841428047380645, guid: d97485772f7094b4db364dd96ee869df, type: 3}
       propertyPath: m_VersionIndex
-      value: 6342
+      value: 6348
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

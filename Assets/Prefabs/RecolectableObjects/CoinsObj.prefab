@@ -122,5 +122,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: coins
-  cointsValue: 1
   unicObj: 0
+  cointsValue: 1

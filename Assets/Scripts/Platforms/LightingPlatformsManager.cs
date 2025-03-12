@@ -42,32 +42,9 @@ public class LightingPlatformsManager : MonoBehaviour
 
         //for(int i = 0; i < lightPlatform.Count; i++) { Debug.Log(lightPlatform[i]); }
     }
-
-    void Update()
-    {
-        if (isGroudedFlor)
-        {
-            for (int i = 0; i < lightPlatform.Count; i++)
-            {
-                lightPlatform[i].GetComponent<LightPlatform>().RestartMaterial();
-            }
-            isGroudedFlor = false;
-        }
-    }
-    private bool ComprobePlatforms()
-    {
-        foreach(GameObject platform in lightPlatform)
-        {
-            if (!platform.GetComponent<LightPlatform>().GetIsLighting())
-            {
-                return false;
-            }
-        }
-        return true;
-    }
     public void OpenDors()
     {
-        if (ComprobePlatforms())
+        if (isGetLight)
         {
             dor.gameObject.SetActive(false);
         }

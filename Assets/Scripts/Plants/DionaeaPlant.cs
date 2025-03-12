@@ -15,15 +15,7 @@ public class DionaeaPlant : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (!other.gameObject.GetComponent<CharacterController>().isGrounded)
-            {
-                other.GetComponent<SpawnPointManager>().Onhurt();
-                Debug.Log("grounded");
-            }
-            else
-            {
-                StartCoroutine(closePlant());
-            }
+            StartCoroutine(closePlant());
         }
     }
 

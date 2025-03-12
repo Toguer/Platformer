@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,9 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
     private string currentLevel;
+
+    public List<Scene> sceneList = new List<Scene>();
+    public GameObject player;
     private void Start()
     {
         if (Instance == null)
@@ -23,8 +27,6 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(sceneName);
         currentLevel = sceneName;
     }
-
-    //cambiar de escena sin guardarte el nombre 
     public void UnloadLevel(string sceneName)
     {
         SceneManager.LoadSceneAsync(sceneName);

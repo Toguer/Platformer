@@ -80,7 +80,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _burrowSpeed = 2f;
     [SerializeField] private float _detectionRadius = 0.5f;
 
-    private Interactable _interactable;
+    [SerializeField] private Interactable _interactable;
 
     [Header("Movement Variables")]
     //movement variables

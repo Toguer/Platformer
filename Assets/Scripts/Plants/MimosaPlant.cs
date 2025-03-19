@@ -1,27 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class MimosaPlant : MonoBehaviour
 {
-    [SerializeField] private float durationBox;
-    [SerializeField] private float finalTargerX;
-
-
     [SerializeField] private List<BoxCollider> boxList = new List<BoxCollider>();
 
     private BoxCollider boxCollider;
-    private float initialSizeX;
-    private float targetSizeX;
-    private float duration;
-    private float elapsedTime = 0f;
-    private bool isReducing = false;
+    public bool isReducing = false;
+    public bool isAllBox;
 
+    [Header("CoolDown")]
     [SerializeField] private float timeBetweenCollider;
     private int i;
     private float coolDown = 0;
     private bool isCooldown;
-    private bool isAllBox;
+   
+
+    [Header("Restart")]
+    [SerializeField] private float timeToRestartColliders;
 
     void Start()
     {
@@ -31,16 +29,16 @@ public class MimosaPlant : MonoBehaviour
             Debug.LogError("No hay un BoxCollider en este objeto.");
             return;
         }
-        initialSizeX = boxCollider.size.x;
 
+        coolDown = timeBetweenCollider;
         i = 0;
+        AdjustGameObjects();
     }
 
     void Update()
     {
-        if (isReducing & !isAllBox)
+        if (isReducing && !isAllBox)
         {
-            //reducieCollider();
             coolDown -= Time.deltaTime;
             if (i < boxList.Count)
             {
@@ -50,27 +48,18 @@ public class MimosaPlant : MonoBehaviour
             {
                 isReducing = false;
                 isAllBox = true;
+                StartCoroutine(_RestartColiiders());
             }
         }
         
     }
-
-    public void StartReducing(float newTargetSizeX, float newDuration)
-    {
-        targetSizeX = Mathf.Max(0, newTargetSizeX);
-        duration = Mathf.Max(0.1f, newDuration);
-        initialSizeX = boxCollider.size.x;
-        elapsedTime = 0f;
-        isReducing = true;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             // Iniciar la reducción del BoxCollider
-            //StartReducing(finalTargerX, durationBox);
             isReducing = true;
+            Debug.Log("enter");
         }
     }
     private void reduceListCollider()
@@ -91,24 +80,33 @@ public class MimosaPlant : MonoBehaviour
             isCooldown = false;
         }
     }
-    private void reducieCollider()
+    private void AdjustGameObjects()
     {
-        elapsedTime += Time.deltaTime;
-        float t = Mathf.Clamp01(elapsedTime / duration);
+        if (boxList.Count == 0) return;
 
-        // Reducir el tamaño desde la derecha hacia la izquierda
-        float newSizeX = Mathf.Lerp(initialSizeX, targetSizeX, t);
-        float sizeDifference = initialSizeX - newSizeX;
+        Bounds bounds = GetComponent<Renderer>().bounds;
+        Vector3 size = bounds.size;
+        Vector3 startPos = bounds.min;
 
-        Vector3 newSize = boxCollider.size;
-        newSize.x = newSizeX;
+        for (int i = 0; i < boxList.Count; i++)
+        {
+            // Ajusta el tamaño dependiendo de la cantidad de colisionadores
+            boxList[i].size = new Vector3(size.x / boxList.Count, size.y, size.z);
 
-        Vector3 newCenter = boxCollider.center;
-        newCenter.x -= sizeDifference / 2;  // Desplazar el centro para cerrar de derecha a izquierda
+            // Ajusta la posición de cada colisionador
+            float offsetX = (size.x / boxList.Count) * i + (boxList[i].size.x / 2);
+            boxList[i].center = new Vector3(startPos.x + offsetX - transform.position.x, 0, 0);
+        }
+    }
+    private IEnumerator _RestartColiiders()
+    {
+        yield return new WaitForSeconds(timeToRestartColliders);
 
-        boxCollider.size = newSize;
-        boxCollider.center = newCenter;
-
-        if (t >= 1f) isReducing = false;
+        for (int i = 0; i < boxList.Count; i++)
+        {
+            boxList[i].enabled = true;
+        }
+        isAllBox = false;
+        i = 0;
     }
 }

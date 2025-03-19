@@ -40,6 +40,7 @@ public class DroseraCapensis : MonoBehaviour
             //this.GetComponent<BoxCollider>().enabled = false;
             estadoA.SetActive(false);
             estadoB.SetActive(true);
+            Debug.Log("salgo");
         }
     }
 }

@@ -176,8 +176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boca1: {fileID: 4952547564880450448}
   boca2: {fileID: 4552574220600610584}
-  timeToClose: 0
-  timeToOpen: 0
+  timeToClose: 0.5
+  timeToOpen: 1.5
 --- !u!1 &1554461743161160601
 GameObject:
   m_ObjectHideFlags: 0

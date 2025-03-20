@@ -4,9 +4,13 @@ using UnityEngine;
 public class TeleportTo : MonoBehaviour
 {
     [SerializeField] private GameObject pointToGo;
+    [SerializeField] private bool isFirstPoint;
     void Start()
     {
-        
+        if (isFirstPoint)
+        {
+            GetComponent<Collider>().isTrigger = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,6 +21,13 @@ public class TeleportTo : MonoBehaviour
            
             other.gameObject.transform.position = pointToGo.transform.position;
             pointToGo.GetComponent<Collider>().enabled = false;
+            if (!isFirstPoint)
+            {
+                if (pointToGo.GetComponent<TeleportTo>())
+                {
+                    pointToGo.GetComponent<Collider>().isTrigger = true;
+                } 
+            }
             StartCoroutine(_DesactiveCollider());
 
             other.gameObject.GetComponent<CharacterController>().enabled = true;

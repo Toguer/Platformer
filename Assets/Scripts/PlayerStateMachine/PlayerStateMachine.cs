@@ -68,6 +68,7 @@ public class PlayerStateMachine : MonoBehaviour
     private float _jetpackTriggerMaxForce;
 
     [SerializeField] private bool _jetpackAlreadyUsed = false;
+    private bool _continueUseJetpack = true;
 
 
     private float _initialJumpVelocity;
@@ -252,6 +253,12 @@ public class PlayerStateMachine : MonoBehaviour
     {
         get { return _jetpackAlreadyUsed; }
         set { _jetpackAlreadyUsed = value; }
+    }
+
+    public bool ContinueUseJetpack
+    {
+        get { return _continueUseJetpack; }
+        set { _continueUseJetpack = value; }
     }
 
     public float DashDuration

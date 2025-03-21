@@ -5,7 +5,6 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 {
     private float _jetpackBoostDuration;
     private float _jetpackGlideDuration;
-    private bool _continue = true;
 
     public PlayerJetPackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
@@ -15,18 +14,21 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
-        if (_continue)
+        if (Ctx.ContinueUseJetpack)
         {
+            //Impulso inicial
+            Ctx.CurrentMovementY = Ctx.JetpackForce * 1.5f;
+            Ctx.AppliedMovementY = Ctx.CurrentMovementY * 1.5f;
             _jetpackBoostDuration = Ctx.JetpackDuration * Ctx.JetpackBoostDuration;
             _jetpackGlideDuration = Ctx.JetpackDuration * Ctx.JetpackGlideDuration;
 
             //_jetPackDuration = Ctx.JetpackDuration;
-
-
-            //Impulso inicial
-            Ctx.CurrentMovementY = Ctx.JetpackForce * 1.5f;
-            Ctx.AppliedMovementY = Ctx.CurrentMovementY * 1.5f;
         }
+        else
+        {
+            Debug.Log("Volviendo a planear");
+        }
+
 
         InitializeSubState();
     }
@@ -45,7 +47,7 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
     {
         if (_jetpackBoostDuration <= 0 && _jetpackGlideDuration <= 0)
         {
-            _continue = true;
+            Ctx.ContinueUseJetpack = true;
             Ctx.JetpackAlreadyUsed = true;
             SwitchState(Factory.Fall());
         }
@@ -55,7 +57,7 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
         }
         else if (!Ctx.IsJumpPressed)
         {
-            _continue = false;
+            Ctx.ContinueUseJetpack = false;
             SwitchState(Factory.Fall());
         }
     }
@@ -82,8 +84,6 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
-        
-
         if (_jetpackBoostDuration > 0)
         {
             float t = Mathf.Clamp01(_jetpackBoostDuration / (Ctx.JetpackDuration * Ctx.JetpackBoostDuration));

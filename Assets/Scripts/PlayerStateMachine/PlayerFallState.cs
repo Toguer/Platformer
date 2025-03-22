@@ -32,16 +32,21 @@ public class PlayerFallState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.CharacterController.isGrounded)
+        if (Ctx.IsEarthPressed && Ctx.IsNearSand())
         {
-            Debug.Log("Grounded from Fall");
-            SwitchState(Factory.Grounded());
+            SwitchState(Factory.Burrow());
         }
         else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0)
         {
             Ctx.RemainingCoyoteTime = 0;
             Debug.Log("Usando el coyote Time!");
             SwitchState(Factory.Jump());
+        }
+        else if (Ctx.CharacterController.isGrounded)
+        {
+            Ctx.DashAlreadyUsed = false;
+            Debug.Log("Grounded from Fall");
+            SwitchState(Factory.Grounded());
         }
         else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0)
         {

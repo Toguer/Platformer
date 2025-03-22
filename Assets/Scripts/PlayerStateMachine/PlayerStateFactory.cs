@@ -10,7 +10,8 @@ enum PlayerStates
     Jump,
     Fall,
     Jetpack,
-    Dash
+    Dash,
+    Burrow
 }
 
 public class PlayerStateFactory
@@ -29,6 +30,7 @@ public class PlayerStateFactory
         _states[PlayerStates.Fall] = new PlayerFallState(_context, this);
         _states[PlayerStates.Jetpack] = new PlayerJetPackState(_context, this);
         _states[PlayerStates.Dash] = new PlayerDashState(_context, this);
+        _states[PlayerStates.Burrow] = new PlayerBurrowState(_context, this);
     }
 
     public PlayerBaseState Idle()
@@ -69,5 +71,10 @@ public class PlayerStateFactory
     public PlayerBaseState Dash()
     {
         return _states[PlayerStates.Dash];
+    }
+
+    public PlayerBaseState Burrow()
+    {
+        return _states[PlayerStates.Burrow];
     }
 }

@@ -33,7 +33,8 @@ public class CollectObject : MonoBehaviour
         }
         else
         {
-            OnUpdateCoinsScore.Invoke(cointsValue);
+            OnUpdateCoinsScore.Invoke(cointsValue); 
         }
+        this.gameObject.SetActive(false);
     }
 }

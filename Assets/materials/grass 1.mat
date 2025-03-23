@@ -129,7 +129,7 @@ Material:
     - _ZWriteControl: 0
     - _smoothness: 0
     - _speed: 4
-    - _strength: 0
+    - _strength: 1
     m_Colors:
     - _BaseColor: {r: 0.015849011, g: 0.6603774, b: 0, a: 1}
     - _BottomColor: {r: 0, g: 0.03599241, b: 0.2603773, a: 1}

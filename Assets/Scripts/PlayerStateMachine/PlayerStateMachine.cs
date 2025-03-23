@@ -338,8 +338,8 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.Move.performed += OnMovementInput;
         _playerInput.Player.Jump.started += OnJump;
         _playerInput.Player.Jump.canceled += OnJump;
-        //_playerInput.Player.Dash.started += OnDash;
-        //_playerInput.Player.Dash.canceled += OnDash;
+        _playerInput.Player.Dash.started += OnDash;
+        _playerInput.Player.Dash.canceled += OnDash;
         _playerInput.Player.JetPack.started += onJetpack;
         _playerInput.Player.JetPack.performed += onJetpack;
         _playerInput.Player.JetPack.canceled += onJetpack;

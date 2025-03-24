@@ -7569,6 +7569,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8576395532979056040, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
+      propertyPath: _jetpackTriggerMaxForce
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7657,8 +7661,8 @@ SceneRoots:
   - {fileID: 814814543}
   - {fileID: 1500912189}
   - {fileID: 1019278216}
-  - {fileID: 707640457}
   - {fileID: 1656779530}
   - {fileID: 694834708}
   - {fileID: 1647060229}
   - {fileID: 1171090225}
+  - {fileID: 707640457}

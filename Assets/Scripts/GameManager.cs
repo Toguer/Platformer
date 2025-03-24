@@ -10,10 +10,10 @@ public class GameManager : PersistentSingleton<GameManager>
     [SerializeField] private int _frameCap;
 
     [Header("Score")]
-    private int coinsScore;
+    private int _coinsScore;
     [SerializeField] private UnityEvent<int> updateCoinCanvas;
 
-    private List<string> objCollected = new List<string>();
+    private List<string> _objCollected = new List<string>();
     
     #endregion
 
@@ -21,19 +21,19 @@ public class GameManager : PersistentSingleton<GameManager>
 
     public void SetCoinsScore(int coinsScore)
     {
-        this.coinsScore = coinsScore;
+        this._coinsScore = coinsScore;
     }
     public int GetCoinsScore()
     {
-        return this.coinsScore;
+        return this._coinsScore;
     }
     public void SetObjList(List<string> objCollected)
     {
-        this.objCollected = objCollected;
+        this._objCollected = objCollected;
     }
     public List<string> GetObjList()
     {
-        return this.objCollected;
+        return this._objCollected;
     }
     #endregion
 
@@ -55,12 +55,12 @@ public class GameManager : PersistentSingleton<GameManager>
     }
     private void Start()
     {
-        coinsScore = 0;
+        _coinsScore = 0;
     }
 
     public void UpdateCoinsScore(int coinsScore)
     {
-        this.coinsScore += coinsScore;
-        updateCoinCanvas.Invoke(this.coinsScore);
+        this._coinsScore += coinsScore;
+        updateCoinCanvas.Invoke(this._coinsScore);
     }
 }

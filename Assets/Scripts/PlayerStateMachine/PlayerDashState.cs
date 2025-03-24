@@ -32,7 +32,13 @@ public class PlayerDashState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        
+        if (Ctx.IsEarthPressed && Ctx.IsNearSand())
+        {
+            Debug.Log("Entrando en la arena desde un Dash");
+            SwitchState(Factory.Burrow());
+        }
+        else if (_dashTimeRemaining <= 0)
+        {
             if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude > 0.5f)
             {
                 SwitchState(Factory.Run());
@@ -45,7 +51,7 @@ public class PlayerDashState : PlayerBaseState, IRootState
             {
                 SwitchState(Factory.Idle());
             }
-
+        }
     }
 
     public override void InitializeSubState()

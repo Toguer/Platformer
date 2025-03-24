@@ -7,6 +7,16 @@ public abstract class PlayerBaseState
     private PlayerBaseState _currentSubState;
     private PlayerBaseState _currentSuperState;
 
+    public PlayerBaseState CurrentSubState
+    {
+        get { return _currentSubState; }
+    }
+
+    public PlayerBaseState CurrentSuperState
+    {
+        get { return _currentSuperState; }
+    }
+
     protected bool IsRootState
     {
         set { _isRootState = value; }

@@ -32,7 +32,7 @@ public class PlayerDashState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.IsEarthPressed && Ctx.IsNearSand())
+        if (Ctx.IsInteractPressed && Ctx.IsNearSand())
         {
             Debug.Log("Entrando en la arena desde un Dash");
             SwitchState(Factory.Burrow());

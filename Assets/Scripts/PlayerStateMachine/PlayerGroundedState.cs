@@ -48,7 +48,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         else if (!Ctx.CharacterController.isGrounded)
         {
             SwitchState(Factory.Fall());
-        }else if (Ctx.IsEarthPressed && Ctx.IsNearSand())
+        }else if (Ctx.IsInteractPressed && Ctx.IsNearSand())
         {
             Debug.Log("Entrando en BurrowState");
             SwitchState(Factory.Burrow());

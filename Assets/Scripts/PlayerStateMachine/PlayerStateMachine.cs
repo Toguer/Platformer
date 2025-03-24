@@ -76,7 +76,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
 
-    [Header("Burrow")] [SerializeField] private bool _isEarthPressed;
+    [FormerlySerializedAs("_isEarthPressed")] [Header("Burrow")] [SerializeField] private bool _isInteractPressed;
 
     [SerializeField] private float _burrowSpeed = 2f;
     [SerializeField] private float _detectionRadius = 0.5f;
@@ -304,10 +304,10 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _isGamepad; }
     }
 
-    public bool IsEarthPressed
+    public bool IsInteractPressed
     {
-        get { return _isEarthPressed; }
-        set { _isEarthPressed = value; }
+        get { return _isInteractPressed; }
+        set { _isInteractPressed = value; }
     }
 
     public float BurrowSpeed
@@ -345,13 +345,13 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.Move.performed += OnMovementInput;
         _playerInput.Player.Jump.started += OnJump;
         _playerInput.Player.Jump.canceled += OnJump;
-        //_playerInput.Player.Dash.started += OnDash;
-        //_playerInput.Player.Dash.canceled += OnDash;
+        _playerInput.Player.Dash.started += OnDash;
+        _playerInput.Player.Dash.canceled += OnDash;
         _playerInput.Player.JetPack.started += onJetpack;
         _playerInput.Player.JetPack.performed += onJetpack;
         _playerInput.Player.JetPack.canceled += onJetpack;
-        _playerInput.Player.EarthPower.started += onEarth;
-        _playerInput.Player.EarthPower.canceled += onEarth;
+        _playerInput.Player.EarthPower.started += onInteract;
+        _playerInput.Player.EarthPower.canceled += onInteract;
         _playerInput.Player.State.started += stateCheck;
         SetupJumpVariables();
     }
@@ -465,13 +465,17 @@ public class PlayerStateMachine : MonoBehaviour
             _jetpackTrigger = Mathf.Lerp(0.5f, _jetpackTriggerMaxForce, rawTrigger);
         }
 
-        _isGamepad = true;
+        //_isGamepad = true;
         //print(_jetpackTrigger);
     }
 
-    void onEarth(InputAction.CallbackContext context)
+    void onInteract(InputAction.CallbackContext context)
     {
-        IsEarthPressed = context.ReadValueAsButton();
+        IsInteractPressed = context.ReadValueAsButton();
+        if (_interactable != null)
+        {
+            _interactable.Interact();
+        }
     }
 
     public bool IsNearSand()
@@ -481,7 +485,7 @@ public class PlayerStateMachine : MonoBehaviour
         return hitColliders.Length > 0;
     }
 
-    void stateCheck(InputAction.CallbackContext contenxt)
+    void stateCheck(InputAction.CallbackContext context)
     {
         print("El estado actual es: " + _currentState);
         if (_currentState.CurrentSuperState != null)
@@ -526,7 +530,7 @@ public class PlayerStateMachine : MonoBehaviour
             {
                 Debug.Log("Saliendo de la arena");
                 _interactable = null;
-                IsEarthPressed = false;
+                IsInteractPressed = false;
             }
         }
     }

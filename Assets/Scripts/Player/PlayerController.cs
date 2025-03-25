@@ -3,14 +3,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private InputSystem_Actions _playerInput;
+    public InputSystem_Actions _playerInput;
 
-    private Interactable _interactable; 
+    private Interactable _interactable;
+
+    [SerializeField] private GameObject _canvasE;
     void Awake()
     {
         _playerInput = new InputSystem_Actions();
-
-        _playerInput.Player.Interact.started += onInteract;
+        _playerInput.Player.Interact.performed += onInteract;
     }
     void Update()
     {
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     
     void onInteract(InputAction.CallbackContext context)
     {
+        Debug.Log("Pressed e");
         _interactable.Interact();
     }
     
@@ -26,7 +28,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Interactable"))
         {
-            _interactable = other.GetComponent<Interactable>();
+            if(_interactable == null)
+            {
+                _interactable = other.GetComponent<Interactable>();
+                _canvasE.SetActive(true);
+            }
         }
     }
 
@@ -35,6 +41,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Interactable"))
         {
             _interactable = null;
+            _canvasE.SetActive(false);
         }
     }
 }

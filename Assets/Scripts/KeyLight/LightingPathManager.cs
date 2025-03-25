@@ -4,7 +4,7 @@ using System.Security;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LightingButton : MonoBehaviour
+public class LightingPathManager : MonoBehaviour
 {
     #region variables
     [SerializeField] private GameObject door;
@@ -46,6 +46,7 @@ public class LightingButton : MonoBehaviour
             {
                 lightPlatform[i].GetComponent<Renderer>().material = _emissiveMaterial;
             }
+            lightFeedback.SetActive(true);
         }
         else
         {
@@ -53,6 +54,7 @@ public class LightingButton : MonoBehaviour
             {
                 lightPlatform[i].GetComponent<Renderer>().material = _material;
             }
+            lightFeedback.SetActive(false);
         }
     }
     public void OpenDors()

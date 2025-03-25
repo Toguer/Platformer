@@ -76,7 +76,8 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private bool _isJumpPressed;
     private bool _requireNewJumpPress = false;
 
-    [FormerlySerializedAs("_isEarthPressed")] [Header("Burrow")] [SerializeField] private bool _isInteractPressed;
+    [FormerlySerializedAs("_isEarthPressed")] [Header("Burrow")] [SerializeField]
+    private bool _isInteractPressed;
 
     [SerializeField] private float _burrowSpeed = 2f;
     [SerializeField] private float _detectionRadius = 0.5f;
@@ -113,6 +114,11 @@ public class PlayerStateMachine : MonoBehaviour
     {
         get { return _currentState; }
         set { _currentState = value; }
+    }
+
+    public InputSystem_Actions PlayerInput
+    {
+        get { return _playerInput; }
     }
 
     public bool IsJumpPressed

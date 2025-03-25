@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 
     private Interactable _interactable;
 
+    [Header("Canvas")]
+    [SerializeField] private GameObject _canvasE;
+
     void Start()
     {
         _playerInput = GetComponent<PlayerStateMachine>().PlayerInput;
@@ -29,7 +32,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Interactable"))
         {
-            _interactable = other.GetComponent<Interactable>();
+            if(_interactable == null)
+            {
+                _interactable = other.GetComponent<Interactable>();
+                _canvasE.SetActive(true);                           
+            }   
         }
     }
 
@@ -38,6 +45,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Interactable"))
         {
             _interactable = null;
+            _canvasE.SetActive(false);
         }
     }
 }

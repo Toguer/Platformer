@@ -62,7 +62,6 @@ public class LightingPathManager : MonoBehaviour
         if (isGetLight)
         {
             door.gameObject.SetActive(false);
-            lightFeedback.SetActive(false);
         }
     }
 }

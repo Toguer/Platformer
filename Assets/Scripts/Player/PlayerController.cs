@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     void onInteract(InputAction.CallbackContext context)
     {
         if (_interactable != null)
-            _interactable.Interact();
+            _interactable.Interact(this);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -480,7 +480,7 @@ public class PlayerStateMachine : MonoBehaviour
         IsInteractPressed = context.ReadValueAsButton();
         if (_interactable != null)
         {
-            _interactable.Interact();
+            _interactable.Interact(this.gameObject.GetComponent<PlayerController>());
         }
     }
 

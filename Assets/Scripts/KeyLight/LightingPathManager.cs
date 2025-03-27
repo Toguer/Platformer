@@ -16,6 +16,7 @@ public class LightingPathManager : MonoBehaviour
     [SerializeField] private Material _emissiveMaterial;
     
     public bool isGetLight;
+    [SerializeField] private bool _isntPlatforms;
     #endregion
     #region getters and setters
     public bool GetisLight()
@@ -31,31 +32,37 @@ public class LightingPathManager : MonoBehaviour
 
     private void Start()
     {
-        lightPlatform.Clear();
-
-        foreach (Transform child in this.transform)
+        if (!_isntPlatforms)
         {
-            lightPlatform.Add(child.transform.GetChild(0).gameObject);
+            lightPlatform.Clear();
+
+            foreach (Transform child in this.transform)
+            {
+                lightPlatform.Add(child.transform.GetChild(0).gameObject);
+            }
         }
     }
     private void whenLightOn()
     {
-        if (isGetLight)
+        if(!_isntPlatforms)
         {
-            for (int i = 0; i < lightPlatform.Count; i++)
+            if (isGetLight)
             {
-                lightPlatform[i].GetComponent<Renderer>().material = _emissiveMaterial;
+                for (int i = 0; i < lightPlatform.Count; i++)
+                {
+                    lightPlatform[i].GetComponent<Renderer>().material = _emissiveMaterial;
+                }
+                lightFeedback.SetActive(true);
             }
-            lightFeedback.SetActive(true);
-        }
-        else
-        {
-            for (int i = 0; i < lightPlatform.Count; i++)
+            else
             {
-                lightPlatform[i].GetComponent<Renderer>().material = _material;
+                for (int i = 0; i < lightPlatform.Count; i++)
+                {
+                    lightPlatform[i].GetComponent<Renderer>().material = _material;
+                }
+                lightFeedback.SetActive(false);
             }
-            lightFeedback.SetActive(false);
-        }
+        }  
     }
     public void OpenDors()
     {

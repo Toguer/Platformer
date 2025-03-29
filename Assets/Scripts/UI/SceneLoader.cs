@@ -8,7 +8,6 @@ public class SceneLoader : MonoBehaviour
     private string currentLevel;
 
     public List<Scene> sceneList = new List<Scene>();
-    public GameObject player;
     private void Start()
     {
         if (Instance == null)
@@ -41,5 +40,11 @@ public class SceneLoader : MonoBehaviour
     public string GetCurrentLevel()
     {
         return currentLevel;
+    }
+    public void Exit()
+    {
+
+        Application.Quit();
+
     }
 }

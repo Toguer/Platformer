@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8450971081190479137
+--- !u!114 &-9195446438712601309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,24 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Stage1
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Pasos tierra/paso
   m_EditorClassIdentifier: 
-  Path: event:/Stage1
-  Guid:
-    Data1: 188126860
-    Data2: 1306713253
-    Data3: 1984828324
-    Data4: 1182534713
-  Banks:
-  - {fileID: 4662067086633743496}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 160000
+  Name: paso
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 553951
+    data2: 505228650
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-6943239124109961603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,11 +57,39 @@ MonoBehaviour:
   Path: FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638788785580469609
+  lastModified: 638788802396045407
   FileSizes:
-  - Name: 
-    Value: 1038
+  - Name: Desktop
+    Value: 1080
   Exists: 1
+--- !u!114 &-4386342439507419369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Pasos tierra
+  m_EditorClassIdentifier: 
+  Path: event:/Pasos tierra
+  Guid:
+    Data1: 1256081005
+    Data2: 1191443082
+    Data3: 1574917038
+    Data4: 1623859197
+  Banks:
+  - {fileID: 4662067086633743496}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -9195446438712601309}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 750
 --- !u!114 &-4326708635917229249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +114,7 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
---- !u!114 &-3864589465283597401
+--- !u!114 &-3262640509967971204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,6 +223,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &-718650928490740355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Stage1
+  m_EditorClassIdentifier: 
+  Path: event:/Stage1
+  Guid:
+    Data1: 188126860
+    Data2: 1306713253
+    Data3: 1984828324
+    Data4: 1182534713
+  Banks:
+  - {fileID: 4662067086633743496}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 160000
+--- !u!114 &-131546199684361308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Pasos Piedra
+  m_EditorClassIdentifier: 
+  Path: event:/Pasos Piedra
+  Guid:
+    Data1: -893262832
+    Data2: 1083399039
+    Data3: -1006208591
+    Data4: -1421729382
+  Banks:
+  - {fileID: 4662067086633743496}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,18 +293,18 @@ MonoBehaviour:
   - {fileID: -5449443236558546688}
   - {fileID: 4662067086633743496}
   EditorEvents:
-  - {fileID: 8173761404003359715}
-  - {fileID: 4017748684079353666}
-  - {fileID: 7801250764086934772}
-  - {fileID: 7365629685985501780}
-  - {fileID: -8450971081190479137}
-  - {fileID: -3864589465283597401}
+  - {fileID: -131546199684361308}
+  - {fileID: 7214689340908677903}
+  - {fileID: 5641279306038366248}
+  - {fileID: -4386342439507419369}
+  - {fileID: -718650928490740355}
+  - {fileID: -3262640509967971204}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4662067086633743496}
   StringsBanks:
   - {fileID: -5449443236558546688}
-  cacheTime: 638788785580469609
+  cacheTime: 638788802396045407
   cacheVersion: 131623
 --- !u!114 &1343884877761989718
 MonoBehaviour:
@@ -247,33 +326,6 @@ MonoBehaviour:
     Data4: -1421729382
   Banks:
   - {fileID: -6943239124109961603}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 2000
---- !u!114 &4017748684079353666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Jetpack
-  m_EditorClassIdentifier: 
-  Path: event:/Jetpack
-  Guid:
-    Data1: 656980024
-    Data2: 1136365480
-    Data3: -1410070646
-    Data4: 685135433
-  Banks:
-  - {fileID: 4662067086633743496}
   IsStream: 0
   Is3D: 0
   IsOneShot: 0
@@ -323,58 +375,12 @@ MonoBehaviour:
   Path: FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638788785580430716
-  FileSizes: []
-  Exists: 1
---- !u!114 &7365629685985501780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Pasos tierra
-  m_EditorClassIdentifier: 
-  Path: event:/Pasos tierra
-  Guid:
-    Data1: 1256081005
-    Data2: 1191443082
-    Data3: 1574917038
-    Data4: 1623859197
-  Banks:
-  - {fileID: 4662067086633743496}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 9147704972498411793}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 750
---- !u!114 &7416864590071905555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Desktop/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD/Build/Desktop/Master.strings.bank
-  Name: Desktop/Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638788767800000000
+  lastModified: 638788802395929057
   FileSizes:
-  - Name: 
-    Value: 1038
+  - Name: Desktop
+    Value: 26355648
   Exists: 1
---- !u!114 &7801250764086934772
+--- !u!114 &5641279306038366248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -401,6 +407,53 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &7214689340908677903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Jetpack
+  m_EditorClassIdentifier: 
+  Path: event:/Jetpack
+  Guid:
+    Data1: 656980024
+    Data2: 1136365480
+    Data3: -1410070646
+    Data4: 685135433
+  Banks:
+  - {fileID: 4662067086633743496}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &7416864590071905555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Desktop/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/Build/Desktop/Master.strings.bank
+  Name: Desktop/Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638788767800000000
+  FileSizes:
+  - Name: 
+    Value: 1038
+  Exists: 1
 --- !u!114 &7981396816289267601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,54 +481,3 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
---- !u!114 &8173761404003359715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Pasos Piedra
-  m_EditorClassIdentifier: 
-  Path: event:/Pasos Piedra
-  Guid:
-    Data1: -893262832
-    Data2: 1083399039
-    Data3: -1006208591
-    Data4: -1421729382
-  Banks:
-  - {fileID: 4662067086633743496}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 2000
---- !u!114 &9147704972498411793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Pasos tierra/paso
-  m_EditorClassIdentifier: 
-  Name: paso
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 553951
-    data2: 505228650
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1

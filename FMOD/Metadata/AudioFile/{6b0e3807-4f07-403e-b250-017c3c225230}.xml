@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{6b0e3807-4f07-403e-b250-017c3c225230}">
+		<property name="assetPath">
+			<value>jetpack2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.6250340136054422</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c17886d4-93d3-490d-8972-5207820a2a8d}</destination>
+		</relationship>
+	</object>
+</objects>

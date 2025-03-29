@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{45aa75d3-dcaa-4184-93ee-ddf3eb7b2415}">
+		<property name="assetPath">
+			<value>stage 1 nueva idea - Musio 11.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>160</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c17886d4-93d3-490d-8972-5207820a2a8d}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -326,7 +326,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         _playerInput = new InputSystem_Actions();
 
         //setup
-        _states = new PlayerStateFactory(this);
+        //_states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
 
@@ -350,7 +350,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _rb.Move();
+        //_rb.Move();
     }
 
     void OnMovementInput(InputAction.CallbackContext context)

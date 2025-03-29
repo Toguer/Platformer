@@ -82,9 +82,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef6f75475cb9874448917ea3f75d3a67, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4566892411283228147}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef6f75475cb9874448917ea3f75d3a67, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6369754624782543212}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef6f75475cb9874448917ea3f75d3a67, type: 3}
       insertIndex: -1
@@ -95,33 +92,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef6f75475cb9874448917ea3f75d3a67, type: 3}
   m_PrefabInstance: {fileID: 4658250642080328446}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4566892411283228147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5504532988331022255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onTouchPlayer:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightingPlatformsManager, Assembly-CSharp
-        m_MethodName: SetisGetLight
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!135 &6369754624782543212
 SphereCollider:
   m_ObjectHideFlags: 0

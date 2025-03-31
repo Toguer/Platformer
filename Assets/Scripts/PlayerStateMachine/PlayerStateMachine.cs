@@ -9,6 +9,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
+    private Animator _animator;
 
     //Variables para inputs del jugador
     private Vector2 _currentMovementInput;
@@ -331,6 +332,10 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _rotationFactorPerFrame; }
     }
 
+    public Animator Animator 
+    { 
+        get { return _animator; } 
+    }
     #endregion
 
 

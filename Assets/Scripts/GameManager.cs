@@ -10,11 +10,13 @@ public class GameManager : PersistentSingleton<GameManager>
     [SerializeField] private int _frameCap;
 
     [Header("Score")]
-    private int _coinsScore;
+    public int _coinsScore;
+    [SerializeField] private int _maxCoins;
     [SerializeField] private UnityEvent<int> updateCoinCanvas;
 
     private List<string> _objCollected = new List<string>();
-    
+
+    [SerializeField] private GameObject WinCanvas;
     #endregion
 
     #region getters and setters
@@ -62,5 +64,13 @@ public class GameManager : PersistentSingleton<GameManager>
     {
         this._coinsScore += coinsScore;
         updateCoinCanvas.Invoke(this._coinsScore);
+    }
+    public void FinalDor(GameObject Door)
+    {
+        if(_coinsScore == _maxCoins)
+        {
+            Door.GetComponent<Animator>().SetBool("isOpen", true);
+            WinCanvas.SetActive(true);
+        }
     }
 }

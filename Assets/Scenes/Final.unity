@@ -2076,7 +2076,7 @@ GameObject:
   - component: {fileID: 59163552}
   - component: {fileID: 59163554}
   - component: {fileID: 59163553}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain_(-127.70, 6.10, -57.80)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17772,7 +17772,7 @@ GameObject:
   - component: {fileID: 248942891}
   - component: {fileID: 248942893}
   - component: {fileID: 248942892}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain_(-127.70, 6.10, -121.80)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25056,7 +25056,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 337238183}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25732,6 +25732,11 @@ Transform:
   - {fileID: 900523029}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &350925435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e317a615a1d01cc449e9aaf9a367d2c3, type: 3}
+  m_PrefabInstance: {fileID: 1824226864}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &356414262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36031,7 +36036,7 @@ GameObject:
   - component: {fileID: 557219109}
   - component: {fileID: 557219111}
   - component: {fileID: 557219110}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62952,7 +62957,7 @@ GameObject:
   - component: {fileID: 1095162326}
   - component: {fileID: 1095162328}
   - component: {fileID: 1095162327}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain_(-53.70, 6.10, -185.80)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63300,6 +63305,10 @@ PrefabInstance:
     - target: {fileID: 3871971890796580417, guid: 3fa09ba073b4df7439979b56511f3162, type: 3}
       propertyPath: m_Name
       value: small_rock1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871971890796580417, guid: 3fa09ba073b4df7439979b56511f3162, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3871971890796580417, guid: 3fa09ba073b4df7439979b56511f3162, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -64950,6 +64959,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1498131141}
     m_Modifications:
+    - target: {fileID: 1638757131751432637, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120842398951926107, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253627437997273737, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3625817630179905488, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 83.14621
@@ -64993,6 +65014,26 @@ PrefabInstance:
     - target: {fileID: 4114791699971609962, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
       propertyPath: m_Name
       value: door_low
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114791699971609962, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4918730005926086161, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099419058763541347, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425260622599595519, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751449411491551082, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -89886,7 +89927,7 @@ GameObject:
   - component: {fileID: 1617363978}
   - component: {fileID: 1617363980}
   - component: {fileID: 1617363979}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain_(10.30, 6.10, -185.80)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99576,6 +99617,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1717977346}
     m_Modifications:
+    - target: {fileID: 1638757131751432637, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2120842398951926107, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253627437997273737, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3625817630179905488, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -97.256165
@@ -99619,6 +99672,26 @@ PrefabInstance:
     - target: {fileID: 4114791699971609962, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
       propertyPath: m_Name
       value: door_low (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114791699971609962, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4918730005926086161, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099419058763541347, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425260622599595519, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751449411491551082, guid: 59094fd9486af514c9f6ff6bea1fa8e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -101854,13 +101927,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e317a615a1d01cc449e9aaf9a367d2c3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1824226868}
   m_SourcePrefab: {fileID: 100100000, guid: e317a615a1d01cc449e9aaf9a367d2c3, type: 3}
 --- !u!4 &1824226865 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e317a615a1d01cc449e9aaf9a367d2c3, type: 3}
   m_PrefabInstance: {fileID: 1824226864}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1824226868
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350925435}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.3902903, y: 2.9606369, z: 2.7478354}
+  m_Center: {x: 0.06742121, y: 1.4812416, z: 0.50477654}
 --- !u!1001 &1827564266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109766,7 +109863,7 @@ GameObject:
   - component: {fileID: 2041145685}
   - component: {fileID: 2041145687}
   - component: {fileID: 2041145686}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain_(-63.70, 6.10, -121.80)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110497,7 +110594,7 @@ GameObject:
   - component: {fileID: 2082157264}
   - component: {fileID: 2082157266}
   - component: {fileID: 2082157265}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain_(74.30, 6.30, -121.80)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

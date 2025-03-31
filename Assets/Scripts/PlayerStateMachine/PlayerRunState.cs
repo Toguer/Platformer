@@ -9,6 +9,7 @@ public class PlayerRunState : PlayerBaseState
 
     public override void EnterState()
     {
+        Ctx.AnimatorRef.SetBool("isRun", true);
     }
 
     public override void UpdateState()
@@ -20,6 +21,7 @@ public class PlayerRunState : PlayerBaseState
 
     public override void ExitState()
     {
+        Ctx.AnimatorRef.SetBool("isRun", false);
     }
 
     public override void CheckSwitchStates()

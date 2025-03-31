@@ -9,6 +9,7 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void EnterState()
     {
+        //Ctx.AnimatorRef.SetBool("isWalk", true);
     }
 
     public override void UpdateState()
@@ -27,6 +28,7 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void ExitState()
     {
+        //Ctx.AnimatorRef.SetBool("isWalk", false);
     }
 
     public override void CheckSwitchStates()

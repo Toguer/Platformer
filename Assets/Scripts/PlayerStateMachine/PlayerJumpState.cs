@@ -12,6 +12,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
+        Ctx.AnimatorRef.SetTrigger("isJump");
         Ctx.RequireNewJumpPress = true;
         Ctx.RemainingCoyoteTime = 0;
         InitializeSubState();

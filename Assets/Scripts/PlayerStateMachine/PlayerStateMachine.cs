@@ -332,7 +332,7 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _rotationFactorPerFrame; }
     }
 
-    public Animator Animator 
+    public Animator AnimatorRef
     { 
         get { return _animator; } 
     }
@@ -344,7 +344,7 @@ public class PlayerStateMachine : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
 
         _playerInput = new InputSystem_Actions();
-
+        _animator = GetComponent<Animator>();
         // setup state
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();

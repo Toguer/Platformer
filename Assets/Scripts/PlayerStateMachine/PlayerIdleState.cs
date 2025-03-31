@@ -10,7 +10,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void EnterState()
     {
         //animaciones
-
+        
         Ctx.AppliedMovementX = 0;
         Ctx.AppliedMovementZ = 0;
     }

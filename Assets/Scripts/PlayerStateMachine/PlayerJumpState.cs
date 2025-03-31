@@ -12,7 +12,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
-        Ctx.AnimatorRef.SetTrigger("isJump");
+        Ctx.AnimatorRef.SetBool("isJump", true);
+        Ctx.AudioPlayerRef.PlayJump();
         Ctx.RequireNewJumpPress = true;
         Ctx.RemainingCoyoteTime = 0;
         InitializeSubState();
@@ -55,7 +56,6 @@ public class PlayerJumpState : PlayerBaseState, IRootState
                  Ctx.JetpackTrigger > 0.1f)
         {
             SwitchState(Factory.Jetpack());
-
             Debug.Log("JetPack From Jump");
         }
         else if (Ctx.CharacterController.isGrounded)

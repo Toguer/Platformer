@@ -9,7 +9,8 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void EnterState()
     {
-        //Ctx.AnimatorRef.SetBool("isWalk", true);
+        Ctx.AnimatorRef.SetBool("isWalk", true);
+        Ctx.AudioPlayerRef.PlaySteps();
     }
 
     public override void UpdateState()
@@ -28,7 +29,7 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void ExitState()
     {
-        //Ctx.AnimatorRef.SetBool("isWalk", false);
+        
     }
 
     public override void CheckSwitchStates()
@@ -39,6 +40,7 @@ public class PlayerWalkState : PlayerBaseState
         }
         if (!Ctx.IsMovementPressed)
         {
+            Ctx.AnimatorRef.SetBool("isWalk", false);
             SwitchState(Factory.Idle());
         }
         else if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude > 0.5f)

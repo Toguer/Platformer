@@ -107,6 +107,9 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _dashCooldown = 1;
     private float _dashRemainingCooldown;
 
+
+    private AudioPlayer _audioPlayer;
+
     #endregion
 
     #region getters and setters
@@ -333,9 +336,15 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
     public Animator AnimatorRef
-    { 
-        get { return _animator; } 
+    {
+        get { return _animator; }
     }
+
+    public AudioPlayer AudioPlayerRef
+    {
+        get { return _audioPlayer; }
+    }
+
     #endregion
 
 
@@ -364,6 +373,7 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.EarthPower.started += onInteract;
         _playerInput.Player.EarthPower.canceled += onInteract;
         _playerInput.Player.State.started += stateCheck;
+        _audioPlayer = GetComponent<AudioPlayer>();
         SetupJumpVariables();
     }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{a781b52e-93ff-4608-ba8c-774f4489fd87}">
+		<property name="assetPath">
+			<value>1 Hour of Jungle Ambience 🌳🐦🦗 Birds, Insects, Crickets [TudJb_bbZ20].mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3599.4644897959183</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c17886d4-93d3-490d-8972-5207820a2a8d}</destination>
+		</relationship>
+	</object>
+</objects>

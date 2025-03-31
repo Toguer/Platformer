@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{f3f13052-f0a5-4870-a8d5-ad53d1dfdceb}">
+		<property name="assetPath">
+			<value>2025-03-02 Mario Alexander(2) - Omnisphere.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>96</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c17886d4-93d3-490d-8972-5207820a2a8d}</destination>
+		</relationship>
+	</object>
+</objects>

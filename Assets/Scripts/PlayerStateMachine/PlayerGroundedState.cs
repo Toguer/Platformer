@@ -17,6 +17,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
+        Ctx.AnimatorRef.SetBool("isJump", false);
         InitializeSubState();
         HandleGravity();
         Ctx.JetpackAlreadyUsed = false;

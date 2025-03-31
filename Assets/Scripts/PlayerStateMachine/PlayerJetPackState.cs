@@ -14,6 +14,7 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
+        Ctx.AudioPlayerRef.PlayJetpack();
         if (Ctx.ContinueUseJetpack)
         {
             //Impulso inicial

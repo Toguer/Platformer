@@ -25,6 +25,7 @@ public class GameManager : PersistentSingleton<GameManager>
     private GameObject _winCanvas;
 
     [SerializeField] private GameObject _pauseCanvas;
+    [SerializeField] private GameObject _settingsCanvas;
 
 
     private InputSystem_Actions _inputSystemActions;
@@ -111,10 +112,12 @@ public class GameManager : PersistentSingleton<GameManager>
     public void Pause()
     {
         _pauseCanvas.SetActive(!_pauseCanvas.activeSelf);
+        _settingsCanvas.SetActive(false);
         if (_pauseCanvas.activeSelf)
         {
             Time.timeScale = 0;
             _inputSystemActions.Player.Disable();
+            _inputSystemActions.UI.Enable();
             Cursor.lockState = CursorLockMode.None;
             if (Gamepad.all.Count <= 0)
             {
@@ -125,10 +128,16 @@ public class GameManager : PersistentSingleton<GameManager>
         {
             Time.timeScale = 1;
 
+            _inputSystemActions.UI.Disable();
             _inputSystemActions.Player.Enable();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    public void Settings()
+    {
+        _settingsCanvas.SetActive(!_settingsCanvas.activeSelf);
     }
 
     public void MainMenu()

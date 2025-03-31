@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class VCA : MonoBehaviour
 {
+    #region variables
+
     private FMOD.Studio.VCA _musicVca;
     [SerializeField] [Range(-80f, 10f)] private float _musicVolume;
     private FMOD.Studio.VCA _sfxVca;
@@ -16,21 +19,64 @@ public class VCA : MonoBehaviour
     [SerializeField] private string _sfxPath;
     [SerializeField] private string _uiPath;
 
+    #endregion
+
+    #region getters & setters
+
+    public float MusicVolume
+    {
+        get { return _musicVolume; }
+        set
+        {
+            _musicVolume = value;
+            OnChange();
+        }
+    }
+
+    public float SfxVolume
+    {
+        get { return _sfxVolume; }
+        set
+        {
+            _sfxVolume = value;
+            OnChange();
+        }
+    }
+
+    public float UiVolume
+    {
+        get { return _uiVolume; }
+        set
+        {
+            _uiVolume = value;
+            OnChange();
+        }
+    }
+
+    #endregion
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        DontDestroyOnLoad(this);
         _musicVca = FMODUnity.RuntimeManager.GetVCA(_musicPath);
         _sfxVca = FMODUnity.RuntimeManager.GetVCA(_sfxPath);
         _uiVca = FMODUnity.RuntimeManager.GetVCA(_uiPath);
+
+        OnChange();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnChange()
     {
         _musicVca.setVolume(DecibelToLinear(_musicVolume));
         _sfxVca.setVolume(DecibelToLinear(_sfxVolume));
         _uiVca.setVolume(DecibelToLinear(_uiVolume));
+        //print(AudioManager.Instance);
+        //AudioManager.Instance.SliderMusic.value = DecibelToLinear(_musicVolume);
+        //AudioManager.Instance.SliderSfx.value = DecibelToLinear(_sfxVolume);
+        //AudioManager.Instance.SliderUi.value = DecibelToLinear(_uiVolume);
     }
+
 
     private float DecibelToLinear(float dB)
     {

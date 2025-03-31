@@ -14,6 +14,10 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void EnterState()
     {
+        Ctx.JetpackParticles1.gameObject.SetActive(true);
+        Ctx.JetpackParticles2.gameObject.SetActive(true);
+        Ctx.JetpackParticles1.Play();
+        Ctx.JetpackParticles2.Play();
         Ctx.AudioPlayerRef.PlayJetpack();
         if (Ctx.ContinueUseJetpack)
         {
@@ -42,6 +46,8 @@ public class PlayerJetPackState : PlayerBaseState, IRootState
 
     public override void ExitState()
     {
+        Ctx.JetpackParticles1.Stop();
+        Ctx.JetpackParticles2.Stop();
     }
 
     public override void CheckSwitchStates()

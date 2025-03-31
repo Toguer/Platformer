@@ -7,6 +7,8 @@ public class PlayerStateMachine : MonoBehaviour
 {
     #region variables
 
+    private bool _pause;
+
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
     private Animator _animator;
@@ -106,6 +108,9 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private bool _dashAlreadyUsed;
     [SerializeField] private float _dashCooldown = 1;
     private float _dashRemainingCooldown;
+
+    [SerializeField] private ParticleSystem _jetpack1;
+    [SerializeField] private ParticleSystem _jetpack2;
 
 
     private AudioPlayer _audioPlayer;
@@ -345,6 +350,20 @@ public class PlayerStateMachine : MonoBehaviour
         get { return _audioPlayer; }
     }
 
+    public bool Pause
+    {
+        get { return _pause; }
+        set { _pause = value; }
+    }
+
+    public ParticleSystem JetpackParticles1
+    {
+        get { return _jetpack1; }
+    }public ParticleSystem JetpackParticles2
+    {
+        get { return _jetpack2; }
+    }
+
     #endregion
 
 
@@ -380,28 +399,31 @@ public class PlayerStateMachine : MonoBehaviour
 // Update is called once per frame
     void Update()
     {
-        if ((_currentState is PlayerBurrowState))
+        if (!_pause)
         {
-            _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
-            _characterController.Move(new Vector3(_appliedMovement.x * _speed, 0, _appliedMovement.z * _speed) *
-                                      Time.deltaTime);
-        }
-        else
-        {
-            _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
-            HandleRotation();
+            if ((_currentState is PlayerBurrowState))
+            {
+                _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
+                _characterController.Move(new Vector3(_appliedMovement.x * _speed, 0, _appliedMovement.z * _speed) *
+                                          Time.deltaTime);
+            }
+            else
+            {
+                _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
+                HandleRotation();
 
-            Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
-            _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
-            _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
-        }
+                Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
+                _characterController.Move(horizontalMovement * (_speed * Time.deltaTime));
+                _characterController.Move(new Vector3(0, _appliedMovement.y * Time.deltaTime, 0));
+            }
 
 
-        _currentState.UpdateStates();
+            _currentState.UpdateStates();
 
-        if (_remainingCoyoteTime > 0)
-        {
-            _remainingCoyoteTime -= Time.deltaTime;
+            if (_remainingCoyoteTime > 0)
+            {
+                _remainingCoyoteTime -= Time.deltaTime;
+            }
         }
     }
 

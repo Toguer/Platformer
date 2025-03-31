@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ScreenFader : MonoBehaviour
 {
     [SerializeField] private CanvasGroup fadeCanvasGroup;
     [SerializeField] private float fadeDuration;
-
+    [SerializeField] private UnityEvent finisFadeIn;
     private void Start()
     {
         if(fadeCanvasGroup == null)
@@ -46,5 +47,6 @@ public class ScreenFader : MonoBehaviour
         }
 
         fadeCanvasGroup.alpha = endAlpha;
+        finisFadeIn.Invoke();
     }
 }

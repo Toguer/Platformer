@@ -44696,13 +44696,13 @@ MonoBehaviour:
   onTouchPlayer:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 487933849}
-        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
-        m_MethodName: OpenDors
-        m_Mode: 1
+      - m_Target: {fileID: 1066060711}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: FinalDor
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 810126129}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -61567,6 +61567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1066060712}
   - component: {fileID: 1066060711}
+  - component: {fileID: 1066060713}
   m_Layer: 0
   m_Name: GameManager (1)
   m_TagString: Untagged
@@ -61589,7 +61590,7 @@ MonoBehaviour:
   AutoUnparentOnAwake: 1
   _frameCap: 120
   _playerStateMachine: {fileID: 0}
-  _coinsScore: 0
+  _coinsScore: 7
   _maxCoins: 7
   _updateCoinCanvas:
     m_PersistentCalls:
@@ -61624,6 +61625,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1066060713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066060710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14bf700cd23261d47bee23e75a456a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneList: []
+  _settingsMenu: {fileID: 0}
+  _mainMenu: {fileID: 0}
 --- !u!1001 &1067901996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88919,6 +88935,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeCanvasGroup: {fileID: 1591557878}
   fadeDuration: 4
+  finisFadeIn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1066060713}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Main
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!225 &1591557878
 CanvasGroup:
   m_ObjectHideFlags: 0

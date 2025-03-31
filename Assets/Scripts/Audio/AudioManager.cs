@@ -1,11 +1,31 @@
+using Singleton;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : PersistentSingleton<AudioManager>
 {
     private VCA _vca;
 
     [SerializeField] private Slider _sliderMusic;
+
+    public Slider SliderMusic
+    {
+        get => _sliderMusic;
+        set => _sliderMusic = value;
+    }
+
+    public Slider SliderSfx
+    {
+        get => _sliderSfx;
+        set => _sliderSfx = value;
+    }
+
+    public Slider SliderUi
+    {
+        get => _sliderUi;
+        set => _sliderUi = value;
+    }
+
     [SerializeField] private Slider _sliderSfx;
     [SerializeField] private Slider _sliderUi;
 
@@ -13,6 +33,13 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         _vca = GetComponent<VCA>();
+        print(_vca);
+        float linearValue = Mathf.Pow(10f, _vca.MusicVolume / 20f);
+        _sliderMusic.value = linearValue;
+        linearValue = Mathf.Pow(10f, _vca.SfxVolume / 20f);
+        _sliderSfx.value = linearValue;
+        linearValue = Mathf.Pow(10f, _vca.UiVolume / 20f);
+        _sliderUi.value = linearValue;
     }
 
     public void OnValueChanged()

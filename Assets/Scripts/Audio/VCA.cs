@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -45,7 +46,9 @@ public class VCA : MonoBehaviour
     public float UiVolume
     {
         get { return _uiVolume; }
-        set { _uiVolume = value;
+        set
+        {
+            _uiVolume = value;
             OnChange();
         }
     }
@@ -59,6 +62,8 @@ public class VCA : MonoBehaviour
         _musicVca = FMODUnity.RuntimeManager.GetVCA(_musicPath);
         _sfxVca = FMODUnity.RuntimeManager.GetVCA(_sfxPath);
         _uiVca = FMODUnity.RuntimeManager.GetVCA(_uiPath);
+
+        OnChange();
     }
 
     private void OnChange()
@@ -66,8 +71,12 @@ public class VCA : MonoBehaviour
         _musicVca.setVolume(DecibelToLinear(_musicVolume));
         _sfxVca.setVolume(DecibelToLinear(_sfxVolume));
         _uiVca.setVolume(DecibelToLinear(_uiVolume));
+        //print(AudioManager.Instance);
+        //AudioManager.Instance.SliderMusic.value = DecibelToLinear(_musicVolume);
+        //AudioManager.Instance.SliderSfx.value = DecibelToLinear(_sfxVolume);
+        //AudioManager.Instance.SliderUi.value = DecibelToLinear(_uiVolume);
     }
-    
+
 
     private float DecibelToLinear(float dB)
     {

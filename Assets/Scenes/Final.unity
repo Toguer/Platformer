@@ -59653,7 +59653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09dd6345c612f06468014ac34a15b86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vcaVolume: -10
+  _vcaVolume: -16
 --- !u!1001 &1043498843
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Leaf14
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6cbdbd2dea7ae0341bdec3f6f3e94f06, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -76,7 +76,6 @@ public class GameManager : PersistentSingleton<GameManager>
         Application.targetFrameRate = _frameCap;
         _playerStateMachine = FindObjectsByType<PlayerStateMachine>(FindObjectsSortMode.None)[0]
             .GetComponent<PlayerStateMachine>();
-        Time.timeScale = 1;
     }
 
     private void Start()

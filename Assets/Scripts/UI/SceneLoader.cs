@@ -20,7 +20,7 @@ public class SceneLoader : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    //añadir el nombre de la escena para para cambiar, y se guarda la escena a la que cambies 
+    //aï¿½adir el nombre de la escena para para cambiar, y se guarda la escena a la que cambies 
     public void LoadLevel(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
@@ -46,5 +46,13 @@ public class SceneLoader : MonoBehaviour
 
         Application.Quit();
 
+    }
+
+    public void DiscordLink()
+    {
+        Application.OpenURL("https://discord.gg/vGpTuDd7mj");
+    }public void ItchioLink()
+    {
+        Application.OpenURL("https://bit-bounty.itch.io/voidborn");
     }
 }

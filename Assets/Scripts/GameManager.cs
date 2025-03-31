@@ -25,6 +25,7 @@ public class GameManager : PersistentSingleton<GameManager>
     private GameObject _winCanvas;
 
     [SerializeField] private GameObject _pauseCanvas;
+    [SerializeField] private GameObject _settingsCanvas;
 
 
     private InputSystem_Actions _inputSystemActions;
@@ -129,6 +130,11 @@ public class GameManager : PersistentSingleton<GameManager>
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    public void Settings()
+    {
+        _settingsCanvas.SetActive(!_settingsCanvas.activeSelf);
     }
 
     public void MainMenu()

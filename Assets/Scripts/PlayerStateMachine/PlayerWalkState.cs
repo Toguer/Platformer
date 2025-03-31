@@ -29,7 +29,7 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void ExitState()
     {
-        
+        Ctx.AudioPlayerRef.StopSteps();
     }
 
     public override void CheckSwitchStates()

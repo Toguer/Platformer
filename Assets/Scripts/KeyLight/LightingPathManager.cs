@@ -1,33 +1,39 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Security;
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class LightingPathManager : MonoBehaviour
 {
     #region variables
+
     [SerializeField] private GameObject door;
     [SerializeField] private GameObject lightFeedback;
     [SerializeField] private List<GameObject> lightPlatform = new List<GameObject>();
 
-    [Header("Materials")]
-    [SerializeField] private Material _material;
+    [Header("Materials")] [SerializeField] private Material _material;
     [SerializeField] private Material _emissiveMaterial;
-    
+
     public bool isGetLight;
     [SerializeField] private bool _isntPlatforms;
+
     #endregion
+
     #region getters and setters
+
     public bool GetisLight()
     {
         return isGetLight;
     }
+
     public void SetisGetLight(bool isGetLight)
     {
         this.isGetLight = isGetLight;
         whenLightOn();
     }
+
     #endregion
 
     private void Start()
@@ -42,9 +48,10 @@ public class LightingPathManager : MonoBehaviour
             }
         }
     }
+
     private void whenLightOn()
     {
-        if(!_isntPlatforms)
+        if (!_isntPlatforms)
         {
             if (isGetLight)
             {
@@ -52,6 +59,7 @@ public class LightingPathManager : MonoBehaviour
                 {
                     lightPlatform[i].GetComponent<Renderer>().material = _emissiveMaterial;
                 }
+
                 lightFeedback.SetActive(true);
             }
             else
@@ -60,10 +68,12 @@ public class LightingPathManager : MonoBehaviour
                 {
                     lightPlatform[i].GetComponent<Renderer>().material = _material;
                 }
+
                 lightFeedback.SetActive(false);
             }
-        }  
+        }
     }
+
     public void OpenDors()
     {
         if (isGetLight)
@@ -71,7 +81,7 @@ public class LightingPathManager : MonoBehaviour
             door.GetComponent<Animator>().SetBool("isOpen", true);
             door.GetComponent<BoxCollider>().enabled = false;
             lightFeedback.SetActive(false);
+            GetComponent<StudioEventEmitter>().Play();
         }
     }
-
 }

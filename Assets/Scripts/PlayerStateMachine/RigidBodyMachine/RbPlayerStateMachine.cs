@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class RbPlayerStateMachine : MonoBehaviour
 {
@@ -8,6 +9,14 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private Rigidbody _rb;
     private InputSystem_Actions _playerInput;
+
+    //Ground Checker
+    [SerializeField] private Transform _groundCheck;
+    private float _groundDistance = 0.4f;
+    [SerializeField] private LayerMask _groundMask;
+    [SerializeField] private bool _isGrounded;
+
+    private Animator _animator;
 
     //Variables para inputs del jugador
     private Vector2 _currentMovementInput;
@@ -94,8 +103,8 @@ public class RbPlayerStateMachine : MonoBehaviour
     private float _groundedGravity = -0.5f;
 
     // state variables
-    private PlayerBaseState _currentState;
-    private PlayerStateFactory _states;
+    private PlayerBaseStateRb _currentState;
+    private FactoryRigidBody _states;
 
     [Header("Dash")] [SerializeField] private float _dashDuration;
     [SerializeField] private float _dashSpeed;
@@ -104,11 +113,17 @@ public class RbPlayerStateMachine : MonoBehaviour
     [SerializeField] private float _dashCooldown = 1;
     private float _dashRemainingCooldown;
 
+    [SerializeField] private ParticleSystem _jetpack1;
+    [SerializeField] private ParticleSystem _jetpack2;
+
+
+    private AudioPlayer _audioPlayer;
+
     #endregion
 
     #region getters and setters
 
-    public PlayerBaseState CurrentState
+    public PlayerBaseStateRb CurrentState
     {
         get { return _currentState; }
         set { _currentState = value; }
@@ -318,6 +333,31 @@ public class RbPlayerStateMachine : MonoBehaviour
         get { return _rotationFactorPerFrame; }
     }
 
+    public bool IsGrounded
+    {
+        get { return _isGrounded; }
+    }
+
+    public Animator AnimatorRef
+    {
+        get { return _animator; }
+    }
+
+    public AudioPlayer AudioPlayerRef
+    {
+        get { return _audioPlayer; }
+    }
+
+    public ParticleSystem JetpackParticles1
+    {
+        get { return _jetpack1; }
+    }
+
+    public ParticleSystem JetpackParticles2
+    {
+        get { return _jetpack2; }
+    }
+
     #endregion
 
     private void Awake()
@@ -326,11 +366,13 @@ public class RbPlayerStateMachine : MonoBehaviour
         _playerInput = new InputSystem_Actions();
 
         //setup
-        //_states = new PlayerStateFactory(this);
+        _states = new FactoryRigidBody(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
 
         //Player Input Callbacks
+
+        print(_playerInput);
 
         _playerInput.Player.Move.started += OnMovementInput;
         _playerInput.Player.Move.canceled += OnMovementInput;
@@ -350,7 +392,77 @@ public class RbPlayerStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //_rb.Move();
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
+
+        _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
+        HandleRotation();
+
+
+        _currentState.UpdateStates();
+
+        if (_remainingCoyoteTime > 0)
+        {
+            _remainingCoyoteTime -= Time.deltaTime;
+        }
+
+
+        print("El estado actual es: " + _currentState);
+        if (_currentState.CurrentSuperState != null)
+        {
+            print("El estado super es: " + _currentState.CurrentSuperState);
+        }
+
+        if (_currentState.CurrentSubState != null)
+        {
+            print("El estado sub es: " + _currentState.CurrentSubState);
+        }
+    }
+
+    public void HandleRotation()
+    {
+        Vector3 positionToLookAt;
+
+        positionToLookAt.x = _cameraRelativeMovement.x;
+        positionToLookAt.y = 0;
+        positionToLookAt.z = _cameraRelativeMovement.z;
+
+        Quaternion currentRotation = transform.rotation;
+
+        if (_isMovementPressed)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
+
+            transform.rotation =
+                Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
+        }
+    }
+
+    public Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
+    {
+        float currentYValue = vectorToRotate.y;
+
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
+
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        cameraForward = cameraForward.normalized;
+        cameraRight = cameraRight.normalized;
+
+        Vector3 cameraForwardZProduct = vectorToRotate.z * cameraForward;
+        Vector3 cameraRightXProduct = vectorToRotate.x * cameraRight;
+
+        Vector3 vectorRotatedToCamearSpace = cameraForwardZProduct + cameraRightXProduct;
+        vectorRotatedToCamearSpace.y = currentYValue;
+        return vectorRotatedToCamearSpace;
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
+        _rb.MovePosition(
+            transform.position + horizontalMovement * _speed * Time.deltaTime);
     }
 
     void OnMovementInput(InputAction.CallbackContext context)
@@ -451,5 +563,11 @@ public class RbPlayerStateMachine : MonoBehaviour
                 IsInteractPressed = false;
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_groundCheck.position, _groundDistance);
     }
 }

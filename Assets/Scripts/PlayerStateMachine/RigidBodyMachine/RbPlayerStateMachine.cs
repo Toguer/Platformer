@@ -603,4 +603,9 @@ public class RbPlayerStateMachine : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_groundCheck.position, _groundDistance);
     }
+
+    private void OnValidate()
+    {
+        SetupJumpVariables();
+    }
 }

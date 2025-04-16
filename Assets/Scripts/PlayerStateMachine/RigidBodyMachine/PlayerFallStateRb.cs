@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 {
-
-    public PlayerFallStateRb(RbPlayerStateMachine currentContext, FactoryRigidBody playerStateFactory) : base(currentContext, playerStateFactory)
+    public PlayerFallStateRb(RbPlayerStateMachine currentContext, FactoryRigidBody playerStateFactory) : base(
+        currentContext, playerStateFactory)
     {
         IsRootState = true;
     }
@@ -15,12 +15,12 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public override void UpdateState()
     {
+        HandleGravity();
         CheckSwitchStates();
     }
 
     public override void ExitState()
     {
-        
     }
 
     public override void CheckSwitchStates()
@@ -28,6 +28,10 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
         if (Ctx.IsInteractPressed && Ctx.IsNearSand())
         {
             SwitchState(Factory.Burrow());
+        }
+        else if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SwitchState(Factory.Dash());
         }
         else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0)
         {
@@ -68,15 +72,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public override void InitializeSubState()
     {
-        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
-        {
-            SetSubState(Factory.Dash());
-        }
-        else if (Ctx.IsMovementPressed && Ctx.CurrentMovementInput.magnitude > 0.5f)
-        {
-            SetSubState(Factory.Run());
-        }
-        else if (Ctx.IsMovementPressed)
+        if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
         }
@@ -88,6 +84,13 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public void HandleGravity()
     {
-        throw new System.NotImplementedException();
+        Vector3 velocity = Ctx.Velocity;
+        float newY = velocity.y + Physics.gravity.y * Time.deltaTime;
+
+        //Si no pulsas el boton de saltar caes más rapido
+        if (!Ctx.IsJumpPressed && velocity.y < 0)
+            newY += Physics.gravity.y * (Ctx.FallMultiplier - 1) * Time.deltaTime;
+
+        Ctx.Velocity = new Vector3(velocity.x, Mathf.Max(newY, -20f), velocity.z);
     }
 }

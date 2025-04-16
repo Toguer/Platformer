@@ -31,12 +31,15 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
             Ctx.DashAlreadyUsed = false;
             Ctx.DashRemainingCooldown = 0;
         }
+
         CheckSwitchStates();
     }
 
     public override void ExitState()
     {
         Ctx.RemainingCoyoteTime = Ctx.CoyoteTime;
+        Ctx.DashAlreadyUsed = false;
+        Ctx.DashRemainingCooldown = 0;
     }
 
     public override void CheckSwitchStates()
@@ -46,10 +49,15 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         {
             SwitchState(Factory.Jump());
         }
+        else if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SwitchState(Factory.Dash());
+        }
         else if (!Ctx.CharacterController.isGrounded)
         {
             SwitchState(Factory.Fall());
-        }else if (Ctx.IsInteractPressed && Ctx.IsNearSand())
+        }
+        else if (Ctx.IsInteractPressed && Ctx.IsNearSand())
         {
             Debug.Log("Entrando en BurrowState");
             SwitchState(Factory.Burrow());
@@ -58,11 +66,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public override void InitializeSubState()
     {
-        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
-        {
-            SetSubState(Factory.Dash());
-        }
-        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
             SetSubState(Factory.Idle());
         }

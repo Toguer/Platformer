@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 {
-    public PlayerGroundedStateRb(RbPlayerStateMachine currentContext, FactoryRigidBody factoryRigidBody) : base(currentContext, factoryRigidBody)
+    public PlayerGroundedStateRb(RbPlayerStateMachine currentContext, FactoryRigidBody factoryRigidBody) : base(
+        currentContext, factoryRigidBody)
     {
         IsRootState = true;
     }
@@ -11,20 +12,19 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
     {
         //Ctx.AnimatorRef.SetBool("isJump", false);
         InitializeSubState();
-        
+
         Ctx.JetpackAlreadyUsed = false;
     }
 
     public override void UpdateState()
     {
-        
-        
         Ctx.DashRemainingCooldown -= Time.deltaTime;
         if (Ctx.DashRemainingCooldown <= 0)
         {
             Ctx.DashAlreadyUsed = false;
             Ctx.DashRemainingCooldown = 0;
         }
+
         CheckSwitchStates();
     }
 
@@ -40,10 +40,15 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         {
             SwitchState(Factory.Jump());
         }
+        else if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        {
+            SwitchState(Factory.Dash());
+        }
         else if (!Ctx.IsGrounded)
         {
             SwitchState(Factory.Fall());
-        }else if (Ctx.IsInteractPressed && Ctx.IsNearSand())
+        }
+        else if (Ctx.IsInteractPressed && Ctx.IsNearSand())
         {
             Debug.Log("Entrando en BurrowState");
             SwitchState(Factory.Burrow());
@@ -52,11 +57,7 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 
     public override void InitializeSubState()
     {
-        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
-        {
-            SetSubState(Factory.Dash());
-        }
-        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+        if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
             SetSubState(Factory.Idle());
         }
@@ -68,6 +69,5 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 
     public void HandleGravity()
     {
-        
     }
 }

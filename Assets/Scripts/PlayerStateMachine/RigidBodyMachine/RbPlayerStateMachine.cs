@@ -115,6 +115,8 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     [SerializeField] private ParticleSystem _jetpack1;
     [SerializeField] private ParticleSystem _jetpack2;
+    
+    [SerializeField] private ParticleSystem _dashParticles;
 
 
     private AudioPlayer _audioPlayer;
@@ -288,6 +290,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     public bool DashPressed
     {
         get { return _dashPressed; }
+        set { _dashPressed = value; }
     }
 
     public float DashCooldown
@@ -358,12 +361,24 @@ public class RbPlayerStateMachine : MonoBehaviour
         get { return _jetpack2; }
     }
 
+    public Vector3 Velocity
+    {
+        get => _rb.linearVelocity;
+        set => _rb.linearVelocity = value;
+    }
+    
+    public ParticleSystem DashParticles => _dashParticles;
+
+    public bool shouldApplyHorizontalMovement { get; set; } = false;
+
     #endregion
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _playerInput = new InputSystem_Actions();
+
+        SetupJumpVariables();
 
         //setup
         _states = new FactoryRigidBody(this);
@@ -418,6 +433,11 @@ public class RbPlayerStateMachine : MonoBehaviour
         }
     }
 
+    void SetupJumpVariables()
+    {
+        _initialJumpVelocity = (2 * _maxJumpHeight) / (_maxJumpTime / 2);
+    }
+
     public void HandleRotation()
     {
         Vector3 positionToLookAt;
@@ -460,9 +480,22 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 horizontalMovement = new Vector3(_cameraRelativeMovement.x, 0, _cameraRelativeMovement.z);
-        _rb.MovePosition(
-            transform.position + horizontalMovement * _speed * Time.deltaTime);
+        Vector3 currentVelocity = _rb.linearVelocity;
+
+        if (shouldApplyHorizontalMovement)
+        {
+            Vector3 moveDir = _cameraRelativeMovement.normalized;
+            float inputMagnitude = _currentMovementInput.magnitude;
+
+            Vector3 move = moveDir * inputMagnitude * _speed * Time.fixedDeltaTime;
+
+            _rb.MovePosition(_rb.position + move);
+        }
+        else
+        {
+            // Mantener la vertical (salto, caída) aunque no se mueva horizontalmente
+            _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
+        }
     }
 
     void OnMovementInput(InputAction.CallbackContext context)

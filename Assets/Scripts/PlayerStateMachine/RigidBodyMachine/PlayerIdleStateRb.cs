@@ -28,8 +28,8 @@ public class PlayerIdleStateRb : PlayerBaseStateRb
     {
         if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
-            Ctx.DashAlreadyUsed = true;
-            //SwitchState(Factory.Dash());
+            
+            SwitchState(Factory.Dash());
         }
         if (Ctx.IsMovementPressed)
         {

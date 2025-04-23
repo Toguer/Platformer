@@ -85,12 +85,16 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
     public void HandleGravity()
     {
         Vector3 velocity = Ctx.Velocity;
-        float newY = velocity.y + Physics.gravity.y * Time.deltaTime;
 
-        //Si no pulsas el boton de saltar caes más rapido
-        if (!Ctx.IsJumpPressed && velocity.y < 0)
-            newY += Physics.gravity.y * (Ctx.FallMultiplier - 1) * Time.deltaTime;
+        if (velocity.y <= 0)
+        {
+            float newY = velocity.y + Physics.gravity.y * Time.deltaTime;
 
-        Ctx.Velocity = new Vector3(velocity.x, Mathf.Max(newY, -20f), velocity.z);
+            //Si no pulsas el botón de saltar caes más rápido
+            if (!Ctx.IsJumpPressed && velocity.y < 0)
+                newY += Physics.gravity.y * (Ctx.FallMultiplier - 1) * Time.deltaTime;
+
+            Ctx.Velocity = new Vector3(velocity.x, Mathf.Max(newY, -20f), velocity.z);
+        }
     }
 }

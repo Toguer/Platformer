@@ -40,6 +40,28 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
         {
             // Transición a caída cuando empieza a caer
             SwitchState(Factory.Fall());
+        }else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0)
+        {
+            if (Ctx.IsGamepad)
+            {
+                if (Ctx.JetpackTrigger > 0.1f && !Ctx.RequireNewJumpPress)
+                {
+                    Ctx.CurrentMovementY = Ctx.JetpackForce;
+                    Ctx.AppliedMovementY = Ctx.JetpackForce;
+                    Debug.Log("Jetpack from Fall");
+                    SwitchState(Factory.Jetpack());
+                }
+            }
+            else
+            {
+                if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+                {
+                    Ctx.CurrentMovementY = Ctx.JetpackForce;
+                    Ctx.AppliedMovementY = Ctx.JetpackForce;
+                    Debug.Log("Jetpack from Fall");
+                    SwitchState(Factory.Jetpack());
+                }
+            }
         }
     }
 

@@ -31,6 +31,8 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private bool _isGamepad;
 
+    [Tooltip("Es la velocidad a la que el personaje rota para adaptarse a la dirección en la que camina.")]
+    [SerializeField]
     private float _rotationFactorPerFrame = 15.0f;
 
     [Header("Jump Variables")] [Tooltip("Altura maxima de salto")] [SerializeField]
@@ -82,7 +84,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     private float _initialJumpVelocity;
 
     [SerializeField] private bool _isJumpPressed;
-    private bool _requireNewJumpPress = false;
+    [SerializeField] private bool _requireNewJumpPress = false;
 
     [Header("Burrow")] [SerializeField] private bool _isInteractPressed;
 
@@ -115,7 +117,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     [SerializeField] private ParticleSystem _jetpack1;
     [SerializeField] private ParticleSystem _jetpack2;
-    
+
     [SerializeField] private ParticleSystem _dashParticles;
 
 
@@ -366,7 +368,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         get => _rb.linearVelocity;
         set => _rb.linearVelocity = value;
     }
-    
+
     public ParticleSystem DashParticles => _dashParticles;
 
     public bool shouldApplyHorizontalMovement { get; set; } = false;
@@ -408,28 +410,17 @@ public class RbPlayerStateMachine : MonoBehaviour
     void Update()
     {
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
-
+        print("AppliedMovement: " + _appliedMovement);
         _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
         HandleRotation();
 
 
         _currentState.UpdateStates();
+        GroundSnapFix();
 
         if (_remainingCoyoteTime > 0)
         {
             _remainingCoyoteTime -= Time.deltaTime;
-        }
-
-
-        print("El estado actual es: " + _currentState);
-        if (_currentState.CurrentSuperState != null)
-        {
-            print("El estado super es: " + _currentState.CurrentSuperState);
-        }
-
-        if (_currentState.CurrentSubState != null)
-        {
-            print("El estado sub es: " + _currentState.CurrentSubState);
         }
     }
 
@@ -448,10 +439,9 @@ public class RbPlayerStateMachine : MonoBehaviour
 
         Quaternion currentRotation = transform.rotation;
 
-        if (_isMovementPressed)
+        if (_isMovementPressed && positionToLookAt != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
-
             transform.rotation =
                 Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
         }
@@ -484,17 +474,35 @@ public class RbPlayerStateMachine : MonoBehaviour
 
         if (shouldApplyHorizontalMovement)
         {
+            if (CurrentState is PlayerGroundedStateRb)
+            {
+                currentVelocity.y = 0f;
+                _rb.linearVelocity = currentVelocity;
+            }
+
             Vector3 moveDir = _cameraRelativeMovement.normalized;
             float inputMagnitude = _currentMovementInput.magnitude;
 
             Vector3 move = moveDir * inputMagnitude * _speed * Time.fixedDeltaTime;
 
+            print("Move: " + move + "/ moveDir: " + moveDir + "/ inputMagnitude: " + inputMagnitude);
+            print("Rb Position: " + _rb.position);
             _rb.MovePosition(_rb.position + move);
         }
         else
         {
             // Mantener la vertical (salto, caída) aunque no se mueva horizontalmente
             _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
+        }
+    }
+
+    private void GroundSnapFix()
+    {
+        if (IsGrounded && Velocity.y < -1f)
+        {
+            Vector3 vel = Velocity;
+            vel.y = -1f;
+            Velocity = vel;
         }
     }
 

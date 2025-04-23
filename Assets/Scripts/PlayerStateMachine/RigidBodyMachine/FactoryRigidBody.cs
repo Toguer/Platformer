@@ -28,7 +28,7 @@ public class FactoryRigidBody
         _states[PlayerStatesRb.Jump] = new PlayerJumpStateRb(_context, this);
         _states[PlayerStatesRb.Grounded] = new PlayerGroundedStateRb(_context, this);
         _states[PlayerStatesRb.Fall] = new PlayerFallStateRb(_context, this);
-        //_states[PlayerStatesRb.Jetpack] = new PlayerJetPackStateRb(_context, this);
+        _states[PlayerStatesRb.Jetpack] = new PlayerJetpackStateRb(_context, this);
         _states[PlayerStatesRb.Dash] = new PlayerDashStateRb(_context, this);
         //_states[PlayerStatesRb.Burrow] = new PlayerBurrowStateRb(_context, this);
     }

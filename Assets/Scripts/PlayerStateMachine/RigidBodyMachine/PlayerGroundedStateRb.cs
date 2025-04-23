@@ -14,6 +14,10 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         InitializeSubState();
 
         Ctx.JetpackAlreadyUsed = false;
+
+        Vector3 velocity = Ctx.Velocity;
+        velocity.y = 0f;
+        Ctx.Velocity = velocity;
     }
 
     public override void UpdateState()
@@ -38,14 +42,16 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         // Si el jugador esta en el suelo y se pulsa saltar, cambia el estado al PlayerJumpState
         if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
         {
+            Debug.Log("Saltando desde Grounded");
             SwitchState(Factory.Jump());
         }
         else if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
             SwitchState(Factory.Dash());
         }
-        else if (!Ctx.IsGrounded)
+        else if (!Ctx.IsGrounded && Ctx.Velocity.y <= 0f)
         {
+            Debug.Log("Cayendo desde Grounded");
             SwitchState(Factory.Fall());
         }
         else if (Ctx.IsInteractPressed && Ctx.IsNearSand())

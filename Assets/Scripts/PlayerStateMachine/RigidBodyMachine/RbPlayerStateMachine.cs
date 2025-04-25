@@ -22,7 +22,6 @@ public class RbPlayerStateMachine : MonoBehaviour
     private Vector2 _currentMovementInput;
     private Vector3 _currentMovement;
     private Vector3 _currentRunMovement;
-    private Vector3 _appliedMovement;
     private Vector3 _cameraRelativeMovement;
 
     private bool _isMovementPressed;
@@ -175,24 +174,6 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         get { return _currentRunMovement.y; }
         set { _currentRunMovement.y = value; }
-    }
-
-    public float AppliedMovementX
-    {
-        get { return _appliedMovement.x; }
-        set { _appliedMovement.x = value; }
-    }
-
-    public float AppliedMovementY
-    {
-        get { return _appliedMovement.y; }
-        set { _appliedMovement.y = value; }
-    }
-
-    public float AppliedMovementZ
-    {
-        get { return _appliedMovement.z; }
-        set { _appliedMovement.z = value; }
     }
 
     public float GroundedGravity
@@ -369,6 +350,8 @@ public class RbPlayerStateMachine : MonoBehaviour
         set => _rb.linearVelocity = value;
     }
 
+    public Rigidbody Rb => _rb;
+
     public ParticleSystem DashParticles => _dashParticles;
 
     public bool shouldApplyHorizontalMovement { get; set; } = false;
@@ -410,8 +393,9 @@ public class RbPlayerStateMachine : MonoBehaviour
     void Update()
     {
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
-        print("AppliedMovement: " + _appliedMovement);
-        _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
+        _cameraRelativeMovement =
+            ConvertToCameraSpace(new Vector3(_currentMovementInput.x, 0f, _currentMovementInput.y));
+
         HandleRotation();
 
 
@@ -471,28 +455,38 @@ public class RbPlayerStateMachine : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 currentVelocity = _rb.linearVelocity;
+        Vector3 moveDir = _cameraRelativeMovement.normalized;
+        float inputMagnitude = _currentMovementInput.magnitude;
 
-        if (shouldApplyHorizontalMovement)
+        if (CurrentState is PlayerGroundedStateRb)
         {
-            if (CurrentState is PlayerGroundedStateRb)
+            if (shouldApplyHorizontalMovement)
             {
-                currentVelocity.y = 0f;
-                _rb.linearVelocity = currentVelocity;
+                currentVelocity.y = _rb.linearVelocity.y; // Mantener Y!
+                Vector3 move = moveDir * inputMagnitude * _speed;
+                move.y = _rb.linearVelocity.y;
+                _rb.linearVelocity = move;
             }
-
-            Vector3 moveDir = _cameraRelativeMovement.normalized;
-            float inputMagnitude = _currentMovementInput.magnitude;
-
-            Vector3 move = moveDir * inputMagnitude * _speed * Time.fixedDeltaTime;
-
-            print("Move: " + move + "/ moveDir: " + moveDir + "/ inputMagnitude: " + inputMagnitude);
-            print("Rb Position: " + _rb.position);
-            _rb.MovePosition(_rb.position + move);
         }
         else
         {
-            // Mantener la vertical (salto, caída) aunque no se mueva horizontalmente
-            _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
+            Vector3 targetVelocity = new Vector3(currentVelocity.x, currentVelocity.y, currentVelocity.z);
+
+            if (shouldApplyHorizontalMovement && inputMagnitude > 0.1f)
+            {
+                Vector3 desiredVelocity = moveDir * inputMagnitude * _speed;
+
+                targetVelocity.x = Mathf.Lerp(currentVelocity.x, desiredVelocity.x, 0.1f);
+                targetVelocity.z = Mathf.Lerp(currentVelocity.z, desiredVelocity.z, 0.1f);
+            }
+            else
+            {
+                targetVelocity.x = Mathf.Lerp(currentVelocity.x, 0f, 0.05f);
+                targetVelocity.z = Mathf.Lerp(currentVelocity.z, 0f, 0.05f);
+            }
+
+            // Nunca tocar el targetVelocity.y aquí
+            _rb.linearVelocity = targetVelocity;
         }
     }
 

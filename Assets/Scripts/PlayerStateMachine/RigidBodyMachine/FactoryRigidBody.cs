@@ -5,6 +5,7 @@ enum PlayerStatesRb
 {
     Idle,
     Walk,
+    AirWalk,
     Run,
     Grounded,
     Jump,
@@ -24,6 +25,7 @@ public class FactoryRigidBody
         _context = currentContext;
         _states[PlayerStatesRb.Idle] = new PlayerIdleStateRb(_context, this);
         _states[PlayerStatesRb.Walk] = new PlayerWalkStateRb(_context, this);
+        _states[PlayerStatesRb.AirWalk] = new AirMoveStateRb(_context, this);
         //_states[PlayerStatesRb.Run] = new PlayerRunStateRb(_context, this);
         _states[PlayerStatesRb.Jump] = new PlayerJumpStateRb(_context, this);
         _states[PlayerStatesRb.Grounded] = new PlayerGroundedStateRb(_context, this);
@@ -41,6 +43,10 @@ public class FactoryRigidBody
     public PlayerBaseStateRb Walk()
     {
         return _states[PlayerStatesRb.Walk];
+    }
+    public PlayerBaseStateRb AirWalk()
+    {
+        return _states[PlayerStatesRb.AirWalk];
     }
 
     public PlayerBaseStateRb Run()

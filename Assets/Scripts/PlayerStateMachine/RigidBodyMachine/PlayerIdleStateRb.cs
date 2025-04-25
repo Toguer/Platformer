@@ -11,8 +11,6 @@ public class PlayerIdleStateRb : PlayerBaseStateRb
     {
         //animaciones
         
-        Ctx.AppliedMovementX = 0;
-        Ctx.AppliedMovementZ = 0;
     }
 
     public override void UpdateState()

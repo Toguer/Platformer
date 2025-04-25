@@ -10,13 +10,21 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 
     public override void EnterState()
     {
+        Ctx.shouldApplyHorizontalMovement = true;
         //Ctx.AnimatorRef.SetBool("isJump", false);
         InitializeSubState();
 
         Ctx.JetpackAlreadyUsed = false;
+        Ctx.RequireNewJumpPress = false;
 
+        // Cancelar velocidad vertical y frenar horizontalmente
         Vector3 velocity = Ctx.Velocity;
         velocity.y = 0f;
+
+        // Freno inmediato (puedes cambiar a *= 0.1f si quieres un aterrizaje más suave)
+        velocity.x *= 0.1f;
+        velocity.z *= 0.1f;
+
         Ctx.Velocity = velocity;
     }
 

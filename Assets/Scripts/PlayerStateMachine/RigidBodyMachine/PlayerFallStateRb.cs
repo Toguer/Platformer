@@ -10,6 +10,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public override void EnterState()
     {
+        Ctx.shouldApplyHorizontalMovement = true;
         InitializeSubState();
     }
 
@@ -21,6 +22,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public override void ExitState()
     {
+        Ctx.shouldApplyHorizontalMovement = false;
     }
 
     public override void CheckSwitchStates()
@@ -52,7 +54,6 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
                 if (Ctx.JetpackTrigger > 0.1f)
                 {
                     Ctx.CurrentMovementY = Ctx.JetpackForce;
-                    Ctx.AppliedMovementY = Ctx.JetpackForce;
                     Debug.Log("Jetpack from Fall");
                     SwitchState(Factory.Jetpack());
                 }
@@ -62,7 +63,6 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
                 if (Ctx.IsJumpPressed)
                 {
                     Ctx.CurrentMovementY = Ctx.JetpackForce;
-                    Ctx.AppliedMovementY = Ctx.JetpackForce;
                     Debug.Log("Jetpack from Fall");
                     SwitchState(Factory.Jetpack());
                 }
@@ -74,7 +74,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
     {
         if (Ctx.IsMovementPressed)
         {
-            SetSubState(Factory.Walk());
+            SetSubState(Factory.AirWalk());
         }
         else if (!Ctx.IsMovementPressed)
         {

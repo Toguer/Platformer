@@ -20,7 +20,8 @@ public class PlayerJetpackStateRb : PlayerBaseStateRb, IRootState
 
         Ctx.JetpackAlreadyUsed = true;
 
-        Ctx.Velocity = new Vector3(Ctx.Velocity.x, Ctx.JetpackForce, Ctx.Velocity.z);
+        // Primer impulso fuerte
+        Ctx.Rb.AddForce(Vector3.up * Ctx.JetpackForce, ForceMode.Impulse);
 
         if (Ctx.JetpackParticles1 != null) Ctx.JetpackParticles1.Play();
         if (Ctx.JetpackParticles2 != null) Ctx.JetpackParticles2.Play();
@@ -34,36 +35,35 @@ public class PlayerJetpackStateRb : PlayerBaseStateRb, IRootState
 
         if (_timer <= _impulseTime)
         {
-            // Impulso fuerte
             ApplyJetpackForce(Ctx.JetpackForce);
         }
         else if (_timer <= _impulseTime + _glideTime)
         {
-            // Planeo
             ApplyJetpackForce(Ctx.JetpackGlideForce);
         }
 
-        Debug.Log(Ctx.Velocity.y);
         CheckSwitchStates();
     }
 
     public override void ExitState()
     {
-        if (Ctx.JetpackParticles1 != null) Ctx.JetpackParticles1.Stop();
-        if (Ctx.JetpackParticles2 != null) Ctx.JetpackParticles2.Stop();
+        if (Ctx.JetpackParticles1) Ctx.JetpackParticles1.Stop();
+        if (Ctx.JetpackParticles2) Ctx.JetpackParticles2.Stop();
         Ctx.RequireNewJumpPress = true;
-        Vector3 velocity = Ctx.Velocity;
-        velocity.y = 0f;
-        Ctx.Velocity = velocity;
+
+        // 🚨 Limpieza de velocidad vertical al dejar de usar el jetpack
+        Vector3 vel = Ctx.Velocity;
+        if (Ctx.IsGrounded || vel.y > 0) // evita rebotes al tocar suelo
+        {
+            vel.y = 0f;
+            Ctx.Velocity = vel;
+        }
     }
 
     public override void CheckSwitchStates()
     {
-        if (_impulseTime <= 0 && _glideTime <= 0)
+        if (_timer > (_impulseTime + _glideTime))
         {
-            Ctx.ContinueUseJetpack = true;
-            Ctx.JetpackAlreadyUsed = true;
-            Ctx.AppliedMovementY = 0;
             SwitchState(Factory.Fall());
         }
         else if (Ctx.IsGrounded)
@@ -72,51 +72,30 @@ public class PlayerJetpackStateRb : PlayerBaseStateRb, IRootState
         }
         else if (!Ctx.IsJumpPressed)
         {
-            Ctx.ContinueUseJetpack = false;
-            Ctx.AppliedMovementY = 0;
             SwitchState(Factory.Fall());
         }
     }
 
     public override void InitializeSubState()
     {
-        /*
-        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        if (Ctx.IsMovementPressed)
         {
-            SetSubState(Factory.Dash());
-        }
-        else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
-        {
-            SetSubState(Factory.Idle());
-        }
-        else if (Ctx.IsMovementPressed && !Ctx.IsRunPressed)
-        {
-            SetSubState(Factory.Walk());
+            //SetSubState(Factory.AirWalk());
         }
         else
         {
-            SetSubState(Factory.Run());
+            //SetSubState(Factory.Idle());
         }
-        */
     }
 
     private void ApplyJetpackForce(float force)
     {
-        
-        Vector3 velocity = Ctx.Velocity;
-
-        // Suma fuerza vertical
-        velocity.y += force * Time.deltaTime;
-
-        // Clamp a límites seguros
-        velocity.y = Mathf.Clamp(velocity.y, Ctx.MinJetpackVelocity, Ctx.MaxJetpackVelocity);
-
-        Ctx.Velocity = velocity;
-        
+        // Fuerza continua
+        Ctx.Rb.AddForce(Vector3.up * force * Time.deltaTime, ForceMode.Force);
     }
 
     public void HandleGravity()
     {
-       //No hace falta
+        // NO hace falta
     }
 }

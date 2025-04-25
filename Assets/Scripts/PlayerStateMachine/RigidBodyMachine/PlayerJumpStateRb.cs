@@ -10,12 +10,12 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
 
     public override void EnterState()
     {
-        // Aplicamos salto vertical
         Vector3 velocity = Ctx.Velocity;
-        velocity.y = Ctx.InitialJumpVelocity;
-        Ctx.Velocity = velocity;
+        Ctx.Rb.AddForce(Vector3.up * Ctx.InitialJumpVelocity, ForceMode.Impulse);
 
-        Ctx.RequireNewJumpPress = true; // evita saltar de nuevo hasta que suelte
+        Ctx.shouldApplyHorizontalMovement = true; // permite controlar en el aire
+        Ctx.RequireNewJumpPress = true;
+
         InitializeSubState();
     }
 
@@ -27,7 +27,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
 
     public override void ExitState()
     {
-        // No hace falta nada por ahora
+        Ctx.shouldApplyHorizontalMovement = false;
     }
 
     public override void CheckSwitchStates()
@@ -47,7 +47,6 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
                 if (Ctx.JetpackTrigger > 0.1f && !Ctx.RequireNewJumpPress)
                 {
                     Ctx.CurrentMovementY = Ctx.JetpackForce;
-                    Ctx.AppliedMovementY = Ctx.JetpackForce;
                     Debug.Log("Jetpack from Fall");
                     SwitchState(Factory.Jetpack());
                 }
@@ -57,7 +56,6 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
                 if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
                 {
                     Ctx.CurrentMovementY = Ctx.JetpackForce;
-                    Ctx.AppliedMovementY = Ctx.JetpackForce;
                     Debug.Log("Jetpack from Fall");
                     SwitchState(Factory.Jetpack());
                 }
@@ -69,7 +67,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
     {
         if (Ctx.IsMovementPressed)
         {
-            SetSubState(Factory.Walk());
+            SetSubState(Factory.AirWalk());
         }
         else
         {

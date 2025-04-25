@@ -48,8 +48,9 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
     public override void CheckSwitchStates()
     {
         // Si el jugador esta en el suelo y se pulsa saltar, cambia el estado al PlayerJumpState
-        if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+        if (Ctx.RemainingJumpBufferTime > 0f && !Ctx.RequireNewJumpPress)
         {
+            Ctx.RemainingJumpBufferTime = 0f;
             Debug.Log("Saltando desde Grounded");
             SwitchState(Factory.Jump());
         }

@@ -80,10 +80,10 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
         Vector3 velocity = Ctx.Velocity;
         float gravity = Physics.gravity.y;
 
-        // Si suelta salto, aplicamos fallMultiplier para caer más rápido
+        // Si suelta salto, aplica más gravedad durante la subida
         if (!Ctx.IsJumpPressed && velocity.y > 0)
         {
-            gravity *= Ctx.FallMultiplier;
+            gravity *= Ctx.FallMultiplier; // puedes usar un multiplicador extra si quieres más "snap"
         }
 
         velocity.y += gravity * Time.deltaTime;

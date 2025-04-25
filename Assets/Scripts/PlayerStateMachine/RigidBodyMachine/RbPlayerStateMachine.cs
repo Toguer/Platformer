@@ -48,6 +48,11 @@ public class RbPlayerStateMachine : MonoBehaviour
     [Range(0.1f, 1.0f)]
     private float _coyoteTime = 0.1f;
 
+    [Tooltip("El tiempo que el input de salto se guarda")] [SerializeField]
+    private float _jumpBufferTime = 0.2f;
+
+    private float _remainingJumpBufferTime = 0f;
+
     private float _remainingCoyoteTime;
 
     [Header("Jetpack")] [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 10.0f)]
@@ -350,6 +355,12 @@ public class RbPlayerStateMachine : MonoBehaviour
         set => _rb.linearVelocity = value;
     }
 
+    public float RemainingJumpBufferTime
+    {
+        get { return _remainingJumpBufferTime; }
+        set { _remainingJumpBufferTime = value; }
+    }
+
     public Rigidbody Rb => _rb;
 
     public ParticleSystem DashParticles => _dashParticles;
@@ -405,6 +416,11 @@ public class RbPlayerStateMachine : MonoBehaviour
         if (_remainingCoyoteTime > 0)
         {
             _remainingCoyoteTime -= Time.deltaTime;
+        }
+
+        if (_remainingJumpBufferTime > 0f)
+        {
+            _remainingJumpBufferTime -= Time.deltaTime;
         }
     }
 
@@ -511,6 +527,12 @@ public class RbPlayerStateMachine : MonoBehaviour
     void OnJump(InputAction.CallbackContext context)
     {
         _isJumpPressed = context.ReadValueAsButton();
+
+        if (_isJumpPressed)
+        {
+            _remainingJumpBufferTime = _jumpBufferTime;
+        }
+
         if (_requireNewJumpPress && !_isJumpPressed)
         {
             _requireNewJumpPress = false;

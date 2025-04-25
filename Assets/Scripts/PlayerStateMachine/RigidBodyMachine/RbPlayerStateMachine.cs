@@ -510,7 +510,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void GroundSnapFix()
     {
-        if (IsGrounded && Velocity.y < -1f)
+        if (IsGrounded && Velocity.y < 1f)
         {
             Vector3 vel = Velocity;
             vel.y = -1f;
@@ -551,7 +551,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         {
             _jetpackTrigger = 0;
         }
-        else if(!_requireNewJumpPress)
+        else if (!_requireNewJumpPress)
         {
             _jetpackTrigger = context.ReadValue<float>();
         }

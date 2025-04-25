@@ -392,6 +392,8 @@ public class RbPlayerStateMachine : MonoBehaviour
         _playerInput.Player.Jump.canceled += OnJump;
         _playerInput.Player.Dash.started += OnDash;
         _playerInput.Player.Dash.canceled += OnDash;
+        _playerInput.Player.Jump.started += onJetpack;
+        _playerInput.Player.Jump.canceled += onJetpack;
         _playerInput.Player.JetPack.started += onJetpack;
         _playerInput.Player.JetPack.performed += onJetpack;
         _playerInput.Player.JetPack.canceled += onJetpack;
@@ -532,8 +534,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         {
             _remainingJumpBufferTime = _jumpBufferTime;
         }
-
-        if (_requireNewJumpPress && !_isJumpPressed)
+        else
         {
             _requireNewJumpPress = false;
         }
@@ -550,10 +551,9 @@ public class RbPlayerStateMachine : MonoBehaviour
         {
             _jetpackTrigger = 0;
         }
-        else
+        else if(!_requireNewJumpPress)
         {
-            float rawTrigger = context.ReadValue<float>();
-            _jetpackTrigger = Mathf.Lerp(0.5f, _jetpackTriggerMaxForce, rawTrigger);
+            _jetpackTrigger = context.ReadValue<float>();
         }
 
         //_isGamepad = true;

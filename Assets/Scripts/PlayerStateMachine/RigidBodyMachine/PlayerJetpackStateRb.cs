@@ -14,11 +14,13 @@ public class PlayerJetpackStateRb : PlayerBaseStateRb, IRootState
     public override void EnterState()
     {
         Ctx.RequireNewJumpPress = true;
+        Ctx.shouldApplyHorizontalMovement = true;
+        Ctx.JetpackAlreadyUsed = true;
+        
         _timer = 0f;
         _impulseTime = Ctx.JetpackBoostDuration * Ctx.JetpackDuration;
         _glideTime = Ctx.JetpackGlideDuration * Ctx.JetpackDuration;
 
-        Ctx.JetpackAlreadyUsed = true;
 
         // Primer impulso fuerte
         Ctx.Rb.AddForce(Vector3.up * Ctx.JetpackForce, ForceMode.Impulse);
@@ -80,18 +82,18 @@ public class PlayerJetpackStateRb : PlayerBaseStateRb, IRootState
     {
         if (Ctx.IsMovementPressed)
         {
-            //SetSubState(Factory.AirWalk());
+            SetSubState(Factory.Walk());
         }
         else
         {
-            //SetSubState(Factory.Idle());
+            SetSubState(Factory.Idle());
         }
     }
 
     private void ApplyJetpackForce(float force)
     {
         // Fuerza continua
-        Ctx.Rb.AddForce(Vector3.up * force * Time.deltaTime, ForceMode.Force);
+        Ctx.Rb.AddForce(Vector3.up * (force * Time.deltaTime), ForceMode.Force);
     }
 
     public void HandleGravity()

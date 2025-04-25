@@ -47,7 +47,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
             Debug.Log("Grounded from Fall");
             SwitchState(Factory.Grounded());
         }
-        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0)
+        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
         {
             if (Ctx.IsGamepad)
             {
@@ -60,7 +60,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
             }
             else
             {
-                if (Ctx.IsJumpPressed)
+                if (Ctx.JetpackTrigger > 0.1f)
                 {
                     Ctx.CurrentMovementY = Ctx.JetpackForce;
                     Debug.Log("Jetpack from Fall");

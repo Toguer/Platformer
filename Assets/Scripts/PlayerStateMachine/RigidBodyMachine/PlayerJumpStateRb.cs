@@ -10,7 +10,9 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
 
     public override void EnterState()
     {
-        Vector3 velocity = Ctx.Velocity;
+        Vector3 v = Ctx.Velocity;
+        v.y = 0f;
+        Ctx.Velocity = v;
         Ctx.Rb.AddForce(Vector3.up * Ctx.InitialJumpVelocity, ForceMode.Impulse);
 
         Ctx.shouldApplyHorizontalMovement = true; // permite controlar en el aire
@@ -40,11 +42,12 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
         {
             // Transición a caída cuando empieza a caer
             SwitchState(Factory.Fall());
-        }else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0)
+        }
+        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
         {
             if (Ctx.IsGamepad)
             {
-                if (Ctx.JetpackTrigger > 0.1f && !Ctx.RequireNewJumpPress)
+                if (Ctx.JetpackTrigger > 0.1f)
                 {
                     Ctx.CurrentMovementY = Ctx.JetpackForce;
                     Debug.Log("Jetpack from Fall");
@@ -53,7 +56,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
             }
             else
             {
-                if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+                if (Ctx.JetpackTrigger > 0.1f)
                 {
                     Ctx.CurrentMovementY = Ctx.JetpackForce;
                     Debug.Log("Jetpack from Fall");
@@ -67,7 +70,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
     {
         if (Ctx.IsMovementPressed)
         {
-            SetSubState(Factory.AirWalk());
+            SetSubState(Factory.Walk());
         }
         else
         {

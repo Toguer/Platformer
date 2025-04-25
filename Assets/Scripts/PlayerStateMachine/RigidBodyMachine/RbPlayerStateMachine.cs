@@ -7,14 +7,19 @@ public class RbPlayerStateMachine : MonoBehaviour
 {
     #region variables
 
+    [Header("Desactivables")] [SerializeField]
+    private bool _snapToGround = false;
+
     private Rigidbody _rb;
     private InputSystem_Actions _playerInput;
 
-    //Ground Checker
-    [SerializeField] private Transform _groundCheck;
-    private float _groundDistance = 0.4f;
-    [SerializeField] private LayerMask _groundMask;
+    [Header("GroundChecker")] [SerializeField]
+    private LayerMask _groundMask;
+
     [SerializeField] private bool _isGrounded;
+    [SerializeField] private Transform _groundCheck;
+    [SerializeField] private float _groundDistance = 0.4f;
+
 
     private Animator _animator;
 
@@ -103,6 +108,11 @@ public class RbPlayerStateMachine : MonoBehaviour
     private float _runMultiplier = 3.0f;
 
     [SerializeField] [Range(1.5f, 10f)] private float _speed = 1.5f;
+
+    [Tooltip("La distancia con la que se detecta como de cerca esta el suelo para engancharse a el")] [SerializeField]
+    private float _rayLength = 0.5f;
+
+    [SerializeField] private float _snapToGroundForce = 0.5f;
 
     //gravity
 
@@ -413,7 +423,6 @@ public class RbPlayerStateMachine : MonoBehaviour
 
 
         _currentState.UpdateStates();
-        GroundSnapFix();
 
         if (_remainingCoyoteTime > 0)
         {
@@ -506,15 +515,39 @@ public class RbPlayerStateMachine : MonoBehaviour
             // Nunca tocar el targetVelocity.y aquí
             _rb.linearVelocity = targetVelocity;
         }
+
+        if (_snapToGround)
+            ApplyGroundStickiness();
     }
 
-    private void GroundSnapFix()
+    private void ApplyGroundStickiness()
     {
-        if (IsGrounded && Velocity.y < 1f)
+        Vector3 vel = Velocity;
+
+        if (IsGrounded)
         {
-            Vector3 vel = Velocity;
-            vel.y = -1f;
-            Velocity = vel;
+            // Ya estás grounded: suaviza la caída si vienes bajando rápido
+            if (vel.y < -1f)
+            {
+                vel.y = -1f;
+                Velocity = vel;
+            }
+        }
+        else
+        {
+            // No grounded, pero... ¿casi tocando el suelo?
+            Vector3 origin = _groundCheck.position + Vector3.up * 0.1f;
+            float rayLength = 0.5f;
+
+            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayLength, _groundMask))
+            {
+                // Snap al suelo desde el aire si estamos cerca y cayendo despacio
+                if (vel.y <= 0f)
+                {
+                    vel.y = -_snapToGroundForce; // fuerza hacia abajo para pegarse
+                    Velocity = vel;
+                }
+            }
         }
     }
 
@@ -624,7 +657,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(_groundCheck.position, _groundDistance);
     }
 

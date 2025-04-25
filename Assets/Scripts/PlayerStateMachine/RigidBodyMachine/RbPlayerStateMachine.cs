@@ -16,7 +16,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     [Header("GroundChecker")] [SerializeField]
     private LayerMask _groundMask;
 
-    [SerializeField] private bool _isGrounded;
+    private bool _isGrounded;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundDistance = 0.4f;
 
@@ -30,7 +30,6 @@ public class RbPlayerStateMachine : MonoBehaviour
     private Vector3 _cameraRelativeMovement;
 
     private bool _isMovementPressed;
-    private bool _isRunPressed;
     private float _jetpackTrigger;
 
     private bool _isGamepad;
@@ -71,52 +70,46 @@ public class RbPlayerStateMachine : MonoBehaviour
     [Range(0.05f, 0.5f)]
     private float _jetpackGlideForce = 0.1f;
 
-    [Tooltip("Velocidad maxima a la que puede ir el Jetpack")] [SerializeField]
-    private float _maxJetpackVelocity = 1f;
-
-    [Tooltip("Velocidad Minima a la que puede ir el Jetpack")] [SerializeField]
-    private float _minJetpackVelocity = -5f;
-
     [SerializeField] [Tooltip("Porcentaje sobre la duración maxima que durará la subida del jetpack")] [Range(0, 1)]
     private float _jetpackBoostDuration;
 
     [SerializeField] [Tooltip("Porcentaje sobre la duración maxima que durará la bajada del jetpack")] [Range(0, 1)]
     private float _jetpackGlideDuration;
 
-    [SerializeField] [Tooltip("Fuerza maxima que se aplica cuando apretas el gatillo al maximo")] [Range(1, 100)]
-    private float _jetpackTriggerMaxForce;
+    //[SerializeField] [Tooltip("Fuerza maxima que se aplica cuando apretas el gatillo al maximo")] [Range(1, 100)]
+    //private float _jetpackTriggerMaxForce;
 
-    [SerializeField] private bool _jetpackAlreadyUsed = false;
-    private bool _continueUseJetpack = true;
+    private bool _jetpackAlreadyUsed;
 
 
     private float _initialJumpVelocity;
 
-    [SerializeField] private bool _isJumpPressed;
-    [SerializeField] private bool _requireNewJumpPress = false;
+    private bool _isJumpPressed;
+    private bool _requireNewJumpPress;
 
-    [Header("Burrow")] [SerializeField] private bool _isInteractPressed;
+    //BURROW
+    private bool _isInteractPressed;
 
-    [SerializeField] private float _burrowSpeed = 2f;
-    [SerializeField] private float _detectionRadius = 0.5f;
+    private float _burrowSpeed = 2f;
+    private float _detectionRadius = 0.5f;
 
-    [SerializeField] private Interactable _interactable;
+    private Interactable _interactable;
 
+    [FormerlySerializedAs("_speed")]
     [Header("Movement Variables")]
     //movement variables
     [SerializeField]
-    private float _runMultiplier = 3.0f;
+    [Range(1.5f, 20f)]
+    private float _walkSpeed = 5f;
 
-    [SerializeField] [Range(1.5f, 10f)] private float _speed = 1.5f;
+    [SerializeField] [Range(1.5f, 20f)] private float _runSpeed = 10;
+    [SerializeField] private float _acceleration = 5f;
+    [SerializeField] private float _airAcceleration = 3f;
 
     [Tooltip("La distancia con la que se detecta como de cerca esta el suelo para engancharse a el")] [SerializeField]
     private float _rayLength = 0.5f;
 
     [SerializeField] private float _snapToGroundForce = 0.5f;
-
-    //gravity
-
-    private float _groundedGravity = -0.5f;
 
     // state variables
     private PlayerBaseStateRb _currentState;
@@ -124,8 +117,8 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     [Header("Dash")] [SerializeField] private float _dashDuration;
     [SerializeField] private float _dashSpeed;
-    [SerializeField] private bool _dashPressed;
-    [SerializeField] private bool _dashAlreadyUsed;
+    private bool _dashPressed;
+    private bool _dashAlreadyUsed;
     [SerializeField] private float _dashCooldown = 1;
     private float _dashRemainingCooldown;
 
@@ -168,11 +161,6 @@ public class RbPlayerStateMachine : MonoBehaviour
         get { return _isMovementPressed; }
     }
 
-    public bool IsRunPressed
-    {
-        get { return _isRunPressed; }
-    }
-
     public Vector3 CurrentMovementInput
     {
         get { return _currentMovementInput; }
@@ -185,26 +173,11 @@ public class RbPlayerStateMachine : MonoBehaviour
         set { _currentMovement.y = value; }
     }
 
-    public float CurrentRunMovementY
-    {
-        get { return _currentRunMovement.y; }
-        set { _currentRunMovement.y = value; }
-    }
-
-    public float GroundedGravity
-    {
-        get { return _groundedGravity; }
-    }
-
     public float InitialJumpVelocity
     {
         get { return _initialJumpVelocity; }
     }
 
-    public float RunMultiplier
-    {
-        get { return _runMultiplier; }
-    }
 
     public float FallMultiplier
     {
@@ -237,16 +210,6 @@ public class RbPlayerStateMachine : MonoBehaviour
         get { return _jetpackGlideForce; }
     }
 
-    public float MaxJetpackVelocity
-    {
-        get { return _maxJetpackVelocity; }
-    }
-
-    public float MinJetpackVelocity
-    {
-        get { return _minJetpackVelocity; }
-    }
-
     public float JetpackBoostDuration
     {
         get { return _jetpackBoostDuration; }
@@ -261,12 +224,6 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         get { return _jetpackAlreadyUsed; }
         set { _jetpackAlreadyUsed = value; }
-    }
-
-    public bool ContinueUseJetpack
-    {
-        get { return _continueUseJetpack; }
-        set { _continueUseJetpack = value; }
     }
 
     public float DashDuration
@@ -327,11 +284,6 @@ public class RbPlayerStateMachine : MonoBehaviour
     public Interactable Interactable
     {
         get { return _interactable; }
-    }
-
-    public float RotationSpeed
-    {
-        get { return _rotationFactorPerFrame; }
     }
 
     public bool IsGrounded
@@ -415,6 +367,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
         _cameraRelativeMovement =
             ConvertToCameraSpace(new Vector3(_currentMovementInput.x, 0f, _currentMovementInput.y));
@@ -481,41 +434,52 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         Vector3 currentVelocity = _rb.linearVelocity;
         Vector3 moveDir = _cameraRelativeMovement.normalized;
         float inputMagnitude = _currentMovementInput.magnitude;
+        Vector3 targetVelocity;
 
         if (CurrentState is PlayerGroundedStateRb)
         {
             if (shouldApplyHorizontalMovement)
             {
+                
                 currentVelocity.y = _rb.linearVelocity.y; // Mantener Y!
-                Vector3 move = moveDir * inputMagnitude * _speed;
-                move.y = _rb.linearVelocity.y;
-                _rb.linearVelocity = move;
+                float targetSpeed = Mathf.Lerp(_walkSpeed, _runSpeed, inputMagnitude);
+                targetVelocity = moveDir * targetSpeed;
+
+                Vector3 horizontalVelocity = Vector3.Lerp(
+                    new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z),
+                    targetVelocity,
+                    _acceleration * Time.fixedDeltaTime);
+                _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
             }
         }
         else
         {
-            Vector3 targetVelocity = new Vector3(currentVelocity.x, currentVelocity.y, currentVelocity.z);
+            targetVelocity = new Vector3(currentVelocity.x, currentVelocity.y, currentVelocity.z);
 
             if (shouldApplyHorizontalMovement && inputMagnitude > 0.1f)
             {
-                Vector3 desiredVelocity = moveDir * inputMagnitude * _speed;
+                Vector3 desiredDirection = _cameraRelativeMovement.normalized;
+                float targetSpeed = Mathf.Lerp(_walkSpeed, _runSpeed, inputMagnitude);
+                Vector3 desiredVelocity = desiredDirection * targetSpeed;
 
-                targetVelocity.x = Mathf.Lerp(currentVelocity.x, desiredVelocity.x, 0.1f);
-                targetVelocity.z = Mathf.Lerp(currentVelocity.z, desiredVelocity.z, 0.1f);
+                // En el aire: interpolar, pero más lento que en suelo
+                
+                targetVelocity.x = Mathf.Lerp(currentVelocity.x, desiredVelocity.x, _airAcceleration * Time.fixedDeltaTime);
+                targetVelocity.z = Mathf.Lerp(currentVelocity.z, desiredVelocity.z, _airAcceleration * Time.fixedDeltaTime);
             }
             else
             {
-                targetVelocity.x = Mathf.Lerp(currentVelocity.x, 0f, 0.05f);
-                targetVelocity.z = Mathf.Lerp(currentVelocity.z, 0f, 0.05f);
+                // No input ➔ mantenemos momentum, sin frenar en seco
+                targetVelocity.x = Mathf.Lerp(currentVelocity.x, 0f, 0.02f); // Fricción casi nula
+                targetVelocity.z = Mathf.Lerp(currentVelocity.z, 0f, 0.02f);
             }
 
-            // Nunca tocar el targetVelocity.y aquí
             _rb.linearVelocity = targetVelocity;
         }
-
         if (_snapToGround)
             ApplyGroundStickiness();
     }

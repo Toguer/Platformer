@@ -49,7 +49,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     [Tooltip("Es el margen de error que tiene un jugador para saltar despues de caer de una esquina.")]
     [SerializeField]
-    [Range(0.1f, 1.0f)]
+    [Range(0.0f, 1.0f)]
     private float _coyoteTime = 0.1f;
 
     [Tooltip("El tiempo que el input de salto se guarda")] [SerializeField]

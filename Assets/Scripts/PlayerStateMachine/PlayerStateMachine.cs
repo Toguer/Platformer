@@ -389,8 +389,8 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.JetPack.started += onJetpack;
         _playerInput.Player.JetPack.performed += onJetpack;
         _playerInput.Player.JetPack.canceled += onJetpack;
-        _playerInput.Player.EarthPower.started += onInteract;
-        _playerInput.Player.EarthPower.canceled += onInteract;
+        //_playerInput.Player.EarthPower.started += onInteract;
+        //_playerInput.Player.EarthPower.canceled += onInteract;
         _playerInput.Player.State.started += stateCheck;
         _audioPlayer = GetComponent<AudioPlayer>();
         SetupJumpVariables();

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.Serialization;
 
 public class RbPlayerStateMachine : MonoBehaviour
@@ -30,6 +31,8 @@ public class RbPlayerStateMachine : MonoBehaviour
     private Vector3 _cameraRelativeMovement;
 
     private bool _isMovementPressed;
+    private bool _isRunning;
+    [Range(0f, 1f)] [SerializeField] private float _runMagnitude;
     private float _jetpackTrigger;
 
     private bool _isGamepad;
@@ -161,6 +164,16 @@ public class RbPlayerStateMachine : MonoBehaviour
         get { return _isMovementPressed; }
     }
 
+    public bool isRunning
+    {
+        get { return _isRunning; }
+    }
+
+    public float RunMagnitude
+    {
+        get { return _runMagnitude; }
+    }
+
     public Vector3 CurrentMovementInput
     {
         get { return _currentMovementInput; }
@@ -258,6 +271,20 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         get { return _dashRemainingCooldown; }
         set { _dashRemainingCooldown = value; }
+    }
+
+    public float RunSpeed
+    {
+        get { return _runSpeed; }
+    }
+    public float WalkSpeed
+    {
+        get { return _walkSpeed; }
+    }
+
+    public float Acceleration
+    {
+        get { return _acceleration; }
     }
 
     public float JetpackTrigger
@@ -359,15 +386,13 @@ public class RbPlayerStateMachine : MonoBehaviour
         _playerInput.Player.JetPack.started += onJetpack;
         _playerInput.Player.JetPack.performed += onJetpack;
         _playerInput.Player.JetPack.canceled += onJetpack;
-        _playerInput.Player.EarthPower.started += onInteract;
-        _playerInput.Player.EarthPower.canceled += onInteract;
+        _playerInput.Player.Run.started += OnRunPress;
         _playerInput.Player.State.started += stateCheck;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
         _cameraRelativeMovement =
             ConvertToCameraSpace(new Vector3(_currentMovementInput.x, 0f, _currentMovementInput.y));
@@ -434,7 +459,6 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
         Vector3 currentVelocity = _rb.linearVelocity;
         Vector3 moveDir = _cameraRelativeMovement.normalized;
         float inputMagnitude = _currentMovementInput.magnitude;
@@ -444,7 +468,6 @@ public class RbPlayerStateMachine : MonoBehaviour
         {
             if (shouldApplyHorizontalMovement)
             {
-                
                 currentVelocity.y = _rb.linearVelocity.y; // Mantener Y!
                 float targetSpeed = Mathf.Lerp(_walkSpeed, _runSpeed, inputMagnitude);
                 targetVelocity = moveDir * targetSpeed;
@@ -467,9 +490,11 @@ public class RbPlayerStateMachine : MonoBehaviour
                 Vector3 desiredVelocity = desiredDirection * targetSpeed;
 
                 // En el aire: interpolar, pero más lento que en suelo
-                
-                targetVelocity.x = Mathf.Lerp(currentVelocity.x, desiredVelocity.x, _airAcceleration * Time.fixedDeltaTime);
-                targetVelocity.z = Mathf.Lerp(currentVelocity.z, desiredVelocity.z, _airAcceleration * Time.fixedDeltaTime);
+
+                targetVelocity.x = Mathf.Lerp(currentVelocity.x, desiredVelocity.x,
+                    _airAcceleration * Time.fixedDeltaTime);
+                targetVelocity.z = Mathf.Lerp(currentVelocity.z, desiredVelocity.z,
+                    _airAcceleration * Time.fixedDeltaTime);
             }
             else
             {
@@ -480,6 +505,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
             _rb.linearVelocity = targetVelocity;
         }
+
         if (_snapToGround)
             ApplyGroundStickiness();
     }
@@ -517,14 +543,24 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     void OnMovementInput(InputAction.CallbackContext context)
     {
+        var device = context.control.device;
+
+        _isGamepad = device is Gamepad;
+
         _currentMovementInput = context.ReadValue<Vector2>();
         _currentMovement.x = _currentMovementInput.x;
         _currentMovement.z = _currentMovementInput.y;
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
     }
 
+    void OnRunPress(InputAction.CallbackContext context)
+    {
+        _isRunning = !isRunning;
+    }
+
     void OnJump(InputAction.CallbackContext context)
     {
+        _isGamepad = context.control.device is Gamepad;
         _isJumpPressed = context.ReadValueAsButton();
 
         if (_isJumpPressed)
@@ -539,6 +575,8 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     void OnDash(InputAction.CallbackContext context)
     {
+        _isGamepad = context.control.device is Gamepad;
+
         _dashPressed = context.ReadValueAsButton();
     }
 

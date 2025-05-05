@@ -1,17 +1,15 @@
 using UnityEngine;
 
-public class PlayerWalkStateRb : PlayerBaseStateRb
+public class PlayerRunStateRb : PlayerBaseStateRb
 {
-    public PlayerWalkStateRb(RbPlayerStateMachine currentContext, FactoryRigidBody playerStateFactory) : base(
-        currentContext, playerStateFactory)
+    public PlayerRunStateRb(RbPlayerStateMachine ctx, FactoryRigidBody factory) : base(ctx, factory)
     {
     }
 
     public override void EnterState()
     {
         Ctx.shouldApplyHorizontalMovement = true;
-        //Ctx.AnimatorRef.SetBool("isWalk", true);
-        //Ctx.AudioPlayerRef.PlaySteps();
+        //Ctx.AnimatorRef.SetBool("isRun", true);
     }
 
     public override void UpdateState()
@@ -23,24 +21,19 @@ public class PlayerWalkStateRb : PlayerBaseStateRb
     public override void ExitState()
     {
         Ctx.shouldApplyHorizontalMovement = false;
-        //Ctx.AudioPlayerRef.StopSteps();
+        //Ctx.AnimatorRef.SetBool("isRun", false);
     }
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        if (!Ctx.IsMovementPressed)
         {
-            SwitchState(Factory.Dash());
-        }
-        else if (!Ctx.IsMovementPressed)
-        {
-            //Ctx.AnimatorRef.SetBool("isWalk", false);
             SwitchState(Factory.Idle());
         }
-        else if (Ctx.IsMovementPressed && Ctx.isRunning ||
-                 Ctx.CurrentMovementInput.magnitude > Ctx.RunMagnitude && Ctx.IsGamepad)
+        else if (!Ctx.isRunning && !Ctx.IsGamepad ||
+                 Ctx.CurrentMovementInput.magnitude < Ctx.RunMagnitude && Ctx.IsGamepad)
         {
-            SwitchState(Factory.Run());
+            SwitchState(Factory.Walk());
         }
     }
 
@@ -49,7 +42,7 @@ public class PlayerWalkStateRb : PlayerBaseStateRb
         Vector3 moveDir = Ctx
             .ConvertToCameraSpace(new Vector3(Ctx.CurrentMovementInput.x, 0f, Ctx.CurrentMovementInput.y)).normalized;
 
-        float targetSpeed = Ctx.WalkSpeed;
+        float targetSpeed = Ctx.RunSpeed;
         Vector3 targetVelocity = moveDir * targetSpeed;
 
         Vector3 currentVel = Ctx.Velocity;

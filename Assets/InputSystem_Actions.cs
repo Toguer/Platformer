@@ -118,7 +118,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""EarthPower"",
+                    ""name"": ""Run"",
                     ""type"": ""Button"",
                     ""id"": ""c1933965-9713-465c-ae7f-e333ecb6f92f"",
                     ""expectedControlType"": """",
@@ -469,23 +469,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""800ce763-8330-49dc-ad00-f65b32f6297d"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""EarthPower"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0bc6beaa-730a-4be5-a517-9a95046c5c52"",
                     ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""EarthPower"",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1125,7 +1114,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_JetPack = m_Player.FindAction("JetPack", throwIfNotFound: true);
-        m_Player_EarthPower = m_Player.FindAction("EarthPower", throwIfNotFound: true);
+        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_State = m_Player.FindAction("State", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1217,7 +1206,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_JetPack;
-    private readonly InputAction m_Player_EarthPower;
+    private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_State;
     public struct PlayerActions
     {
@@ -1233,7 +1222,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Next => m_Wrapper.m_Player_Next;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @JetPack => m_Wrapper.m_Player_JetPack;
-        public InputAction @EarthPower => m_Wrapper.m_Player_EarthPower;
+        public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @State => m_Wrapper.m_Player_State;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1274,9 +1263,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @JetPack.started += instance.OnJetPack;
             @JetPack.performed += instance.OnJetPack;
             @JetPack.canceled += instance.OnJetPack;
-            @EarthPower.started += instance.OnEarthPower;
-            @EarthPower.performed += instance.OnEarthPower;
-            @EarthPower.canceled += instance.OnEarthPower;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
             @State.started += instance.OnState;
             @State.performed += instance.OnState;
             @State.canceled += instance.OnState;
@@ -1314,9 +1303,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @JetPack.started -= instance.OnJetPack;
             @JetPack.performed -= instance.OnJetPack;
             @JetPack.canceled -= instance.OnJetPack;
-            @EarthPower.started -= instance.OnEarthPower;
-            @EarthPower.performed -= instance.OnEarthPower;
-            @EarthPower.canceled -= instance.OnEarthPower;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
             @State.started -= instance.OnState;
             @State.performed -= instance.OnState;
             @State.canceled -= instance.OnState;
@@ -1520,7 +1509,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnNext(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnJetPack(InputAction.CallbackContext context);
-        void OnEarthPower(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
         void OnState(InputAction.CallbackContext context);
     }
     public interface IUIActions

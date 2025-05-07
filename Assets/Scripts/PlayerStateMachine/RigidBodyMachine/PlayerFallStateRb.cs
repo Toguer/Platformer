@@ -35,7 +35,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
         {
             SwitchState(Factory.Dash());
         }
-        else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0 && !Ctx.IsGrounded && Ctx.Velocity.y > -0.5f)
+        else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0 && !Ctx.IsGrounded && Ctx.Velocity.y < -0.2f)
         {
             Ctx.LastJumpSource = JumpSource.Coyote;
             Ctx.RemainingCoyoteTime = 0;

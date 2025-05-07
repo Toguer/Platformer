@@ -35,14 +35,18 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
         {
             SwitchState(Factory.Dash());
         }
-        else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0)
+        else if (Ctx.IsJumpPressed && Ctx.RemainingCoyoteTime > 0 && !Ctx.IsGrounded && Ctx.Velocity.y > -0.5f)
         {
+            Ctx.LastJumpSource = JumpSource.Coyote;
             Ctx.RemainingCoyoteTime = 0;
-            Debug.Log("Usando el coyote Time!");
+            Ctx.RemainingJumpBufferTime = 0f;
+            Ctx.CanUseCoyote = false;
+            Debug.Log("Desde fall hacia Jump, usando el coyoteTime");
             SwitchState(Factory.Jump());
         }
         else if (Ctx.IsGrounded)
         {
+            Ctx.RemainingCoyoteTime = 0;
             Ctx.DashAlreadyUsed = false;
             Debug.Log("Grounded from Fall");
             SwitchState(Factory.Grounded());

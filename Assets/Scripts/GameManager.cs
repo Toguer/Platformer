@@ -11,7 +11,7 @@ public class GameManager : PersistentSingleton<GameManager>
     #region variables
 
     [SerializeField] private int _frameCap;
-    [SerializeField] private PlayerStateMachine _playerStateMachine;
+    [SerializeField] private RbPlayerStateMachine _playerStateMachine;
 
     [Header("Score")] public int _coinsScore;
     [SerializeField] private int _maxCoins;
@@ -75,8 +75,8 @@ public class GameManager : PersistentSingleton<GameManager>
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Application.targetFrameRate = _frameCap;
-        _playerStateMachine = FindObjectsByType<PlayerStateMachine>(FindObjectsSortMode.None)[0]
-            .GetComponent<PlayerStateMachine>();
+        _playerStateMachine = FindObjectsByType<RbPlayerStateMachine>(FindObjectsSortMode.None)[0]
+            .GetComponent<RbPlayerStateMachine>();
         Time.timeScale = 1;
     }
 
@@ -111,28 +111,34 @@ public class GameManager : PersistentSingleton<GameManager>
 
     public void Pause()
     {
-        _pauseCanvas.SetActive(!_pauseCanvas.activeSelf);
-        _settingsCanvas.SetActive(false);
-        if (_pauseCanvas.activeSelf)
+        if (_pauseCanvas)
         {
-            Time.timeScale = 0;
-            _inputSystemActions.Player.Disable();
-            _inputSystemActions.UI.Enable();
-            Cursor.lockState = CursorLockMode.None;
-            if (Gamepad.all.Count <= 0)
+            _pauseCanvas.SetActive(!_pauseCanvas.activeSelf);
+            if (_pauseCanvas.activeSelf)
             {
-                Cursor.visible = true;
+                Time.timeScale = 0;
+                _inputSystemActions.Player.Disable();
+                _inputSystemActions.UI.Enable();
+                Cursor.lockState = CursorLockMode.None;
+                if (Gamepad.all.Count <= 0)
+                {
+                    Cursor.visible = true;
+                }
+            }
+            else
+            {
+                Time.timeScale = 1;
+
+                _inputSystemActions.UI.Disable();
+                _inputSystemActions.Player.Enable();
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
             }
         }
-        else
-        {
-            Time.timeScale = 1;
-
-            _inputSystemActions.UI.Disable();
-            _inputSystemActions.Player.Enable();
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+            
+        if (_settingsCanvas)
+            _settingsCanvas.SetActive(false);
+        
     }
 
     public void Settings()

@@ -4,6 +4,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.Serialization;
 
+public enum JumpSource
+{
+    Ground,
+    Coyote,
+    Buffer,
+    Unknown
+}
 public class RbPlayerStateMachine : MonoBehaviour
 {
     #region variables
@@ -17,7 +24,8 @@ public class RbPlayerStateMachine : MonoBehaviour
     [Header("GroundChecker")] [SerializeField]
     private LayerMask _groundMask;
 
-    private bool _isGrounded;
+    [SerializeField] private bool _isGrounded;
+    private bool _groundedByCollision = false;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundDistance = 0.4f;
 
@@ -46,6 +54,8 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     [Tooltip("Duración maxima del salto")] [SerializeField]
     private float _maxJumpTime = 0.75f;
+    [Tooltip("Duración minima del salto")] [SerializeField]
+    private float _minJumpTime = 0.1f;
 
     [Tooltip("Velocidad adicional a la que el jugador caerá cuando no pulsa saltar.")] [SerializeField]
     private float _fallMultiplier = 2.0f;
@@ -54,6 +64,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     [SerializeField]
     [Range(0.0f, 1.0f)]
     private float _coyoteTime = 0.1f;
+    private bool _canUseCoyote = true;
 
     [Tooltip("El tiempo que el input de salto se guarda")] [SerializeField]
     private float _jumpBufferTime = 0.2f;
@@ -61,6 +72,12 @@ public class RbPlayerStateMachine : MonoBehaviour
     private float _remainingJumpBufferTime = 0f;
 
     private float _remainingCoyoteTime;
+    private bool _justJumped;
+
+    [Header("Corner Correction")] [SerializeField]
+    private float _correctionDistance;
+
+    [SerializeField] private float _correctionRayLenght;
 
     [Header("Jetpack")] [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 10.0f)]
     private float _jetpackDuration;
@@ -89,6 +106,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private bool _isJumpPressed;
     private bool _requireNewJumpPress;
+    private bool _suppressGravityFrame;
 
     //BURROW
     private bool _isInteractPressed;
@@ -159,6 +177,16 @@ public class RbPlayerStateMachine : MonoBehaviour
         set { _requireNewJumpPress = value; }
     }
 
+    public float CorrectionDistance
+    {
+        get { return _correctionDistance; }
+    }
+
+    public float CorrectionRayLenght
+    {
+        get { return _correctionRayLenght; }
+    }
+
     public bool IsMovementPressed
     {
         get { return _isMovementPressed; }
@@ -206,6 +234,28 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         get { return _remainingCoyoteTime; }
         set { _remainingCoyoteTime = value; }
+    }
+    public bool CanUseCoyote
+    {
+        get => _canUseCoyote;
+        set => _canUseCoyote = value;
+    }
+
+    public bool JustJumped
+    {
+        get => _justJumped;
+        set => _justJumped = value;
+    }
+
+    public bool SuppressGravityFrame
+    {
+        get => _suppressGravityFrame;
+        set => _suppressGravityFrame = value;
+    }
+
+    public float MinJumpTime
+    {
+        get => _minJumpTime;
     }
 
     public float JetpackDuration
@@ -277,6 +327,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         get { return _runSpeed; }
     }
+
     public float WalkSpeed
     {
         get { return _walkSpeed; }
@@ -393,14 +444,12 @@ public class RbPlayerStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
+        _isGrounded = _groundedByCollision;
         _cameraRelativeMovement =
             ConvertToCameraSpace(new Vector3(_currentMovementInput.x, 0f, _currentMovementInput.y));
 
         HandleRotation();
 
-
-        _currentState.UpdateStates();
 
         if (_remainingCoyoteTime > 0)
         {
@@ -411,6 +460,18 @@ public class RbPlayerStateMachine : MonoBehaviour
         {
             _remainingJumpBufferTime -= Time.deltaTime;
         }
+
+        if (_justJumped)
+        {
+            _justJumped = false; // solo dura un frame
+        }
+
+        if (RemainingCoyoteTime > 0 && !CanUseCoyote)
+        {
+            Debug.LogWarning($"⚠️ CoyoteTime activo ilegalmente | TimeLeft: {RemainingCoyoteTime:F3} | CanUseCoyote: {CanUseCoyote}");
+        }
+        
+        _currentState.UpdateStates();
     }
 
     void SetupJumpVariables()
@@ -541,6 +602,24 @@ public class RbPlayerStateMachine : MonoBehaviour
         }
     }
 
+    public void TryCornerCorrection()
+    {
+        Vector3 topLeft = transform.position + transform.right * -0.5f + Vector3.up * 1.0f;
+        Vector3 topRight = transform.position + transform.right * 0.5f + Vector3.up * 1.0f;
+
+        bool leftHit = Physics.Raycast(topLeft, Vector3.up, _correctionRayLenght, _groundMask);
+        bool rightHit = Physics.Raycast(topRight, Vector3.up, _correctionRayLenght, _groundMask);
+
+        if (leftHit && !rightHit)
+        {
+            transform.position += transform.right * _correctionDistance;
+        }
+        else if (!leftHit && rightHit)
+        {
+            transform.position += -transform.right * _correctionDistance;
+        }
+    }
+
     void OnMovementInput(InputAction.CallbackContext context)
     {
         var device = context.control.device;
@@ -657,14 +736,48 @@ public class RbPlayerStateMachine : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision other)
+    {
+        foreach (ContactPoint contact in other.contacts)
+        {
+            // Verifica que la colisión sea con el suelo (por capa) y que el contacto esté orientado hacia arriba
+            if (((1 << other.gameObject.layer) & _groundMask) != 0 && contact.normal.y > 0.5f)
+            {
+                _groundedByCollision = true;
+                return;
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (((1 << other.gameObject.layer) & _groundMask) != 0)
+        {
+            _groundedByCollision = false;
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(_groundCheck.position, _groundDistance);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position + transform.right * -0.5f + Vector3.up * 1.0f, Vector3.up * 0.5f);
+        Gizmos.DrawRay(transform.position + transform.right * 0.5f + Vector3.up * 1.0f, Vector3.up * 0.5f);
+
+        Debug.DrawRay(transform.position, Vector3.down * 0.5f, _isGrounded ? Color.green : Color.red);
     }
 
     private void OnValidate()
     {
         SetupJumpVariables();
     }
+    
+    public void LogJumpDebug(string origin)
+    {
+        Debug.Log($"[{origin}] velY: {Velocity.y:F3} | isGrounded: {IsGrounded} | suppressGravity: {SuppressGravityFrame} | justJumped: {JustJumped} | remainingCoyote: {RemainingCoyoteTime:F3} | buffer: {RemainingJumpBufferTime:F3} | requireNewPress: {RequireNewJumpPress}");
+    }
+    
+    public JumpSource LastJumpSource { get; set; } = JumpSource.Unknown;
 }

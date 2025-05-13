@@ -78,7 +78,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
     {
         if (Ctx.IsMovementPressed)
         {
-            SetSubState(Factory.AirWalk());
+            SetSubState(Factory.AirMove());
         }
         else if (!Ctx.IsMovementPressed)
         {

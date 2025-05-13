@@ -23,10 +23,6 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         Vector3 velocity = Ctx.Velocity;
         velocity.y = 0f;
 
-        // Freno inmediato (puedes cambiar a *= 0.1f si quieres un aterrizaje más suave)
-        velocity.x *= 0.1f;
-        velocity.z *= 0.1f;
-
         Ctx.Velocity = velocity;
     }
 

@@ -40,7 +40,6 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
         Ctx.TryCornerCorrection();
         CheckSwitchStates();
         if (_hasSwitched) return;
-        Debug.Log("Velocity while jumping: " + Ctx.Velocity.y);
     }
 
 
@@ -89,7 +88,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
     {
         if (Ctx.IsMovementPressed)
         {
-            SetSubState(Factory.Walk());
+            SetSubState(Factory.AirMove());
         }
         else
         {

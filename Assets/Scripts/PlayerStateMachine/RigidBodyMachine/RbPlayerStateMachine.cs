@@ -11,6 +11,7 @@ public enum JumpSource
     Buffer,
     Unknown
 }
+
 public class RbPlayerStateMachine : MonoBehaviour
 {
     #region variables
@@ -54,6 +55,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     [Tooltip("Duración maxima del salto")] [SerializeField]
     private float _maxJumpTime = 0.75f;
+
     [Tooltip("Duración minima del salto")] [SerializeField]
     private float _minJumpTime = 0.1f;
 
@@ -64,6 +66,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     [SerializeField]
     [Range(0.0f, 1.0f)]
     private float _coyoteTime = 0.1f;
+
     private bool _canUseCoyote = true;
 
     [Tooltip("El tiempo que el input de salto se guarda")] [SerializeField]
@@ -235,6 +238,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         get { return _remainingCoyoteTime; }
         set { _remainingCoyoteTime = value; }
     }
+
     public bool CanUseCoyote
     {
         get => _canUseCoyote;
@@ -407,6 +411,8 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     public bool shouldApplyHorizontalMovement { get; set; } = false;
 
+    public Vector3 TargetHorizontalVelocity { get; set; } = Vector3.zero;
+
     #endregion
 
     private void Awake()
@@ -448,8 +454,6 @@ public class RbPlayerStateMachine : MonoBehaviour
         _cameraRelativeMovement =
             ConvertToCameraSpace(new Vector3(_currentMovementInput.x, 0f, _currentMovementInput.y));
 
-        HandleRotation();
-
 
         if (_remainingCoyoteTime > 0)
         {
@@ -468,9 +472,10 @@ public class RbPlayerStateMachine : MonoBehaviour
 
         if (RemainingCoyoteTime > 0 && !CanUseCoyote)
         {
-            Debug.LogWarning($"⚠️ CoyoteTime activo ilegalmente | TimeLeft: {RemainingCoyoteTime:F3} | CanUseCoyote: {CanUseCoyote}");
+            Debug.LogWarning(
+                $"⚠️ CoyoteTime activo ilegalmente | TimeLeft: {RemainingCoyoteTime:F3} | CanUseCoyote: {CanUseCoyote}");
         }
-        
+
         _currentState.UpdateStates();
     }
 
@@ -521,52 +526,22 @@ public class RbPlayerStateMachine : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 currentVelocity = _rb.linearVelocity;
-        Vector3 moveDir = _cameraRelativeMovement.normalized;
-        float inputMagnitude = _currentMovementInput.magnitude;
-        Vector3 targetVelocity;
 
-        if (CurrentState is PlayerGroundedStateRb)
+        if (shouldApplyHorizontalMovement)
         {
-            if (shouldApplyHorizontalMovement)
-            {
-                currentVelocity.y = _rb.linearVelocity.y; // Mantener Y!
-                float targetSpeed = Mathf.Lerp(_walkSpeed, _runSpeed, inputMagnitude);
-                targetVelocity = moveDir * targetSpeed;
+            // Aplica interpolación dependiendo de si estás en el suelo o no
+            float acceleration = _isGrounded ? _acceleration : _airAcceleration;
 
-                Vector3 horizontalVelocity = Vector3.Lerp(
-                    new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z),
-                    targetVelocity,
-                    _acceleration * Time.fixedDeltaTime);
-                _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
-            }
-        }
-        else
-        {
-            targetVelocity = new Vector3(currentVelocity.x, currentVelocity.y, currentVelocity.z);
+            Vector3 currentHorizontal = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
+            Vector3 targetHorizontal = new Vector3(TargetHorizontalVelocity.x, 0f, TargetHorizontalVelocity.z);
 
-            if (shouldApplyHorizontalMovement && inputMagnitude > 0.1f)
-            {
-                Vector3 desiredDirection = _cameraRelativeMovement.normalized;
-                float targetSpeed = Mathf.Lerp(_walkSpeed, _runSpeed, inputMagnitude);
-                Vector3 desiredVelocity = desiredDirection * targetSpeed;
+            Vector3 newHorizontal =
+                Vector3.Lerp(currentHorizontal, targetHorizontal, acceleration * Time.fixedDeltaTime);
 
-                // En el aire: interpolar, pero más lento que en suelo
-
-                targetVelocity.x = Mathf.Lerp(currentVelocity.x, desiredVelocity.x,
-                    _airAcceleration * Time.fixedDeltaTime);
-                targetVelocity.z = Mathf.Lerp(currentVelocity.z, desiredVelocity.z,
-                    _airAcceleration * Time.fixedDeltaTime);
-            }
-            else
-            {
-                // No input ➔ mantenemos momentum, sin frenar en seco
-                targetVelocity.x = Mathf.Lerp(currentVelocity.x, 0f, 0.02f); // Fricción casi nula
-                targetVelocity.z = Mathf.Lerp(currentVelocity.z, 0f, 0.02f);
-            }
-
-            _rb.linearVelocity = targetVelocity;
+            _rb.linearVelocity = new Vector3(newHorizontal.x, currentVelocity.y, newHorizontal.z);
         }
 
+        HandleRotation();
         if (_snapToGround)
             ApplyGroundStickiness();
     }
@@ -773,11 +748,12 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         SetupJumpVariables();
     }
-    
+
     public void LogJumpDebug(string origin)
     {
-        Debug.Log($"[{origin}] velY: {Velocity.y:F3} | isGrounded: {IsGrounded} | suppressGravity: {SuppressGravityFrame} | justJumped: {JustJumped} | remainingCoyote: {RemainingCoyoteTime:F3} | buffer: {RemainingJumpBufferTime:F3} | requireNewPress: {RequireNewJumpPress}");
+        Debug.Log(
+            $"[{origin}] velY: {Velocity.y:F3} | isGrounded: {IsGrounded} | suppressGravity: {SuppressGravityFrame} | justJumped: {JustJumped} | remainingCoyote: {RemainingCoyoteTime:F3} | buffer: {RemainingJumpBufferTime:F3} | requireNewPress: {RequireNewJumpPress}");
     }
-    
+
     public JumpSource LastJumpSource { get; set; } = JumpSource.Unknown;
 }

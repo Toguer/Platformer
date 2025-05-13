@@ -46,20 +46,11 @@ public class PlayerWalkStateRb : PlayerBaseStateRb
 
     private void ApplyHorizontalMovement()
     {
-        Vector3 moveDir = Ctx
-            .ConvertToCameraSpace(new Vector3(Ctx.CurrentMovementInput.x, 0f, Ctx.CurrentMovementInput.y)).normalized;
+        Vector3 moveDir = Ctx.ConvertToCameraSpace(new Vector3(
+            Ctx.CurrentMovementInput.x, 0f, Ctx.CurrentMovementInput.y)).normalized;
 
         float targetSpeed = Ctx.WalkSpeed;
-        Vector3 targetVelocity = moveDir * targetSpeed;
-
-        Vector3 currentVel = Ctx.Velocity;
-        Vector3 horizontalVelocity = Vector3.Lerp(
-            new Vector3(currentVel.x, 0f, currentVel.z),
-            targetVelocity,
-            Ctx.Acceleration * Time.deltaTime
-        );
-
-        Ctx.Velocity = new Vector3(horizontalVelocity.x, currentVel.y, horizontalVelocity.z);
+        Ctx.TargetHorizontalVelocity = moveDir * targetSpeed;
     }
 
     public override void InitializeSubState()

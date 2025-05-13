@@ -49,7 +49,7 @@ public class PlayerRunStateRb : PlayerBaseStateRb
         Vector3 horizontalVelocity = Vector3.Lerp(
             new Vector3(currentVel.x, 0f, currentVel.z),
             targetVelocity,
-            Ctx.Acceleration * Time.fixedDeltaTime
+            Ctx.Acceleration * Time.deltaTime
         );
 
         Ctx.Velocity = new Vector3(horizontalVelocity.x, currentVel.y, horizontalVelocity.z);

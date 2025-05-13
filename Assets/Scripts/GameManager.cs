@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Singleton;
 using UnityEngine;
@@ -74,7 +75,7 @@ public class GameManager : PersistentSingleton<GameManager>
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Application.targetFrameRate = _frameCap;
+        SetFpsCap();
         _playerStateMachine = FindObjectsByType<RbPlayerStateMachine>(FindObjectsSortMode.None)[0]
             .GetComponent<RbPlayerStateMachine>();
         Time.timeScale = 1;
@@ -135,10 +136,9 @@ public class GameManager : PersistentSingleton<GameManager>
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
-            
+
         if (_settingsCanvas)
             _settingsCanvas.SetActive(false);
-        
     }
 
     public void Settings()
@@ -149,5 +149,15 @@ public class GameManager : PersistentSingleton<GameManager>
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    private void OnValidate()
+    {
+        SetFpsCap();
+    }
+
+    void SetFpsCap()
+    {
+        Application.targetFrameRate = _frameCap;
     }
 }

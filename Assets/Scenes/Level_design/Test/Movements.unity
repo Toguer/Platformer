@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &27770392 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6778962356150500527, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
+  m_PrefabInstance: {fileID: 1197724356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &117970813
 Mesh:
   m_ObjectHideFlags: 0
@@ -6123,11 +6128,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!4 &1008773346 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6993544141598284747, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
-  m_PrefabInstance: {fileID: 1197724356}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1048025046
 GameObject:
   m_ObjectHideFlags: 0
@@ -6476,7 +6476,7 @@ PrefabInstance:
     - target: {fileID: 1874157166220500140, guid: 0e8c1335210bc01459018d0f687d8edf, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 1008773346}
+      objectReference: {fileID: 27770392}
     - target: {fileID: 3909916442241167195, guid: 0e8c1335210bc01459018d0f687d8edf, type: 3}
       propertyPath: AvoidObstacles.MinimumOcclusionTime
       value: 0
@@ -6487,11 +6487,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4391475610456024066, guid: 0e8c1335210bc01459018d0f687d8edf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4391475610456024066, guid: 0e8c1335210bc01459018d0f687d8edf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.6104136
+      value: 4.561414
       objectReference: {fileID: 0}
     - target: {fileID: 4391475610456024066, guid: 0e8c1335210bc01459018d0f687d8edf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13492,6 +13492,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 800564448418406148, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1272683936400216751, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: m_Name
       value: the ultimate g
@@ -13546,11 +13550,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _walkSpeed
-      value: 1.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _coyoteTime
-      value: 0
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _maxJumpTime
@@ -13565,8 +13569,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
+      propertyPath: _snapToGround
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _maxJumpHeight
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _fallMultiplier
@@ -13587,6 +13595,10 @@ PrefabInstance:
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _jetpackGlideForce
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
+      propertyPath: _snapToGroundForce
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _jetpackBoostDuration
@@ -17162,7 +17174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoUnparentOnAwake: 1
-  _frameCap: 120
+  _frameCap: 60
   _playerStateMachine: {fileID: 0}
   _coinsScore: 0
   _maxCoins: 0
@@ -20826,7 +20838,7 @@ Transform:
   m_GameObject: {fileID: 1792140535}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13622661, y: -0.016255816, z: 0.0022356198, w: 0.9905418}
-  m_LocalPosition: {x: 0, y: 2.6104136, z: -8.60742}
+  m_LocalPosition: {x: 0.05, y: 4.561414, z: -8.60742}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

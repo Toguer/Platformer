@@ -12,7 +12,7 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
     {
         Ctx.CanUseCoyote = true;
         Ctx.RemainingCoyoteTime = 0;
-        Ctx.shouldApplyHorizontalMovement = true;
+        
         //Ctx.AnimatorRef.SetBool("isJump", false);
         InitializeSubState();
 

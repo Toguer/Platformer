@@ -13492,6 +13492,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 800564448418406148, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 38bf820ad2e9a9b4c858067afb02cdea, type: 2}
     - target: {fileID: 1272683936400216751, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: m_Name
       value: the ultimate g
@@ -13535,6 +13539,10 @@ PrefabInstance:
     - target: {fileID: 1937299770679445525, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278171200198275674, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _runSpeed

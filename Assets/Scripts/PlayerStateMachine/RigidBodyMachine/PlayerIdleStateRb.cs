@@ -10,8 +10,11 @@ public class PlayerIdleStateRb : PlayerBaseStateRb
     public override void EnterState()
     {
         //animaciones
-        Ctx.shouldApplyHorizontalMovement = true;
+        Ctx.shouldApplyHorizontalMovement = false;
         Ctx.TargetHorizontalVelocity = Vector3.zero;
+        
+        Vector3 v = Ctx.Velocity;
+        Ctx.Velocity = new Vector3(0, v.y, 0);
     }
 
     public override void UpdateState()

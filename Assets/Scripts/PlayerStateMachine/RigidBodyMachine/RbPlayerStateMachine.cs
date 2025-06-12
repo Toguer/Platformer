@@ -39,7 +39,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     private Vector3 _currentRunMovement;
     private Vector3 _cameraRelativeMovement;
 
-    private bool _isMovementPressed;
+    [SerializeField] private bool _isMovementPressed;
     private bool _isRunning;
     [Range(0f, 1f)] [SerializeField] private float _runMagnitude;
     private float _jetpackTrigger;
@@ -523,13 +523,13 @@ public class RbPlayerStateMachine : MonoBehaviour
         return vectorRotatedToCamearSpace;
     }
 
+
     private void FixedUpdate()
     {
         Vector3 currentVelocity = _rb.linearVelocity;
 
         if (shouldApplyHorizontalMovement)
         {
-            // Aplica interpolación dependiendo de si estás en el suelo o no
             float acceleration = _isGrounded ? _acceleration : _airAcceleration;
 
             Vector3 currentHorizontal = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
@@ -540,11 +540,18 @@ public class RbPlayerStateMachine : MonoBehaviour
 
             _rb.linearVelocity = new Vector3(newHorizontal.x, currentVelocity.y, newHorizontal.z);
         }
+        else
+        {
+            // 🛑 Frena horizontalmente si no estamos aplicando movimiento
+            _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
+        }
 
         HandleRotation();
+
         if (_snapToGround)
             ApplyGroundStickiness();
     }
+
 
     private void ApplyGroundStickiness()
     {

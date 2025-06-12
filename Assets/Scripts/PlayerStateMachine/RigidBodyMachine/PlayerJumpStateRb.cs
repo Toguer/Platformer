@@ -14,20 +14,25 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
     public override void EnterState()
     {
         _jumpTimeElapsed = 0;
-        Debug.Log(
-            $"[Enter Jump] velY: {Ctx.Velocity.y:F3} | isGrounded: {Ctx.IsGrounded} | suppressGravity: {Ctx.SuppressGravityFrame} | justJumped: {Ctx.JustJumped} | jumpSource: {Ctx.LastJumpSource}");
+
         Ctx.CanUseCoyote = false;
-        Ctx.LogJumpDebug("Enter Jump");
         Ctx.SuppressGravityFrame = true;
         Ctx.RemainingCoyoteTime = 0;
+        Ctx.RequireNewJumpPress = true;
+        Ctx.JustJumped = true;
+
         Vector3 v = Ctx.Velocity;
-        v.y = Mathf.Max(0f, v.y); // ← Asegúrate de no tener velocidad descendente previa
+        v.y = Mathf.Max(0f, v.y);
         Ctx.Velocity = v;
+
         Ctx.Rb.AddForce(Vector3.up * Ctx.InitialJumpVelocity, ForceMode.Impulse);
 
-        Ctx.JustJumped = true;
-        Ctx.shouldApplyHorizontalMovement = true; // permite controlar en el aire
-        Ctx.RequireNewJumpPress = true;
+        Ctx.shouldApplyHorizontalMovement = true;
+
+        if (!Ctx.IsMovementPressed)
+        {
+            Ctx.TargetHorizontalVelocity = Vector3.zero;
+        }
 
         InitializeSubState();
     }

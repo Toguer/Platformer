@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
             if(_interactable == null)
             {
                 _interactable = other.GetComponent<Interactable>();
-                _canvasE.SetActive(true);                           
+                //_canvasE.SetActive(true);                           
             }   
         }
     }
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Interactable"))
         {
             _interactable = null;
-            _canvasE.SetActive(false);
+            //_canvasE.SetActive(false);
         }
     }
 }

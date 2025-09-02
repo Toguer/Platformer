@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _playerInput = GetComponent<PlayerStateMachine>().PlayerInput;
+        _playerInput = GetComponent<RbPlayerStateMachine>().PlayerInput;
         print("Start on PlayerController");
         _playerInput.Player.Interact.started += onInteract;
     }
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
             if(_interactable == null)
             {
                 _interactable = other.GetComponent<Interactable>();
-                //_canvasE.SetActive(true);                           
+                _canvasE.SetActive(true);                           
             }   
         }
     }
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Interactable"))
         {
             _interactable = null;
-            //_canvasE.SetActive(false);
+            _canvasE.SetActive(false);
         }
     }
 }

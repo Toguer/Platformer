@@ -27,7 +27,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
 
         Ctx.Rb.AddForce(Vector3.up * Ctx.InitialJumpVelocity, ForceMode.Impulse);
 
-        Ctx.shouldApplyHorizontalMovement = true;
+        Ctx.ShouldApplyHorizontalMovement = true;
 
         if (!Ctx.IsMovementPressed)
         {
@@ -50,7 +50,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
 
     public override void ExitState()
     {
-        Ctx.shouldApplyHorizontalMovement = false;
+        Ctx.ShouldApplyHorizontalMovement = false;
     }
 
     public override void CheckSwitchStates()

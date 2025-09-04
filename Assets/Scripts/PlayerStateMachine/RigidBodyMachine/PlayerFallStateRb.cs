@@ -10,7 +10,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public override void EnterState()
     {
-        Ctx.shouldApplyHorizontalMovement = true;
+        Ctx.ShouldApplyHorizontalMovement = true;
         InitializeSubState();
     }
 
@@ -22,7 +22,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public override void ExitState()
     {
-        Ctx.shouldApplyHorizontalMovement = false;
+        Ctx.ShouldApplyHorizontalMovement = false;
     }
 
     public override void CheckSwitchStates()

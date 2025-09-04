@@ -9,7 +9,7 @@ public class PlayerWalkStateRb : PlayerBaseStateRb
 
     public override void EnterState()
     {
-        Ctx.shouldApplyHorizontalMovement = true;
+        Ctx.ShouldApplyHorizontalMovement = true;
         //Ctx.AnimatorRef.SetBool("isWalk", true);
         //Ctx.AudioPlayerRef.PlaySteps();
     }
@@ -22,7 +22,7 @@ public class PlayerWalkStateRb : PlayerBaseStateRb
 
     public override void ExitState()
     {
-        Ctx.shouldApplyHorizontalMovement = false;
+        Ctx.ShouldApplyHorizontalMovement = false;
         //Ctx.AudioPlayerRef.StopSteps();
     }
 

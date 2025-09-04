@@ -8,7 +8,7 @@ public class PlayerRunStateRb : PlayerBaseStateRb
 
     public override void EnterState()
     {
-        Ctx.shouldApplyHorizontalMovement = true;
+        Ctx.ShouldApplyHorizontalMovement = true;
         //Ctx.AnimatorRef.SetBool("isRun", true);
     }
 
@@ -20,7 +20,7 @@ public class PlayerRunStateRb : PlayerBaseStateRb
 
     public override void ExitState()
     {
-        Ctx.shouldApplyHorizontalMovement = false;
+        Ctx.ShouldApplyHorizontalMovement = false;
         //Ctx.AnimatorRef.SetBool("isRun", false);
     }
 

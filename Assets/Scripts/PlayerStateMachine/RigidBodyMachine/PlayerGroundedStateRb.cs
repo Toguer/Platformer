@@ -72,11 +72,22 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 
     public override void InitializeSubState()
     {
-        if (!Ctx.IsMovementPressed)
+        bool hasInput = Ctx.IsMovementPressed || Ctx.CurrentMovementInput.sqrMagnitude > 0.0001f;
+
+        Vector2 horizontalVel = new Vector2(Ctx.Velocity.x, Ctx.Velocity.z);
+        bool hasMomentum = horizontalVel.sqrMagnitude > 0.0001f;
+
+        bool runKeyboard = Ctx.isRunning && !Ctx.IsGamepad;
+        bool runGamepad = Ctx.IsGamepad && Ctx.CurrentMovementInput.magnitude > Ctx.RunMagnitude;
+        if (!hasInput || hasMomentum)
         {
             SetSubState(Factory.Idle());
         }
-        else if (Ctx.IsMovementPressed)
+        else if (runKeyboard ||runGamepad)
+        {
+            SetSubState(Factory.Run());
+        }
+        else
         {
             SetSubState(Factory.Walk());
         }

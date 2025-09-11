@@ -14,7 +14,7 @@ public class PlayerJetpackStateRb : PlayerBaseStateRb, IRootState
     public override void EnterState()
     {
         Ctx.RequireNewJumpPress = true;
-        Ctx.shouldApplyHorizontalMovement = true;
+        Ctx.ShouldApplyHorizontalMovement = true;
         Ctx.JetpackAlreadyUsed = true;
         
         _timer = 0f;

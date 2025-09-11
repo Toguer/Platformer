@@ -409,7 +409,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     public ParticleSystem DashParticles => _dashParticles;
 
-    public bool shouldApplyHorizontalMovement { get; set; } = false;
+    public bool ShouldApplyHorizontalMovement { get; set; } = false;
 
     public Vector3 TargetHorizontalVelocity { get; set; } = Vector3.zero;
 
@@ -528,7 +528,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         Vector3 currentVelocity = _rb.linearVelocity;
 
-        if (shouldApplyHorizontalMovement)
+        if (ShouldApplyHorizontalMovement)
         {
             float acceleration = _isGrounded ? _acceleration : _airAcceleration;
 
@@ -542,7 +542,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         }
         else
         {
-            // 🛑 Frena horizontalmente si no estamos aplicando movimiento
+            //Frena horizontalmente si no aplicando movimiento
             _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
         }
 
@@ -559,7 +559,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
         if (IsGrounded)
         {
-            // Ya estás grounded: suaviza la caída si vienes bajando rápido
+            // Suaviza la caída si estas bajando rápido
             if (vel.y < -1f)
             {
                 vel.y = -1f;
@@ -568,7 +568,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         }
         else
         {
-            // No grounded, pero... ¿casi tocando el suelo?
+            // casi tocando el suelo
             Vector3 origin = _groundCheck.position + Vector3.up * 0.1f;
             float rayLength = 0.5f;
 

@@ -28,11 +28,7 @@ public class PlayerWalkStateRb : PlayerBaseStateRb
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
-        {
-            SwitchState(Factory.Dash());
-        }
-        else if (!Ctx.IsMovementPressed)
+        if (!Ctx.IsMovementPressed)
         {
             //Ctx.AnimatorRef.SetBool("isWalk", false);
             SwitchState(Factory.Idle());

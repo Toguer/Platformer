@@ -40,6 +40,7 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 
     public override void ExitState()
     {
+        
     }
 
     public override void CheckSwitchStates()
@@ -56,6 +57,11 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         else if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
             SwitchState(Factory.Dash());
+            if (CurrentSubState == Factory.Idle())
+            {
+                Debug.Log("Grounded to dash ");
+                CurrentSubState.ExitStates();
+            }
         }
         else if (!Ctx.IsGrounded && Ctx.Velocity.y <= -0.2f && !Ctx.JustJumped && Ctx.CanUseCoyote)
         {

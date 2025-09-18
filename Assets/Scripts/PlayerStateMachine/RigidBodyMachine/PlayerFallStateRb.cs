@@ -27,11 +27,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.IsInteractPressed && Ctx.IsNearSand())
-        {
-            SwitchState(Factory.Burrow());
-        }
-        else if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
             SwitchState(Factory.Dash());
         }

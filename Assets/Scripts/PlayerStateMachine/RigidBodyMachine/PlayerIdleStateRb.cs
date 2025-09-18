@@ -10,6 +10,7 @@ public class PlayerIdleStateRb : PlayerBaseStateRb
     public override void EnterState()
     {
         //animaciones
+        Debug.Log("IDLE");
         Ctx.ShouldApplyHorizontalMovement = false;
         Ctx.TargetHorizontalVelocity = Vector3.zero;
         
@@ -24,15 +25,12 @@ public class PlayerIdleStateRb : PlayerBaseStateRb
 
     public override void ExitState()
     {
+        Debug.Log("Exit IDLE");
+        Ctx.ShouldApplyHorizontalMovement = true;
     }
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
-        {
-            
-            SwitchState(Factory.Dash());
-        }
         if (Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Walk());

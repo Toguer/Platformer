@@ -26,7 +26,6 @@ public class FactoryRigidBody
         _states[PlayerStatesRb.Idle] = new PlayerIdleStateRb(_context, this);
         _states[PlayerStatesRb.Walk] = new PlayerWalkStateRb(_context, this);
         _states[PlayerStatesRb.Run] = new PlayerRunStateRb(_context, this);
-        _states[PlayerStatesRb.AirMove] = new PlayerRunStateRb(_context, this);
         _states[PlayerStatesRb.Jump] = new PlayerJumpStateRb(_context, this);
         _states[PlayerStatesRb.Grounded] = new PlayerGroundedStateRb(_context, this);
         _states[PlayerStatesRb.Fall] = new PlayerFallStateRb(_context, this);

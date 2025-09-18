@@ -10,6 +10,7 @@ public class AirMoveStateRb : PlayerBaseStateRb
     public override void EnterState()
     {
         Ctx.ShouldApplyHorizontalMovement = true;
+        Debug.Log("AirMove entered");
     }
 
     public override void UpdateState()
@@ -19,6 +20,7 @@ public class AirMoveStateRb : PlayerBaseStateRb
     public override void ExitState()
     {
         Ctx.ShouldApplyHorizontalMovement = false;
+        Debug.Log("AirMove exit");
     }
 
     public override void CheckSwitchStates()

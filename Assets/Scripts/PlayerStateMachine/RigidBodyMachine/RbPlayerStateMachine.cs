@@ -16,6 +16,12 @@ public class RbPlayerStateMachine : MonoBehaviour
 {
     #region variables
 
+    [Header("Read Only!")] [SerializeField]
+    private string _actualState;
+
+    [SerializeField] private string _actualSubState;
+    [SerializeField] private string _actualSubSubState;
+
     [Header("Desactivables")] [SerializeField]
     private bool _snapToGround = false;
 
@@ -298,6 +304,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         get { return _dashEnabled; }
     }
+
     public float DashDuration
     {
         get { return _dashDuration; }
@@ -455,6 +462,24 @@ public class RbPlayerStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _actualState = _currentState.ToString();
+        if (_currentState.CurrentSubState != null)
+        {
+            _actualSubState = _currentState.CurrentSubState.ToString();
+            if (_currentState.CurrentSubState.CurrentSubState != null)
+            {
+                _actualSubSubState = _currentState.CurrentSubState.CurrentSubState.ToString();
+            }
+            else
+            {
+                _actualSubSubState = "";
+            }
+        }
+        else
+        {
+            _actualSubState = "";
+        }
+
         _isGrounded = _groundedByCollision;
         _cameraRelativeMovement =
             ConvertToCameraSpace(new Vector3(_currentMovementInput.x, 0f, _currentMovementInput.y));

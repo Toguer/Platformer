@@ -139,7 +139,8 @@ public class RbPlayerStateMachine : MonoBehaviour
     private PlayerBaseStateRb _currentState;
     private FactoryRigidBody _states;
 
-    [Header("Dash")] [SerializeField] private float _dashDuration;
+    [Header("Dash")] [SerializeField] private bool _dashEnabled = true;
+    [SerializeField] private float _dashDuration;
     [SerializeField] private float _dashSpeed;
     private bool _dashPressed;
     private bool _dashAlreadyUsed;
@@ -293,6 +294,10 @@ public class RbPlayerStateMachine : MonoBehaviour
         set { _jetpackAlreadyUsed = value; }
     }
 
+    public bool DashEnabled
+    {
+        get { return _dashEnabled; }
+    }
     public float DashDuration
     {
         get { return _dashDuration; }

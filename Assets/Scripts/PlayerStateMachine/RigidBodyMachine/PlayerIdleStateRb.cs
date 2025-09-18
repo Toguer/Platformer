@@ -28,7 +28,7 @@ public class PlayerIdleStateRb : PlayerBaseStateRb
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
             
             SwitchState(Factory.Dash());

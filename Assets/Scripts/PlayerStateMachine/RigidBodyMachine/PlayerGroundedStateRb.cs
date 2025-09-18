@@ -53,7 +53,7 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
             Ctx.LastJumpSource = JumpSource.Ground;
             SwitchState(Factory.Jump());
         }
-        else if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        else if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
             SwitchState(Factory.Dash());
         }

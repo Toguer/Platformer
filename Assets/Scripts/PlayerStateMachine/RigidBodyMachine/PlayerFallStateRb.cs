@@ -31,7 +31,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
         {
             SwitchState(Factory.Burrow());
         }
-        else if (Ctx.DashPressed && !Ctx.DashAlreadyUsed)
+        else if (Ctx.DashEnabled && Ctx.DashPressed && !Ctx.DashAlreadyUsed)
         {
             SwitchState(Factory.Dash());
         }

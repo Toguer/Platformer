@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -16,14 +17,16 @@ public class RbPlayerStateMachine : MonoBehaviour
 {
     #region variables
 
-    [Header("Read Only!")] [SerializeField]
-    private string _actualState;
+    [Header("States")] [SerializeField] private string _actualState;
 
-    [SerializeField] private string _actualSubState;
-    [SerializeField] private string _actualSubSubState;
+    [ReadOnly] [SerializeField] private string _actualSubState;
+    [ReadOnly] [SerializeField] private string _actualSubSubState;
 
     [Header("Desactivables")] [SerializeField]
     private bool _snapToGround = false;
+
+    [SerializeField] private bool _dashEnabled = true;
+    [SerializeField] private bool _jetpackEnabled = true;
 
     private Rigidbody _rb;
     private InputSystem_Actions _playerInput;
@@ -31,7 +34,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     [Header("GroundChecker")] [SerializeField]
     private LayerMask _groundMask;
 
-    [SerializeField] private bool _isGrounded;
+    [ReadOnly] [SerializeField] private bool _isGrounded;
     private bool _groundedByCollision = false;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundDistance = 0.4f;
@@ -45,10 +48,10 @@ public class RbPlayerStateMachine : MonoBehaviour
     private Vector3 _currentRunMovement;
     private Vector3 _cameraRelativeMovement;
 
-    [SerializeField] private bool _isMovementPressed;
+    [ReadOnly] [SerializeField] private bool _isMovementPressed;
     private bool _isRunning;
     [Range(0f, 1f)] [SerializeField] private float _runMagnitude;
-    private float _jetpackTrigger;
+
 
     private bool _isGamepad;
 
@@ -88,7 +91,9 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     [SerializeField] private float _correctionRayLenght;
 
-    [Header("Jetpack")] [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 10.0f)]
+    [Header("Jetpack")] private float _jetpackTrigger;
+
+    [Tooltip("La duración del efecto jetpack")] [SerializeField] [Range(0f, 10.0f)]
     private float _jetpackDuration;
 
     [Tooltip("La fuerza que tiene el Jetpack, cuanto más alta sea más alto llegará")] [SerializeField]
@@ -133,8 +138,25 @@ public class RbPlayerStateMachine : MonoBehaviour
     private float _walkSpeed = 5f;
 
     [SerializeField] [Range(1.5f, 20f)] private float _runSpeed = 10;
+    [ReadOnly] [SerializeField] private float _airSpeed;
+
+    public float AirSpeed
+    {
+        get => _airSpeed;
+        set => _airSpeed = value;
+    }
+
     [SerializeField] private float _acceleration = 5f;
-    [SerializeField] private float _airAcceleration = 3f;
+
+    [FormerlySerializedAs("_airAcceleration")]
+    [Tooltip(
+        "Cuanto más bajo sea este valor menos capacidad de maniobrar tienes en el aire, con un 0 no puedes cambiar la dirección.")]
+    [SerializeField]
+    private float _airForce = 3f;
+
+    [SerializeField] private float _groundDrag;
+    [SerializeField] private float _airDrag = 0;
+    private float _usedHorizontalAccel;
 
     [Tooltip("La distancia con la que se detecta como de cerca esta el suelo para engancharse a el")] [SerializeField]
     private float _rayLength = 0.5f;
@@ -145,8 +167,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     private PlayerBaseStateRb _currentState;
     private FactoryRigidBody _states;
 
-    [Header("Dash")] [SerializeField] private bool _dashEnabled = true;
-    [SerializeField] private float _dashDuration;
+    [Header("Dash")] [SerializeField] private float _dashDuration;
     [SerializeField] private float _dashSpeed;
     private bool _dashPressed;
     private bool _dashAlreadyUsed;
@@ -300,6 +321,11 @@ public class RbPlayerStateMachine : MonoBehaviour
         set { _jetpackAlreadyUsed = value; }
     }
 
+    public bool JetpackEnabled
+    {
+        get { return _jetpackEnabled; }
+    }
+
     public bool DashEnabled
     {
         get { return _dashEnabled; }
@@ -343,6 +369,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         get { return _runSpeed; }
     }
+
 
     public float WalkSpeed
     {
@@ -430,6 +457,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _groundDrag = _rb.linearDamping;
         _playerInput = new InputSystem_Actions();
 
         SetupJumpVariables();
@@ -457,6 +485,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         _playerInput.Player.JetPack.canceled += onJetpack;
         _playerInput.Player.Run.started += OnRunPress;
         _playerInput.Player.State.started += stateCheck;
+        _usedHorizontalAccel = _acceleration;
     }
 
     // Update is called once per frame
@@ -503,7 +532,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         if (RemainingCoyoteTime > 0 && !CanUseCoyote)
         {
             Debug.LogWarning(
-                $"⚠️ CoyoteTime activo ilegalmente | TimeLeft: {RemainingCoyoteTime:F3} | CanUseCoyote: {CanUseCoyote}");
+                $"CoyoteTime activo ilegalmente | TimeLeft: {RemainingCoyoteTime:F3} | CanUseCoyote: {CanUseCoyote}");
         }
 
         _currentState.UpdateStates();
@@ -556,24 +585,46 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _rb.linearDamping = _isGrounded ? _groundDrag : _airDrag;
         Vector3 currentVelocity = _rb.linearVelocity;
+
+        Vector3 currentHorizontal = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
+        Vector3 targetHorizontal = currentHorizontal;
 
         if (ShouldApplyHorizontalMovement)
         {
-            float acceleration = _isGrounded ? _acceleration : _airAcceleration;
+            targetHorizontal = new Vector3(TargetHorizontalVelocity.x, 0f, TargetHorizontalVelocity.z);
+            if (!_isGrounded)
+            {
+                float currentMag = currentHorizontal.magnitude;
+                float targetMag = targetHorizontal.magnitude;
 
-            Vector3 currentHorizontal = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
-            Vector3 targetHorizontal = new Vector3(TargetHorizontalVelocity.x, 0f, TargetHorizontalVelocity.z);
+                if (currentMag > 0f && targetMag > 0f && Vector3.Dot(currentHorizontal, targetHorizontal) > 0f &&
+                    currentMag > targetMag)
+                {
+                    targetHorizontal = targetHorizontal.normalized * currentMag;
+                }
+            }
+
+            float acceleration = _isGrounded ? _acceleration : _airForce;
 
             Vector3 newHorizontal =
-                Vector3.Lerp(currentHorizontal, targetHorizontal, acceleration * Time.fixedDeltaTime);
+                Vector3.MoveTowards(currentHorizontal, targetHorizontal, acceleration * Time.fixedDeltaTime);
+
 
             _rb.linearVelocity = new Vector3(newHorizontal.x, currentVelocity.y, newHorizontal.z);
         }
         else
         {
-            //Frena horizontalmente si no aplicando movimiento
-            _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
+            //Frena horizontalmente si no se aplica movimiento
+            if (_isGrounded && !_isMovementPressed)
+            {
+                _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
+            }
+            else
+            {
+                _rb.linearVelocity = currentVelocity;
+            }
         }
 
         HandleRotation();

@@ -14,7 +14,7 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         Ctx.RemainingCoyoteTime = 0;
         
         //Ctx.AnimatorRef.SetBool("isJump", false);
-        InitializeSubState();
+        
 
         Ctx.JetpackAlreadyUsed = false;
         Ctx.RequireNewJumpPress = false;
@@ -24,6 +24,8 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         velocity.y = 0f;
 
         Ctx.Velocity = velocity;
+        InitializeSubState();
+        CurrentSubState?.EnterState();
     }
 
     public override void UpdateState()
@@ -85,7 +87,7 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 
         bool runKeyboard = Ctx.isRunning && !Ctx.IsGamepad;
         bool runGamepad = Ctx.IsGamepad && Ctx.CurrentMovementInput.magnitude > Ctx.RunMagnitude;
-        if (!hasInput || hasMomentum)
+        if (!hasInput)
         {
             SetSubState(Factory.Idle());
         }

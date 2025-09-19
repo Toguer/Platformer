@@ -29,12 +29,11 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
 
         Ctx.ShouldApplyHorizontalMovement = true;
 
-        if (!Ctx.IsMovementPressed)
-        {
-            Ctx.TargetHorizontalVelocity = Vector3.zero;
-        }
+        Ctx.TargetHorizontalVelocity = new Vector3(Ctx.Velocity.x, 0f, Ctx.Velocity.z);
+        
 
         InitializeSubState();
+        CurrentSubState?.EnterState();
     }
 
     public override void UpdateState()
@@ -66,7 +65,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
             _hasSwitched = true;
             SwitchState(Factory.Fall());
         }
-        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
+        else if (Ctx.JetpackEnabled && !Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
         {
             if (Ctx.IsGamepad)
             {
@@ -93,6 +92,7 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
     {
         if (Ctx.IsMovementPressed)
         {
+            Debug.Log("Airmove set");
             SetSubState(Factory.AirMove());
         }
         else

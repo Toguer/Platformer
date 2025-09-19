@@ -12,6 +12,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
     {
         Ctx.ShouldApplyHorizontalMovement = true;
         InitializeSubState();
+        CurrentSubState?.EnterState();
     }
 
     public override void UpdateState()
@@ -47,7 +48,7 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
             Debug.Log("Grounded from Fall");
             SwitchState(Factory.Grounded());
         }
-        else if (!Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
+        else if (Ctx.JetpackEnabled && !Ctx.JetpackAlreadyUsed && Ctx.JetpackDuration > 0 && !Ctx.RequireNewJumpPress)
         {
             if (Ctx.IsGamepad)
             {
@@ -75,10 +76,6 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
         if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.AirMove());
-        }
-        else if (!Ctx.IsMovementPressed)
-        {
-            SetSubState(Factory.Idle());
         }
     }
 

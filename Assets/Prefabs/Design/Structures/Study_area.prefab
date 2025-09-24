@@ -1861,6 +1861,57 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &3766090868305714222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5896199799325073269}
+  - component: {fileID: 4233833703754651823}
+  m_Layer: 0
+  m_Name: CircuitScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5896199799325073269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766090868305714222}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7893924349416908707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4233833703754651823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766090868305714222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe911202dae1648938ac89331ae9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  door: {fileID: 8531857189811863656}
+  lightFeedback: {fileID: 0}
+  lightPlatform: []
+  _material: {fileID: 0}
+  _emissiveMaterial: {fileID: 0}
+  isGetLight: 0
+  _isntPlatforms: 0
 --- !u!1 &4634248949615561215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,9 +1926,11 @@ GameObject:
   - component: {fileID: 9019589313880596326}
   - component: {fileID: 1794810446085746902}
   - component: {fileID: 8866876454376071424}
+  - component: {fileID: 2015794296460125231}
+  - component: {fileID: 1189637780335451762}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4395,6 +4448,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &2015794296460125231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634248949615561215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e8f6bac56784b4bb6651e4ac89a56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onPressButton:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4233833703754651823}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: SetisGetLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!135 &1189637780335451762
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634248949615561215}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0.000015258789, y: 0, z: 0.000015258789}
 --- !u!1 &5963732292158246748
 GameObject:
   m_ObjectHideFlags: 0
@@ -5924,7 +6025,7 @@ Transform:
   m_GameObject: {fileID: 7371573199249467441}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 181, y: 0, z: -235}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5940,6 +6041,7 @@ Transform:
   - {fileID: 5703919113686533793}
   - {fileID: 7760654526043733932}
   - {fileID: 6244846570865223527}
+  - {fileID: 5896199799325073269}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7513273085864980873
@@ -5957,7 +6059,7 @@ GameObject:
   - component: {fileID: 2024296577326136139}
   - component: {fileID: 3044847253582675034}
   m_Layer: 3
-  m_Name: Cylinder (1)
+  m_Name: Step
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7065,6 +7167,8 @@ GameObject:
   - component: {fileID: 4539510798788585851}
   - component: {fileID: 7160863765766203043}
   - component: {fileID: 8169558815631780115}
+  - component: {fileID: 5756759128872102098}
+  - component: {fileID: 3961727557924482143}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -7403,3 +7507,51 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!65 &5756759128872102098
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8531857189811863656}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 8, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3961727557924482143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8531857189811863656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTouchPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4233833703754651823}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: OpenDors
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

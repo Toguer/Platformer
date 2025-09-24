@@ -1,11 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+using static UnityEngine.UI.Image;
 
 public class PlayerController : MonoBehaviour
 {
     private InputSystem_Actions _playerInput;
 
     private Interactable _interactable;
+
+    [Header("RayCast Variables")]
+    [SerializeField] private float raycastDistance = 10f;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private Vector3 rayOrigin;
+
 
     [Header("Canvas")]
     [SerializeField] private GameObject _canvasE;
@@ -20,6 +28,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Shader.SetGlobalVector("Player", transform.position);
+
+        
+        Vector3 rayDirection = transform.forward;
+
+        RaycastHit hit;
+        bool hasHit = Physics.Raycast(rayOrigin, rayDirection, out hit, raycastDistance, layerMask);
+
+
     }
 
     void onInteract(InputAction.CallbackContext context)
@@ -47,5 +63,9 @@ public class PlayerController : MonoBehaviour
             _interactable = null;
             _canvasE.SetActive(false);
         }
+    }
+    void OnDrawGizmosSelected()
+    {
+
     }
 }

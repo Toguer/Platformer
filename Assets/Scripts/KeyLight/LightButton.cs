@@ -6,5 +6,6 @@ public class LightButton : Interactable
     public override void Interact(PlayerController player)
     {
         _onPressButton.Invoke();
+        Debug.Log("press E");
     }
 }

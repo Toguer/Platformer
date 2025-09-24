@@ -5,7 +5,7 @@ using System.Collections;
 
 public class MimosaPlant : MonoBehaviour
 {
-    [SerializeField] private List<BoxCollider> boxList = new List<BoxCollider>();
+    [SerializeField] private List<GameObject> boxList = new List<GameObject>();
 
     private BoxCollider boxCollider;
     public bool isReducing = false;
@@ -32,7 +32,7 @@ public class MimosaPlant : MonoBehaviour
 
         coolDown = timeBetweenCollider;
         i = 0;
-        AdjustGameObjects();
+        //AdjustGameObjects();
     }
 
     void Update()
@@ -68,7 +68,7 @@ public class MimosaPlant : MonoBehaviour
         {
             if (coolDown <= 0)
             {
-                boxList[i].enabled = false;
+                boxList[i].SetActive(false);
                 i++;
 
                 isCooldown = true;
@@ -80,7 +80,7 @@ public class MimosaPlant : MonoBehaviour
             isCooldown = false;
         }
     }
-    private void AdjustGameObjects()
+   /* private void AdjustGameObjects()
     {
         if (boxList.Count == 0) return;
 
@@ -97,14 +97,14 @@ public class MimosaPlant : MonoBehaviour
             float offsetX = (size.x / boxList.Count) * i + (boxList[i].size.x / 2);
             boxList[i].center = new Vector3(startPos.x + offsetX - transform.position.x, 0, 0);
         }
-    }
+    }*/
     private IEnumerator _RestartColiiders()
     {
         yield return new WaitForSeconds(timeToRestartColliders);
 
         for (int i = 0; i < boxList.Count; i++)
         {
-            boxList[i].enabled = true;
+            boxList[i].SetActive(true);
         }
         isAllBox = false;
         i = 0;

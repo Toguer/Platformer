@@ -15196,7 +15196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _acceleration
-      value: 50
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8991832251460328472, guid: 87cb219ce764daf488e2a6ce2e701fe3, type: 3}
       propertyPath: _dashDuration

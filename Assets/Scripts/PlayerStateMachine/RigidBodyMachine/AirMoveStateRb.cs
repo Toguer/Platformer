@@ -72,6 +72,7 @@ public class AirMoveStateRb : PlayerBaseStateRb
         }
 
         Vector3 target = lateral + inputDir * targetAlong;
+        target = Vector3.ClampMagnitude(target, Ctx.AirSpeed);
         Ctx.TargetHorizontalVelocity = target;
     }
 }

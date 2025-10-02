@@ -2662,31 +2662,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.6177397
+      value: 5.707287
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.6846275
+      value: 2.7741737
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.70710784
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.70710576
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0fa7e7ea29fadab4685cd739fdefb740, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -12866,6 +12866,10 @@ PrefabInstance:
     - target: {fileID: 7635756375654823253, guid: 4978f8f3a21b5c74eac7160a1a20c298, type: 3}
       propertyPath: m_LocalPosition.z
       value: -6.521652
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809178318066899224, guid: 4978f8f3a21b5c74eac7160a1a20c298, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.86
       objectReference: {fileID: 0}
     - target: {fileID: 7893924349416908707, guid: 4978f8f3a21b5c74eac7160a1a20c298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -44016,6 +44020,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cebc5647f19ab54fb47e1dd9ea408f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raycastDistance: 10
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  rayOrigin: {x: 0, y: 0, z: 0}
   _canvasE: {fileID: 701788769}
 --- !u!43 &1991876894
 Mesh:

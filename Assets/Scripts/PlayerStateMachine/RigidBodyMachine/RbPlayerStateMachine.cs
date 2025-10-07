@@ -31,7 +31,6 @@ public class RbPlayerStateMachine : MonoBehaviour
     private Rigidbody _rb;
     private InputSystem_Actions _playerInput;
 
-    
 
     [Header("GroundChecker")] [SerializeField]
     private LayerMask _groundMask;
@@ -159,9 +158,10 @@ public class RbPlayerStateMachine : MonoBehaviour
     [SerializeField] private float _groundDrag;
     [SerializeField] private float _airDrag = 0;
     private float _usedHorizontalAccel;
-    
+
     [Header("Velocidad")] [ReadOnly] [SerializeField]
     private float _speed; // m/s total
+
     [ReadOnly] [SerializeField] private float _horizontalSpeed; // m/s solo XZ
     [ReadOnly] [SerializeField] private float _targetHorizontalSpeed; // objetivo
 
@@ -592,65 +592,93 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //_rb.linearDamping = _isGrounded ? _groundDrag : _airDrag;
-        _rb.linearDamping = _isGrounded ? 0f : _airDrag;
-        Vector3 currentVelocity = _rb.linearVelocity;
+        // Mantén drag 0 en suelo; usa algo de drag en aire si quieres.
+    _rb.linearDamping = _isGrounded ? 0f : _airDrag;
 
-        Vector3 currentHorizontal = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
-        Vector3 targetHorizontal = currentHorizontal;
+    Vector3 currentVel = _rb.linearVelocity;
 
-        if (ShouldApplyHorizontalMovement)
+    // Horizontales (XZ)
+    Vector3 currentH = new Vector3(currentVel.x, 0f, currentVel.z);
+    Vector3 targetH  = ShouldApplyHorizontalMovement
+        ? new Vector3(TargetHorizontalVelocity.x, 0f, TargetHorizontalVelocity.z)
+        : Vector3.zero;
+
+    // Aceleraciones base
+    float accel = _isGrounded ? _acceleration : _airForce;
+
+    // Frenada más fuerte que acelerar (clave para giro inmediato con drag 0)
+    // Si no tienes variables dedicadas, usa multiplicadores:
+    float brake = accel * (_isGrounded ? 3.0f : 1.5f); // ajusta 2–5x en suelo al gusto
+
+    // ¿Tenemos objetivo real?
+    bool hasTarget = targetH.sqrMagnitude > 0.0001f;
+    bool hasSpeed  = currentH.sqrMagnitude > 0.0001f;
+
+    Vector3 newH = currentH;
+
+    if (ShouldApplyHorizontalMovement)
+    {
+        if (hasSpeed && hasTarget)
         {
-            targetHorizontal = new Vector3(TargetHorizontalVelocity.x, 0f, TargetHorizontalVelocity.z);
-            if (!_isGrounded)
+            float dot = Vector3.Dot(currentH.normalized, targetH.normalized);
+
+            if (dot < 0f)
             {
-                float currentMag = currentHorizontal.magnitude;
-                float targetMag = targetHorizontal.magnitude;
+                // 1) Dirección opuesta: primero FRENAR fuerte hacia 0
+                newH = Vector3.MoveTowards(currentH, Vector3.zero, brake * Time.fixedDeltaTime);
 
-                if (currentMag > 0f && targetMag > 0f && Vector3.Dot(currentHorizontal, targetHorizontal) > 0f &&
-                    currentMag > targetMag)
-                {
-                    targetHorizontal = targetHorizontal.normalized * currentMag;
-                }
-            }
-
-            float acceleration = _isGrounded ? _acceleration : _airForce;
-
-            Vector3 newHorizontal =
-                Vector3.MoveTowards(currentHorizontal, targetHorizontal, acceleration * Time.fixedDeltaTime);
-
-
-            _rb.linearVelocity = new Vector3(newHorizontal.x, currentVelocity.y, newHorizontal.z);
-            Vector3 v = Velocity; // -> devuelve _rb.linearVelocity
-            _speed = v.magnitude;
-            _horizontalSpeed = new Vector2(v.x, v.z).magnitude;
-            _targetHorizontalSpeed = TargetHorizontalVelocity.magnitude;
-        }
-        else
-        {
-            //Frena horizontalmente si no se aplica movimiento
-            if (_isGrounded && !_isMovementPressed)
-            {
-                _rb.linearVelocity = new Vector3(0f, currentVelocity.y, 0f);
-                Vector3 v = Velocity; // -> devuelve _rb.linearVelocity
-                _speed = v.magnitude;
-                _horizontalSpeed = new Vector2(v.x, v.z).magnitude;
-                _targetHorizontalSpeed = TargetHorizontalVelocity.magnitude;
+                // 2) Luego (en ticks sucesivos) acelerar hacia la nueva dirección
+                //    (cuando ya esté cerca de 0, la siguiente rama de abajo se encargará)
             }
             else
             {
-                _rb.linearVelocity = currentVelocity;
-                Vector3 v = Velocity; // -> devuelve _rb.linearVelocity
-                _speed = v.magnitude;
-                _horizontalSpeed = new Vector2(v.x, v.z).magnitude;
-                _targetHorizontalSpeed = TargetHorizontalVelocity.magnitude;
+                // Misma dirección o similar:
+                // - Si vamos más rápido que el target, aplicamos frenada suave (coast)
+                // - Si vamos más lento, aceleramos
+                if (currentH.magnitude > targetH.magnitude + 0.01f)
+                    newH = Vector3.MoveTowards(currentH, targetH, brake * Time.fixedDeltaTime);
+                else
+                    newH = Vector3.MoveTowards(currentH, targetH, accel * Time.fixedDeltaTime);
             }
         }
+        else if (hasTarget)
+        {
+            // Estábamos prácticamente parados: acelera directo al target
+            newH = Vector3.MoveTowards(currentH, targetH, accel * Time.fixedDeltaTime);
+        }
+        else
+        {
+            // No hay input/objetivo: en suelo, para en seco; en aire, conserva
+            if (_isGrounded && !_isMovementPressed)
+                newH = Vector3.zero;
+            else
+                newH = currentH;
+        }
+    }
+    else
+    {
+        // El estado indica que no apliquemos movimiento horizontal:
+        if (_isGrounded && !_isMovementPressed)
+            newH = Vector3.zero;
+        else
+            newH = currentH;
+    }
 
-        HandleRotation();
+    // Aplica nueva velocidad manteniendo la Y actual
+    _rb.linearVelocity = new Vector3(newH.x, currentVel.y, newH.z);
 
-        if (_snapToGround)
-            ApplyGroundStickiness();
+    // (Si tu lógica de aire necesita “conservar crucero” o limitar lateral, hazlo en los estados,
+    //  pero aquí ya garantizamos giro contundente en suelo con drag=0.)
+
+    // Métricas auxiliares (si las usas en tu SM)
+    Vector3 v = _rb.linearVelocity;
+    _speed                 = v.magnitude;
+    _horizontalSpeed       = new Vector2(v.x, v.z).magnitude;
+    _targetHorizontalSpeed = TargetHorizontalVelocity.magnitude;
+
+    // Rotación y stickiness como lo tengas
+    HandleRotation();
+    if (_snapToGround) ApplyGroundStickiness();
     }
 
 

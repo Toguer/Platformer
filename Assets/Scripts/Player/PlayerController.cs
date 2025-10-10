@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
 
     [Header("RayCast Variables")]
     [SerializeField] private float raycastDistance = 10f;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask = 0;
     [SerializeField] private Vector3 rayOrigin;
+    [SerializeField] private float alturaDeOrigen = 1.5f;
+    private GameObject currentTarget;
 
 
-    [Header("Canvas")]
+    [Header("Canvas Interactive")]
     [SerializeField] private GameObject _canvasE;
 
     void Start()
@@ -29,29 +31,62 @@ public class PlayerController : MonoBehaviour
     {
         Shader.SetGlobalVector("Player", transform.position);
 
+        Vector3 basePosition = transform.position;
+        Vector3 rayOrigin = basePosition + Vector3.up * alturaDeOrigen;
         
         Vector3 rayDirection = transform.forward;
 
         RaycastHit hit;
+
         bool hasHit = Physics.Raycast(rayOrigin, rayDirection, out hit, raycastDistance, layerMask);
 
+        if (hasHit)
+        {
+            if (hit.collider.gameObject.CompareTag("Interactable"))
+            {
+                currentTarget = hit.collider.gameObject;
+                Debug.Log($"Mirando a: {currentTarget.name} a una distancia de: {hit.distance:F2}");
+                if (_interactable == null)
+                {
+                    _interactable = currentTarget.GetComponent<Interactable>();
+                    _canvasE.SetActive(true);
+                }
+            }
+            else
+            {
+                currentTarget = null;
+                _interactable = null;
+                _canvasE.SetActive(false);
+            }
+        }
+        else
+        {
+            currentTarget = null;
+            _interactable = null;
+            _canvasE.SetActive(false);
+        }
 
+        Color rayColor = hasHit ? Color.red : Color.green;
+        Debug.DrawRay(rayOrigin, rayDirection * raycastDistance, rayColor);
     }
 
     void onInteract(InputAction.CallbackContext context)
     {
+        //solo se cumplira cuando el player pulse a la e
+        //comprobamos si el objeto interactable esta vacio, es decir, que el player solo puede detectar uno a la vez, para que se interactue solo con 1
         if (_interactable != null)
+            //cuando se pulsa, se manda al player(this) y se cumplira lo que este en la funcion interact del obj interactuable asignado
             _interactable.Interact(this);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Interactable"))
+        if (other.gameObject.CompareTag("Grounded"))
         {
             if(_interactable == null)
             {
                 _interactable = other.GetComponent<Interactable>();
-                _canvasE.SetActive(true);                           
+              
             }   
         }
     }
@@ -63,9 +98,5 @@ public class PlayerController : MonoBehaviour
             _interactable = null;
             _canvasE.SetActive(false);
         }
-    }
-    void OnDrawGizmosSelected()
-    {
-
     }
 }

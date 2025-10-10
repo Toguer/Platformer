@@ -11,15 +11,18 @@ public class AirMoveStateRb : PlayerBaseStateRb
     public override void EnterState()
     {
         Ctx.ShouldApplyHorizontalMovement = true;
+
+        float currentHorizontalMag = new Vector2(Ctx.Velocity.x, Ctx.Velocity.z).magnitude;
         if (Ctx.isRunning)
         {
-            Ctx.AirSpeed = Ctx.RunSpeed;
+            Ctx.AirSpeed = Mathf.Max(currentHorizontalMag, Ctx.RunSpeed);
         }
         else
         {
-            Ctx.AirSpeed = Ctx.WalkSpeed;
+            Ctx.AirSpeed = Mathf.Max(currentHorizontalMag, Ctx.WalkSpeed);
         }
-        Debug.Log("AirMove entered");
+
+        Debug.Log($"AirMove entered | AirSpeed={Ctx.AirSpeed:F2} | vel={currentHorizontalMag:F2}");
     }
 
     public override void UpdateState()

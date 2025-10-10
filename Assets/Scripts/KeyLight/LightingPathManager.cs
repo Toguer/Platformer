@@ -17,7 +17,8 @@ public class LightingPathManager : MonoBehaviour
     [SerializeField] private Material _emissiveMaterial;
 
     public bool isGetLight;
-    [SerializeField] private bool _isntPlatforms;
+
+    [Tooltip("si el trayecto no tiene plataformas que iluminar hay que poner a true esta opcion")][SerializeField] private bool _isntPlatforms;
 
     #endregion
 
@@ -51,27 +52,31 @@ public class LightingPathManager : MonoBehaviour
 
     private void whenLightOn()
     {
-        if (!_isntPlatforms)
+        if (isGetLight)
         {
-            if (isGetLight)
+            if(!_isntPlatforms)
             {
                 for (int i = 0; i < lightPlatform.Count; i++)
                 {
                     lightPlatform[i].GetComponent<Renderer>().material = _emissiveMaterial;
                 }
-
-                lightFeedback.SetActive(true);
             }
-            else
+                
+            lightFeedback.SetActive(true);
+        }
+        else
+        {
+            if (!_isntPlatforms)
             {
                 for (int i = 0; i < lightPlatform.Count; i++)
                 {
                     lightPlatform[i].GetComponent<Renderer>().material = _material;
                 }
-
-                lightFeedback.SetActive(false);
             }
+
+            lightFeedback.SetActive(false);
         }
+        
     }
 
     public void OpenDors()

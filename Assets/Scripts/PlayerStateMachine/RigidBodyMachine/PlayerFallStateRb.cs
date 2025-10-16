@@ -88,8 +88,15 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
             float newY = velocity.y + Physics.gravity.y * Time.deltaTime;
 
             //Si no pulsas el botón de saltar caes más rápido
-            if (!Ctx.IsJumpPressed && velocity.y < 0)
+            if (!Ctx.IsJumpPressed && velocity.y < 0 && Ctx.HorizontalSpeed < Ctx.SpeedThreshold)
+            {
                 newY += Physics.gravity.y * (Ctx.FallMultiplier - 1) * Time.deltaTime;
+            }
+            else if (!Ctx.IsJumpPressed && velocity.y < 0 && Ctx.HorizontalSpeed > Ctx.SpeedThreshold)
+            {
+                newY += Physics.gravity.y * (Ctx.FastJumpFallMultiplier - 1) * Time.deltaTime;
+            }
+
 
             Ctx.Velocity = new Vector3(velocity.x, Mathf.Max(newY, -20f), velocity.z);
         }

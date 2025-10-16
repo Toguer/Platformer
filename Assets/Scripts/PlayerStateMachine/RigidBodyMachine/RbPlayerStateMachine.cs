@@ -87,6 +87,22 @@ public class RbPlayerStateMachine : MonoBehaviour
     private float _remainingCoyoteTime;
     private bool _justJumped;
 
+    [Header("Fast Jump")] [Tooltip("Altura maxima de salto")] [SerializeField]
+    private float _maxFastJumpHeight = 4.0f;
+
+    [Tooltip("Duración maxima del salto")] [SerializeField]
+    private float _maxFastJumpTime = 0.75f;
+
+    [Tooltip("Duración minima del salto")] [SerializeField]
+    private float _minFastJumpTime = 0.1f;
+
+    [FormerlySerializedAs("_fallFastJumpMultiplier")] [Tooltip("Velocidad adicional a la que el jugador caerá cuando no pulsa saltar.")] [SerializeField]
+    private float _fastJumpFallMultiplier = 2.0f;
+
+    [SerializeField] private float _speedThreshold;
+    [SerializeField] private float _fastJumpAirDrag;
+    private bool _fastJump;
+
     [Header("Corner Correction")] [SerializeField]
     private float _correctionDistance;
 
@@ -118,6 +134,7 @@ public class RbPlayerStateMachine : MonoBehaviour
 
 
     private float _initialJumpVelocity;
+    private float _initialFastJumpVelocity;
 
     private bool _isJumpPressed;
     private bool _requireNewJumpPress;
@@ -235,6 +252,16 @@ public class RbPlayerStateMachine : MonoBehaviour
         get { return _isRunning; }
     }
 
+    public float HorizontalSpeed
+    {
+        get { return _horizontalSpeed; }
+    }
+
+    public float SpeedThreshold
+    {
+        get { return _speedThreshold; }
+    }
+
     public float RunMagnitude
     {
         get { return _runMagnitude; }
@@ -252,15 +279,30 @@ public class RbPlayerStateMachine : MonoBehaviour
         set { _currentMovement.y = value; }
     }
 
+    public bool FastJump
+    {
+        get { return _fastJump; }
+    }
+
     public float InitialJumpVelocity
     {
         get { return _initialJumpVelocity; }
+    }
+
+    public float InitialFastJumpVelocity
+    {
+        get { return _initialFastJumpVelocity; }
     }
 
 
     public float FallMultiplier
     {
         get { return _fallMultiplier; }
+    }
+
+    public float FastJumpFallMultiplier
+    {
+        get { return _fastJumpFallMultiplier; }
     }
 
     public float CoyoteTime
@@ -295,6 +337,11 @@ public class RbPlayerStateMachine : MonoBehaviour
     public float MinJumpTime
     {
         get => _minJumpTime;
+    }
+
+    public float MinFastJumpTime
+    {
+        get { return _minFastJumpTime; }
     }
 
     public float JetpackDuration
@@ -548,6 +595,7 @@ public class RbPlayerStateMachine : MonoBehaviour
     void SetupJumpVariables()
     {
         _initialJumpVelocity = (2 * _maxJumpHeight) / (_maxJumpTime / 2);
+        _initialFastJumpVelocity = (2 * _maxFastJumpHeight) / (_maxFastJumpTime / 2);
     }
 
     public void HandleRotation()
@@ -593,92 +641,101 @@ public class RbPlayerStateMachine : MonoBehaviour
     private void FixedUpdate()
     {
         // Mantén drag 0 en suelo; usa algo de drag en aire si quieres.
-    _rb.linearDamping = _isGrounded ? 0f : _airDrag;
+        _rb.linearDamping = _isGrounded ? _groundDrag : _airDrag;
 
-    Vector3 currentVel = _rb.linearVelocity;
+        Vector3 currentVel = _rb.linearVelocity;
 
-    // Horizontales (XZ)
-    Vector3 currentH = new Vector3(currentVel.x, 0f, currentVel.z);
-    Vector3 targetH  = ShouldApplyHorizontalMovement
-        ? new Vector3(TargetHorizontalVelocity.x, 0f, TargetHorizontalVelocity.z)
-        : Vector3.zero;
+        // Horizontales (XZ)
+        Vector3 currentH = new Vector3(currentVel.x, 0f, currentVel.z);
+        Vector3 targetH = ShouldApplyHorizontalMovement
+            ? new Vector3(TargetHorizontalVelocity.x, 0f, TargetHorizontalVelocity.z)
+            : Vector3.zero;
 
-    // Aceleraciones base
-    float accel = _isGrounded ? _acceleration : _airForce;
+        // Aceleraciones base
+        float accel = _isGrounded ? _acceleration : _airForce;
 
-    // Frenada más fuerte que acelerar (clave para giro inmediato con drag 0)
-    // Si no tienes variables dedicadas, usa multiplicadores:
-    float brake = accel * (_isGrounded ? 3.0f : 1.5f); // ajusta 2–5x en suelo al gusto
+        // Frenada más fuerte que acelerar (clave para giro inmediato con drag 0)
+        // Si no tienes variables dedicadas, usa multiplicadores:
+        float brake = accel * (_isGrounded ? 3.0f : 1.5f); // ajusta 2–5x en suelo al gusto
 
-    // ¿Tenemos objetivo real?
-    bool hasTarget = targetH.sqrMagnitude > 0.0001f;
-    bool hasSpeed  = currentH.sqrMagnitude > 0.0001f;
+        // ¿Tenemos objetivo real?
+        bool hasTarget = targetH.sqrMagnitude > 0.0001f;
+        bool hasSpeed = currentH.sqrMagnitude > 0.0001f;
 
-    Vector3 newH = currentH;
+        Vector3 newH = currentH;
 
-    if (ShouldApplyHorizontalMovement)
-    {
-        if (hasSpeed && hasTarget)
+        if (ShouldApplyHorizontalMovement)
         {
-            float dot = Vector3.Dot(currentH.normalized, targetH.normalized);
-
-            if (dot < 0f)
+            if (hasSpeed && hasTarget)
             {
-                // 1) Dirección opuesta: primero FRENAR fuerte hacia 0
-                newH = Vector3.MoveTowards(currentH, Vector3.zero, brake * Time.fixedDeltaTime);
+                float dot = Vector3.Dot(currentH.normalized, targetH.normalized);
 
-                // 2) Luego (en ticks sucesivos) acelerar hacia la nueva dirección
-                //    (cuando ya esté cerca de 0, la siguiente rama de abajo se encargará)
+                if (dot < 0f)
+                {
+                    // 1) Dirección opuesta: primero FRENAR fuerte hacia 0
+                    newH = Vector3.MoveTowards(currentH, Vector3.zero, brake * Time.fixedDeltaTime);
+
+                    // 2) Luego (en ticks sucesivos) acelerar hacia la nueva dirección
+                    //    (cuando ya esté cerca de 0, la siguiente rama de abajo se encargará)
+                }
+                else
+                {
+                    // Misma dirección o similar:
+                    // - Si vamos más rápido que el target, aplicamos frenada suave (coast)
+                    // - Si vamos más lento, aceleramos
+                    if (currentH.magnitude > targetH.magnitude + 0.01f)
+                        newH = Vector3.MoveTowards(currentH, targetH, brake * Time.fixedDeltaTime);
+                    else
+                        newH = Vector3.MoveTowards(currentH, targetH, accel * Time.fixedDeltaTime);
+                }
+            }
+            else if (hasTarget)
+            {
+                // Estábamos prácticamente parados: acelera directo al target
+                newH = Vector3.MoveTowards(currentH, targetH, accel * Time.fixedDeltaTime);
             }
             else
             {
-                // Misma dirección o similar:
-                // - Si vamos más rápido que el target, aplicamos frenada suave (coast)
-                // - Si vamos más lento, aceleramos
-                if (currentH.magnitude > targetH.magnitude + 0.01f)
-                    newH = Vector3.MoveTowards(currentH, targetH, brake * Time.fixedDeltaTime);
+                // No hay input/objetivo: en suelo, para en seco; en aire, conserva
+                if (_isGrounded && !_isMovementPressed)
+                    newH = Vector3.zero;
                 else
-                    newH = Vector3.MoveTowards(currentH, targetH, accel * Time.fixedDeltaTime);
+                    newH = currentH;
             }
-        }
-        else if (hasTarget)
-        {
-            // Estábamos prácticamente parados: acelera directo al target
-            newH = Vector3.MoveTowards(currentH, targetH, accel * Time.fixedDeltaTime);
         }
         else
         {
-            // No hay input/objetivo: en suelo, para en seco; en aire, conserva
+            // El estado indica que no apliquemos movimiento horizontal:
             if (_isGrounded && !_isMovementPressed)
                 newH = Vector3.zero;
             else
                 newH = currentH;
         }
-    }
-    else
-    {
-        // El estado indica que no apliquemos movimiento horizontal:
-        if (_isGrounded && !_isMovementPressed)
-            newH = Vector3.zero;
+
+        // Aplica nueva velocidad manteniendo la Y actual
+        _rb.linearVelocity = new Vector3(newH.x, currentVel.y, newH.z);
+
+        // (Si tu lógica de aire necesita “conservar crucero” o limitar lateral, hazlo en los estados,
+        //  pero aquí ya garantizamos giro contundente en suelo con drag=0.)
+
+        // Métricas auxiliares (si las usas en tu SM)
+        Vector3 v = _rb.linearVelocity;
+        _speed = v.magnitude;
+        _horizontalSpeed = new Vector2(v.x, v.z).magnitude;
+        if (_horizontalSpeed >= SpeedThreshold)
+        {
+            _fastJump = true;
+        }
         else
-            newH = currentH;
-    }
+        {
+            _fastJump = false;
+        }
+            
+        _targetHorizontalSpeed = TargetHorizontalVelocity.magnitude;
 
-    // Aplica nueva velocidad manteniendo la Y actual
-    _rb.linearVelocity = new Vector3(newH.x, currentVel.y, newH.z);
-
-    // (Si tu lógica de aire necesita “conservar crucero” o limitar lateral, hazlo en los estados,
-    //  pero aquí ya garantizamos giro contundente en suelo con drag=0.)
-
-    // Métricas auxiliares (si las usas en tu SM)
-    Vector3 v = _rb.linearVelocity;
-    _speed                 = v.magnitude;
-    _horizontalSpeed       = new Vector2(v.x, v.z).magnitude;
-    _targetHorizontalSpeed = TargetHorizontalVelocity.magnitude;
-
-    // Rotación y stickiness como lo tengas
-    HandleRotation();
-    if (_snapToGround) ApplyGroundStickiness();
+        // Rotación y stickiness como lo tengas
+        HandleRotation();
+        if (_snapToGround) ApplyGroundStickiness();
     }
 
 

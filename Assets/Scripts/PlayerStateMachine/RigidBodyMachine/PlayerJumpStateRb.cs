@@ -25,12 +25,19 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
         v.y = Mathf.Max(0f, v.y);
         Ctx.Velocity = v;
 
-        Ctx.Rb.AddForce(Vector3.up * Ctx.InitialJumpVelocity, ForceMode.Impulse);
+        if (Ctx.HorizontalSpeed >= Ctx.SpeedThreshold)
+        {
+            Ctx.Rb.AddForce(Vector3.up * Ctx.InitialFastJumpVelocity, ForceMode.Impulse);
+        }
+        else
+        {
+            Ctx.Rb.AddForce(Vector3.up * Ctx.InitialJumpVelocity, ForceMode.Impulse);
+        }
 
         Ctx.ShouldApplyHorizontalMovement = true;
 
         Ctx.TargetHorizontalVelocity = new Vector3(Ctx.Velocity.x, 0f, Ctx.Velocity.z);
-        
+
 
         InitializeSubState();
         CurrentSubState?.EnterState();
@@ -58,7 +65,13 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
         {
             SwitchState(Factory.Dash());
         }
-        else if (_jumpTimeElapsed >= Ctx.MinJumpTime && Ctx.Velocity.y <= -0.1f && !Ctx.SuppressGravityFrame)
+        else if (_jumpTimeElapsed >= Ctx.MinJumpTime && Ctx.Velocity.y <= -0.1f && !Ctx.SuppressGravityFrame && !Ctx.FastJump)
+        {
+            Debug.Log("Jump -> Fall");
+            // Transición a caída cuando empieza a caer
+            _hasSwitched = true;
+            SwitchState(Factory.Fall());
+        }else if (_jumpTimeElapsed >= Ctx.MinFastJumpTime && Ctx.Velocity.y <= -0.1f && !Ctx.SuppressGravityFrame && Ctx.FastJump)
         {
             Debug.Log("Jump -> Fall");
             // Transición a caída cuando empieza a caer
@@ -113,9 +126,13 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
         float gravity = Physics.gravity.y;
 
         // Si suelta salto, aplica más gravedad durante la subida
-        if (!Ctx.IsJumpPressed && velocity.y > 0)
+        if (!Ctx.IsJumpPressed && velocity.y > 0 && Ctx.HorizontalSpeed < Ctx.SpeedThreshold)
         {
             gravity *= Ctx.FallMultiplier;
+        }
+        else if (!Ctx.IsJumpPressed && velocity.y > 0 && Ctx.HorizontalSpeed > Ctx.SpeedThreshold)
+        {
+            gravity *= Ctx.FastJumpFallMultiplier;
         }
 
         velocity.y += gravity * Time.deltaTime;

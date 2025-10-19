@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
-public class LightButton : Interactable
+public class inteactuablesEObj : Interactable
 {
     [SerializeField] private UnityEvent _onPressButton;
     public override void Interact(PlayerController player)

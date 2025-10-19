@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Canvas Interactive")]
     [SerializeField] private GameObject _canvasE;
+    [SerializeField] private bool ifRayCast = true;
 
     void Start()
     {
@@ -30,26 +31,35 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Shader.SetGlobalVector("Player", transform.position);
-
-        Vector3 basePosition = transform.position;
-        Vector3 rayOrigin = basePosition + Vector3.up * alturaDeOrigen;
-        
-        Vector3 rayDirection = transform.forward;
-
-        RaycastHit hit;
-
-        bool hasHit = Physics.Raycast(rayOrigin, rayDirection, out hit, raycastDistance, layerMask);
-
-        if (hasHit)
+        if (ifRayCast)
         {
-            if (hit.collider.gameObject.CompareTag("Interactable"))
+    
+            Vector3 basePosition = transform.position;
+            Vector3 rayOrigin = basePosition + Vector3.up * alturaDeOrigen;
+        
+            Vector3 rayDirection = transform.forward;
+
+            RaycastHit hit;
+
+            bool hasHit = Physics.Raycast(rayOrigin, rayDirection, out hit, raycastDistance, layerMask);
+
+            if (hasHit)
             {
-                currentTarget = hit.collider.gameObject;
-                Debug.Log($"Mirando a: {currentTarget.name} a una distancia de: {hit.distance:F2}");
-                if (_interactable == null)
+                if (hit.collider.gameObject.CompareTag("Interactable"))
                 {
-                    _interactable = currentTarget.GetComponent<Interactable>();
-                    _canvasE.SetActive(true);
+                    currentTarget = hit.collider.gameObject;
+                    Debug.Log($"Mirando a: {currentTarget.name} a una distancia de: {hit.distance:F2}");
+                    if (_interactable == null)
+                    {
+                        _interactable = currentTarget.GetComponent<Interactable>();
+                        _canvasE.SetActive(true);
+                    }
+                }
+                else
+                {
+                    currentTarget = null;
+                    _interactable = null;
+                    _canvasE.SetActive(false);
                 }
             }
             else
@@ -58,16 +68,11 @@ public class PlayerController : MonoBehaviour
                 _interactable = null;
                 _canvasE.SetActive(false);
             }
-        }
-        else
-        {
-            currentTarget = null;
-            _interactable = null;
-            _canvasE.SetActive(false);
-        }
 
-        Color rayColor = hasHit ? Color.red : Color.green;
-        Debug.DrawRay(rayOrigin, rayDirection * raycastDistance, rayColor);
+            Color rayColor = hasHit ? Color.red : Color.green;
+            Debug.DrawRay(rayOrigin, rayDirection * raycastDistance, rayColor);
+        }
+        
     }
 
     void onInteract(InputAction.CallbackContext context)
@@ -81,12 +86,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Grounded"))
+        if (other.gameObject.CompareTag("Interactable"))
         {
             if(_interactable == null)
             {
                 _interactable = other.GetComponent<Interactable>();
-              
+                _canvasE.SetActive(true);
             }   
         }
     }

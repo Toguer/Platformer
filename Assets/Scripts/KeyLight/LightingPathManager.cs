@@ -87,7 +87,6 @@ public class LightingPathManager : MonoBehaviour
             //door.GetComponent<BoxCollider>().enabled = false;
             //GetComponent<StudioEventEmitter>().Play();
 
-
             door.SetActive(false);
             lightFeedback.SetActive(false);
         }

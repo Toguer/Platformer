@@ -85,9 +85,11 @@ public class LightingPathManager : MonoBehaviour
         {
             //door.GetComponent<Animator>().SetBool("isOpen", true);
             //door.GetComponent<BoxCollider>().enabled = false;
-            //lightFeedback.SetActive(false);
             //GetComponent<StudioEventEmitter>().Play();
+
+
             door.SetActive(false);
+            lightFeedback.SetActive(false);
         }
     }
 }

@@ -942,8 +942,10 @@ public class RbPlayerStateMachine : MonoBehaviour
         Vector3 _origin = transform.position + transform.up * _wallBurrowRayOffset;
         Vector3 _direction = transform.forward;
 
-        bool _hasHit = Physics.Raycast(
+        // Usar SphereCast en lugar de Raycast para detección más robusta
+        bool _hasHit = Physics.SphereCast(
             _origin,
+            0.3f, // Radio de la esfera
             _direction,
             out hit,
             _wallBurrowDetectionDistance,
@@ -954,15 +956,22 @@ public class RbPlayerStateMachine : MonoBehaviour
         if (_hasHit)
         {
             _wallBurrowNormal = hit.normal;
+        
+            if (_debugWallBurrowRay)
+            {
+                Debug.DrawRay(_origin, _direction * hit.distance, Color.green, 1f);
+                Debug.DrawRay(hit.point, hit.normal * 1f, Color.blue, 1f);
+            }
+        
+            return true;
         }
 
         if (_debugWallBurrowRay)
         {
-            Color _color = _hasHit ? Color.green : Color.red;
-            Debug.DrawRay(_origin, _direction * _wallBurrowDetectionDistance, _color);
+            Debug.DrawRay(_origin, _direction * _wallBurrowDetectionDistance, Color.red, 1f);
         }
 
-        return _hasHit;
+        return false;
     }
 
     void stateCheck(InputAction.CallbackContext context)

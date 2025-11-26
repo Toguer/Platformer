@@ -14,30 +14,57 @@ public class PlayerDashStateRb : PlayerBaseStateRb, IRootState
     {
         _dashTimer = Ctx.DashDuration;
 
-        // Dirección basada en input + cámara
+        // --- MODO ESPECIAL: DASH DESDE WALL BURROW (usa forward 3D) ---
+        if (Ctx.DashFromWallBurrow)
+        {
+            Vector3 _dir = Ctx.transform.forward;
+            if (_dir.sqrMagnitude < 0.0001f)
+            {
+                _dir = Vector3.forward;
+            }
+
+            _dashDirection = _dir.normalized;
+
+            Ctx.DashAlreadyUsed = true;
+            Ctx.DashRemainingCooldown = Ctx.DashCooldown;
+
+            Ctx.ShouldApplyHorizontalMovement = false;
+
+            float _dashSpeed = Ctx.DashSpeed * Ctx.WallBurrowDashSpeedMultiplier;
+            Ctx.Velocity = _dashDirection * _dashSpeed;
+
+            if (Ctx.DashParticles != null)
+            {
+                Ctx.DashParticles.Play();
+            }
+
+            Debug.Log("Dash desde WallBurrow | dir=" + _dashDirection);
+            return;
+        }
+
+        // --- MODO NORMAL (como lo tenías) ---
         if (Ctx.CurrentMovementInput.sqrMagnitude > 0)
         {
-            Vector3 camDir =
+            Vector3 _camDir =
                 Ctx.ConvertToCameraSpace(new Vector3(Ctx.CurrentMovementInput.x, 0f, Ctx.CurrentMovementInput.y));
-            _dashDirection = new Vector3(camDir.x, 0f, camDir.z).normalized;
+            _dashDirection = new Vector3(_camDir.x, 0f, _camDir.z).normalized;
         }
         else
         {
             _dashDirection = new Vector3(Ctx.transform.forward.x, 0f, Ctx.transform.forward.z).normalized;
         }
 
-        // Marcar dash como usado
         Ctx.DashAlreadyUsed = true;
         Ctx.DashRemainingCooldown = Ctx.DashCooldown;
 
         Ctx.ShouldApplyHorizontalMovement = true;
         Ctx.TargetHorizontalVelocity = _dashDirection * Ctx.DashSpeed;
 
-        // Desactivar gravedad temporal (opcional)
-        Ctx.Velocity = new Vector3(_dashDirection.x * Ctx.DashSpeed, Ctx.Velocity.y, _dashDirection.z * Ctx.DashSpeed);
-
-        // Partículas / animaciones
-        // Ctx.AnimatorRef.SetTrigger("dash");
+        Ctx.Velocity = new Vector3(
+            _dashDirection.x * Ctx.DashSpeed,
+            Ctx.Velocity.y,
+            _dashDirection.z * Ctx.DashSpeed
+        );
 
         if (Ctx.DashParticles != null)
         {
@@ -50,14 +77,25 @@ public class PlayerDashStateRb : PlayerBaseStateRb, IRootState
     public override void UpdateState()
     {
         _dashTimer -= Time.deltaTime;
-        Vector3 dashXZ = _dashDirection * Ctx.DashSpeed;
-        Ctx.ShouldApplyHorizontalMovement = true; // por si acaso
-        Ctx.TargetHorizontalVelocity = dashXZ;
 
-        var v = Ctx.Velocity; // conserva la Y (suelo≈0, aire mantiene su vertical)
-        v.x = dashXZ.x;
-        v.z = dashXZ.z;
-        Ctx.Velocity = v;
+        if (Ctx.DashFromWallBurrow)
+        {
+            float _dashSpeed = Ctx.DashSpeed * Ctx.WallBurrowDashSpeedMultiplier;
+            Vector3 _dashVel = _dashDirection * _dashSpeed;
+            Ctx.Velocity = _dashVel;
+
+            CheckSwitchStates();
+            return;
+        }
+
+        Vector3 _dashXZ = _dashDirection * Ctx.DashSpeed;
+        Ctx.ShouldApplyHorizontalMovement = true;
+        Ctx.TargetHorizontalVelocity = _dashXZ;
+
+        Vector3 _v = Ctx.Velocity;
+        _v.x = _dashXZ.x;
+        _v.z = _dashXZ.z;
+        Ctx.Velocity = _v;
 
         CheckSwitchStates();
         Debug.Log("Update TargetHorizontalVelocity: " + Ctx.TargetHorizontalVelocity);
@@ -66,6 +104,13 @@ public class PlayerDashStateRb : PlayerBaseStateRb, IRootState
     public override void ExitState()
     {
         Ctx.DashPressed = false;
+
+        if (Ctx.DashFromWallBurrow)
+        {
+            // Dejamos que el siguiente estado decida la velocidad horizontal
+            Ctx.DashFromWallBurrow = false;
+            return;
+        }
 
         Vector3 baseDir;
 

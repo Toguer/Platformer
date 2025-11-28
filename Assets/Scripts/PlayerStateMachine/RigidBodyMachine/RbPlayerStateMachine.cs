@@ -718,6 +718,10 @@ public class RbPlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_rb.isKinematic)
+        {
+            return;
+        }
         // Mantén drag 0 en suelo; usa algo de drag en aire si quieres.
         _rb.linearDamping = _isGrounded ? _groundDrag : _airDrag;
 
@@ -941,6 +945,8 @@ public class RbPlayerStateMachine : MonoBehaviour
     {
         Vector3 _origin = transform.position + transform.up * _wallBurrowRayOffset;
         Vector3 _direction = transform.forward;
+        
+        Debug.Log($"TryGetWallBurrowHit | Origin: {_origin} | Dir: {_direction} | Mask: {_wallBurrowLayerMask.value}");
 
         // Usar SphereCast en lugar de Raycast para detección más robusta
         bool _hasHit = Physics.SphereCast(
@@ -956,6 +962,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         if (_hasHit)
         {
             _wallBurrowNormal = hit.normal;
+            Debug.Log($"Hit detected! | Point: {hit.point} | Normal: {hit.normal} | Collider: {hit.collider.name}");
         
             if (_debugWallBurrowRay)
             {
@@ -965,6 +972,8 @@ public class RbPlayerStateMachine : MonoBehaviour
         
             return true;
         }
+        
+        Debug.LogWarning("No wall hit detected in TryGetWallBurrowHit");
 
         if (_debugWallBurrowRay)
         {

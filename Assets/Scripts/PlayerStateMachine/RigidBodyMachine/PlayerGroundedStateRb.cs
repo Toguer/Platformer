@@ -12,9 +12,9 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
     {
         Ctx.CanUseCoyote = true;
         Ctx.RemainingCoyoteTime = 0;
-        
+
         //Ctx.AnimatorRef.SetBool("isJump", false);
-        
+
 
         Ctx.JetpackAlreadyUsed = false;
         Ctx.RequireNewJumpPress = false;
@@ -42,7 +42,6 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
 
     public override void ExitState()
     {
-        
     }
 
     public override void CheckSwitchStates()
@@ -71,10 +70,14 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
             Ctx.RemainingCoyoteTime = Ctx.CoyoteTime;
             SwitchState(Factory.Fall());
         }
-        else if (Ctx.IsInteractPressed && Ctx.IsNearSand())
+        else if (Ctx.IsInteractPressed)
         {
-            Debug.Log("Entrando en BurrowState");
-            SwitchState(Factory.Burrow());
+            RaycastHit _hit;
+            if (Ctx.TryGetWallBurrowHit(out _hit))
+            {
+                Debug.Log("Grounded -> WallBurrow");
+                SwitchState(Factory.WallBurrow());
+            }
         }
     }
 
@@ -91,7 +94,7 @@ public class PlayerGroundedStateRb : PlayerBaseStateRb, IRootState
         {
             SetSubState(Factory.Idle());
         }
-        else if (runKeyboard ||runGamepad)
+        else if (runKeyboard || runGamepad)
         {
             SetSubState(Factory.Run());
         }

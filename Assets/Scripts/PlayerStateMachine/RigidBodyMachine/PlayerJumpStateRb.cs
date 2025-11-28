@@ -98,6 +98,14 @@ public class PlayerJumpStateRb : PlayerBaseStateRb, IRootState
                     SwitchState(Factory.Jetpack());
                 }
             }
+        }else if (Ctx.IsInteractPressed)
+        {
+            RaycastHit _hit;
+            if (Ctx.TryGetWallBurrowHit(out _hit))
+            {
+                Debug.Log("Jump -> WallBurrow");
+                SwitchState(Factory.WallBurrow());
+            }
         }
     }
 

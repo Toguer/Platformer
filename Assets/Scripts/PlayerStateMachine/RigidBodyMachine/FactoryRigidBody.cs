@@ -13,7 +13,8 @@ enum PlayerStatesRb
     Fall,
     Jetpack,
     Dash,
-    Burrow
+    Burrow,
+    WallBurrow
 }
 
 public class FactoryRigidBody
@@ -33,6 +34,7 @@ public class FactoryRigidBody
         _states[PlayerStatesRb.Jetpack] = new PlayerJetpackStateRb(_context, this);
         _states[PlayerStatesRb.Dash] = new PlayerDashStateRb(_context, this);
         _states[PlayerStatesRb.AirMove] = new AirMoveStateRb(_context, this);
+        _states[PlayerStatesRb.WallBurrow] = new WallBurrowStateRb(_context, this);
         //_states[PlayerStatesRb.Burrow] = new PlayerBurrowStateRb(_context, this);
     }
 
@@ -45,10 +47,12 @@ public class FactoryRigidBody
     {
         return _states[PlayerStatesRb.Walk];
     }
+
     public PlayerBaseStateRb AirMove()
     {
         return _states[PlayerStatesRb.AirMove];
     }
+
     public PlayerBaseStateRb Run()
     {
         return _states[PlayerStatesRb.Run];
@@ -79,8 +83,8 @@ public class FactoryRigidBody
         return _states[PlayerStatesRb.Dash];
     }
 
-    public PlayerBaseStateRb Burrow()
+    public PlayerBaseStateRb WallBurrow()
     {
-        return _states[PlayerStatesRb.Burrow];
+        return _states[PlayerStatesRb.WallBurrow];
     }
 }

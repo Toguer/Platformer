@@ -96,7 +96,9 @@ public class RbPlayerStateMachine : MonoBehaviour
     [Tooltip("Duración minima del salto")] [SerializeField]
     private float _minFastJumpTime = 0.1f;
 
-    [FormerlySerializedAs("_fallFastJumpMultiplier")] [Tooltip("Velocidad adicional a la que el jugador caerá cuando no pulsa saltar.")] [SerializeField]
+    [FormerlySerializedAs("_fallFastJumpMultiplier")]
+    [Tooltip("Velocidad adicional a la que el jugador caerá cuando no pulsa saltar.")]
+    [SerializeField]
     private float _fastJumpFallMultiplier = 2.0f;
 
     [SerializeField] private float _speedThreshold;
@@ -147,6 +149,34 @@ public class RbPlayerStateMachine : MonoBehaviour
     private float _detectionRadius = 0.5f;
 
     private Interactable _interactable;
+
+    [Header("Wall Burrow")] [SerializeField]
+    private float _wallBurrowSpeed = 6.0f;
+
+    [Tooltip("Esto es la velocidad a la que cambia de dirección")] [SerializeField]
+    private float _wallBurrowTurnSpeed = 120.0f; // grados/segundo
+
+    [Tooltip("Esto es la cantidad de giro que hace respecto a la velocidad de la variable anterior.")] [SerializeField]
+    private float _wallBurrowRotationLerp = 10.0f;
+
+    [Tooltip("Distancia de detección de la arena")] [SerializeField]
+    private float _wallBurrowDetectionDistance = 1.0f;
+
+    [SerializeField] private float _wallBurrowRayOffset = 0.5f;
+
+    [Tooltip("Selecciona la LayerMask de las paredes de arena")] [SerializeField]
+    private LayerMask _wallBurrowLayerMask = ~0;
+
+    [SerializeField] private bool _debugWallBurrowRay = false;
+
+    [Tooltip("Como de dentro de la pared estará")] [SerializeField]
+    private float _wallBurrowInsetDepth = 0.25f; //Como de dentro de la pared esta
+
+    private Vector3 _wallBurrowNormal;
+    private bool _dashFromWallBurrow;
+
+    [Header("Wall Burrow Dash")] [SerializeField]
+    private float _wallBurrowDashSpeedMultiplier = 1.2f;
 
     [FormerlySerializedAs("_speed")]
     [Header("Movement Variables")]
@@ -451,9 +481,55 @@ public class RbPlayerStateMachine : MonoBehaviour
         set { _isInteractPressed = value; }
     }
 
-    public float BurrowSpeed
+    public float WallBurrowInsetDepth
     {
-        get { return _burrowSpeed; }
+        get { return _wallBurrowInsetDepth; }
+    }
+    public float WallBurrowDashSpeedMultiplier
+    {
+        get { return _wallBurrowDashSpeedMultiplier; }
+    }
+
+    public float WallBurrowSpeed
+    {
+        get { return _wallBurrowSpeed; }
+    }
+
+    public float WallBurrowTurnSpeed
+    {
+        get { return _wallBurrowTurnSpeed; }
+    }
+
+    public float WallBurrowRotationLerp
+    {
+        get { return _wallBurrowRotationLerp; }
+    }
+
+    public float WallBurrowDetectionDistance
+    {
+        get { return _wallBurrowDetectionDistance; }
+    }
+
+    public float WallBurrowRayOffset
+    {
+        get { return _wallBurrowRayOffset; }
+    }
+
+    public LayerMask WallBurrowLayerMask
+    {
+        get { return _wallBurrowLayerMask; }
+    }
+
+    public Vector3 WallBurrowNormal
+    {
+        get { return _wallBurrowNormal; }
+        set { _wallBurrowNormal = value; }
+    }
+
+    public bool DashFromWallBurrow
+    {
+        get { return _dashFromWallBurrow; }
+        set { _dashFromWallBurrow = value; }
     }
 
     public Interactable Interactable
@@ -539,6 +615,8 @@ public class RbPlayerStateMachine : MonoBehaviour
         _playerInput.Player.JetPack.canceled += onJetpack;
         _playerInput.Player.Run.started += OnRunPress;
         _playerInput.Player.State.started += stateCheck;
+        _playerInput.Player.Interact.started += onInteract;
+        _playerInput.Player.Interact.canceled += onInteract;
         _usedHorizontalAccel = _acceleration;
     }
 
@@ -730,7 +808,7 @@ public class RbPlayerStateMachine : MonoBehaviour
         {
             _fastJump = false;
         }
-            
+
         _targetHorizontalSpeed = TargetHorizontalVelocity.magnitude;
 
         // Rotación y stickiness como lo tengas
@@ -857,6 +935,43 @@ public class RbPlayerStateMachine : MonoBehaviour
         Collider[] hitColliders =
             Physics.OverlapSphere(transform.position, _detectionRadius, LayerMask.GetMask("Sand"));
         return hitColliders.Length > 0;
+    }
+
+    public bool TryGetWallBurrowHit(out RaycastHit hit)
+    {
+        Vector3 _origin = transform.position + transform.up * _wallBurrowRayOffset;
+        Vector3 _direction = transform.forward;
+
+        // Usar SphereCast en lugar de Raycast para detección más robusta
+        bool _hasHit = Physics.SphereCast(
+            _origin,
+            0.3f, // Radio de la esfera
+            _direction,
+            out hit,
+            _wallBurrowDetectionDistance,
+            _wallBurrowLayerMask,
+            QueryTriggerInteraction.Ignore
+        );
+
+        if (_hasHit)
+        {
+            _wallBurrowNormal = hit.normal;
+        
+            if (_debugWallBurrowRay)
+            {
+                Debug.DrawRay(_origin, _direction * hit.distance, Color.green, 1f);
+                Debug.DrawRay(hit.point, hit.normal * 1f, Color.blue, 1f);
+            }
+        
+            return true;
+        }
+
+        if (_debugWallBurrowRay)
+        {
+            Debug.DrawRay(_origin, _direction * _wallBurrowDetectionDistance, Color.red, 1f);
+        }
+
+        return false;
     }
 
     void stateCheck(InputAction.CallbackContext context)

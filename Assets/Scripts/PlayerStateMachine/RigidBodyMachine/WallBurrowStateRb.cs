@@ -52,34 +52,60 @@ public class WallBurrowStateRb : PlayerBaseStateRb, IRootState
         // Calcular dirección inicial proyectada en el plano de la pared
         CalculateInitialDirection();
 
-        // Posicionar al jugador dentro de la pared
-        Vector3 insidePosition = initialHit.point - _stableWallNormal * Ctx.WallBurrowInsetDepth;
+        // CORREGIDO: Posicionar DENTRO de la pared correctamente
+        // La normal apunta HACIA FUERA del collider, así que restamos para ir hacia dentro
+        Vector3 insidePosition = initialHit.point + _stableWallNormal * Ctx.WallBurrowInsetDepth;
         Ctx.transform.position = insidePosition;
         _lastValidPosition = insidePosition;
 
         // Orientar al jugador
         UpdatePlayerRotation();
 
-        Debug.Log($"WallBurrow iniciado | Normal: {_stableWallNormal} | Dir: {_moveDirection} | Pos: {insidePosition}");
+        Debug.Log($"WallBurrow iniciado | HitPoint: {initialHit.point} | Normal: {_stableWallNormal} | Dir: {_moveDirection} | InsidePos: {insidePosition}");
+        Debug.Log($"Distancia desde hit point: {Vector3.Distance(initialHit.point, insidePosition):F3}");
     }
 
     private void CalculateInitialDirection()
     {
-        // Proyectar el forward actual en el plano de la pared
-        Vector3 projectedForward = Vector3.ProjectOnPlane(Ctx.transform.forward, _stableWallNormal);
-
-        if (projectedForward.sqrMagnitude < 0.0001f)
+        // Obtener la velocidad actual del jugador antes de entrar
+        Vector3 currentVelocity = Ctx.Velocity;
+        
+        // Si hay velocidad horizontal significativa, usarla
+        if (currentVelocity.sqrMagnitude > 0.1f)
         {
-            // Si el forward es perpendicular a la pared, usar un vector lateral
-            projectedForward = Vector3.Cross(_stableWallNormal, Vector3.up);
+            // Proyectar la velocidad en el plano de la pared
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(currentVelocity, _stableWallNormal);
             
-            if (projectedForward.sqrMagnitude < 0.0001f)
+            if (projectedVelocity.sqrMagnitude > 0.01f)
             {
-                projectedForward = Vector3.Cross(_stableWallNormal, Vector3.right);
+                _moveDirection = projectedVelocity.normalized;
+                Debug.Log($"Dirección desde velocidad: {_moveDirection}");
+                return;
             }
         }
-
-        _moveDirection = projectedForward.normalized;
+        
+        // Si no hay velocidad, usar el "right" del jugador (perpendicular a forward)
+        // Esto hace que vaya de lado en lugar de hacia la pared
+        Vector3 lateralDirection = Ctx.transform.right;
+        Vector3 projectedLateral = Vector3.ProjectOnPlane(lateralDirection, _stableWallNormal);
+        
+        if (projectedLateral.sqrMagnitude > 0.01f)
+        {
+            _moveDirection = projectedLateral.normalized;
+            Debug.Log($"Dirección lateral: {_moveDirection}");
+            return;
+        }
+        
+        // Fallback: usar cross product con Vector3.up
+        Vector3 fallbackDirection = Vector3.Cross(_stableWallNormal, Vector3.up);
+        
+        if (fallbackDirection.sqrMagnitude < 0.0001f)
+        {
+            fallbackDirection = Vector3.Cross(_stableWallNormal, Vector3.right);
+        }
+        
+        _moveDirection = fallbackDirection.normalized;
+        Debug.Log($"Dirección fallback: {_moveDirection}");
     }
 
     public override void UpdateState()
@@ -109,78 +135,113 @@ public class WallBurrowStateRb : PlayerBaseStateRb, IRootState
 
     private void UpdateWallDetection()
     {
-        // Múltiples raycasts para detectar la pared desde nuestra posición actual
-        Vector3 rayOrigin = Ctx.transform.position;
+        // Hacer múltiples raycasts desde diferentes puntos para asegurar detección
+        Vector3 center = Ctx.transform.position;
+        Vector3 top = center + Vector3.up * 0.5f;
+        Vector3 bottom = center - Vector3.up * 0.3f;
         
-        // Ray principal: hacia fuera
+        float maxDist = Ctx.WallBurrowInsetDepth * 4f;
+        
         RaycastHit hit;
-        float maxDist = Ctx.WallBurrowDetectionDistance + (Ctx.WallBurrowInsetDepth * 2f);
-        bool hitDetected = Physics.Raycast(
-            rayOrigin, 
-            _stableWallNormal, 
-            out hit, 
-            maxDist, 
-            Ctx.WallBurrowLayerMask, 
-            QueryTriggerInteraction.Ignore
-        );
-
-        // Ray secundario: hacia dentro (en caso de estar muy afuera)
-        if (!hitDetected)
+        bool hitDetected = false;
+        
+        // CORREGIDO: Buscar hacia DENTRO del collider (dirección opuesta a la normal)
+        // La normal apunta FUERA, así que buscamos en -normal
+        if (Physics.Raycast(center, -_stableWallNormal, out hit, maxDist, 
+            Ctx.WallBurrowLayerMask, QueryTriggerInteraction.Ignore))
         {
-            hitDetected = Physics.Raycast(
-                rayOrigin, 
-                -_stableWallNormal, 
-                out hit, 
-                maxDist, 
-                Ctx.WallBurrowLayerMask, 
-                QueryTriggerInteraction.Ignore
-            );
-            
-            if (hitDetected)
-            {
-                hit.normal = -hit.normal;
-            }
+            hitDetected = true;
+            Debug.DrawRay(center, -_stableWallNormal * hit.distance, Color.green);
         }
-
-        // Ray adicional: desde arriba del jugador
-        if (!hitDetected)
+        // También buscar hacia fuera por si acaso
+        else if (Physics.Raycast(center, _stableWallNormal, out hit, maxDist, 
+            Ctx.WallBurrowLayerMask, QueryTriggerInteraction.Ignore))
         {
-            Vector3 topOrigin = rayOrigin + Vector3.up * 0.5f;
-            hitDetected = Physics.Raycast(
-                topOrigin, 
-                _stableWallNormal, 
-                out hit, 
-                maxDist, 
-                Ctx.WallBurrowLayerMask, 
-                QueryTriggerInteraction.Ignore
-            );
+            hitDetected = true;
+            hit.normal = -hit.normal;
+            Debug.DrawRay(center, _stableWallNormal * hit.distance, Color.cyan);
+        }
+        // Intentar desde arriba hacia dentro
+        else if (Physics.Raycast(top, -_stableWallNormal, out hit, maxDist, 
+            Ctx.WallBurrowLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            hitDetected = true;
+            Debug.DrawRay(top, -_stableWallNormal * hit.distance, Color.green);
+        }
+        // Intentar desde arriba hacia fuera
+        else if (Physics.Raycast(top, _stableWallNormal, out hit, maxDist, 
+            Ctx.WallBurrowLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            hitDetected = true;
+            hit.normal = -hit.normal;
+            Debug.DrawRay(top, _stableWallNormal * hit.distance, Color.cyan);
+        }
+        // Intentar desde abajo hacia dentro
+        else if (Physics.Raycast(bottom, -_stableWallNormal, out hit, maxDist, 
+            Ctx.WallBurrowLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            hitDetected = true;
+            Debug.DrawRay(bottom, -_stableWallNormal * hit.distance, Color.green);
+        }
+        // Intentar desde abajo hacia fuera
+        else if (Physics.Raycast(bottom, _stableWallNormal, out hit, maxDist, 
+            Ctx.WallBurrowLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            hitDetected = true;
+            hit.normal = -hit.normal;
+            Debug.DrawRay(bottom, _stableWallNormal * hit.distance, Color.cyan);
+        }
+        // SphereCast como último recurso
+        else if (Physics.SphereCast(center, 0.3f, -_stableWallNormal, out hit, maxDist, 
+            Ctx.WallBurrowLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            hitDetected = true;
+            Debug.DrawRay(center, -_stableWallNormal * hit.distance, Color.yellow);
         }
 
         if (hitDetected)
         {
             _hasValidWall = true;
             
-            // Actualizar normal suavemente
-            float normalBlend = Time.deltaTime * 3f;
-            _stableWallNormal = Vector3.Slerp(_stableWallNormal, hit.normal, normalBlend);
+            // Actualizar normal MUY suavemente
+            _stableWallNormal = Vector3.Slerp(_stableWallNormal, hit.normal, Time.deltaTime * 2f);
             
-            // Reproyectar la dirección de movimiento en el nuevo plano
-            _moveDirection = Vector3.ProjectOnPlane(_moveDirection, _stableWallNormal).normalized;
+            // Reproyectar la dirección de movimiento SOLO si cambió mucho la normal
+            float normalChange = Vector3.Angle(_moveDirection, Vector3.ProjectOnPlane(_moveDirection, _stableWallNormal));
+            if (normalChange > 5f)
+            {
+                _moveDirection = Vector3.ProjectOnPlane(_moveDirection, _stableWallNormal).normalized;
+            }
 
-            // Mantener distancia de la pared
-            Vector3 targetPosition = hit.point - _stableWallNormal * Ctx.WallBurrowInsetDepth;
-            _lastValidPosition = targetPosition;
-            Ctx.transform.position = targetPosition;
+            // CORREGIDO: Ajustar posición hacia DENTRO del collider
+            // Queremos estar a WallBurrowInsetDepth dentro de la superficie
+            Vector3 targetPosition = hit.point + _stableWallNormal * Ctx.WallBurrowInsetDepth;
+            float currentDist = Vector3.Distance(Ctx.transform.position, hit.point);
+            float idealDist = Ctx.WallBurrowInsetDepth;
+            float distanceError = Mathf.Abs(currentDist - idealDist);
+            
+            if (distanceError > 0.15f)
+            {
+                Ctx.transform.position = Vector3.Lerp(Ctx.transform.position, targetPosition, Time.deltaTime * 3f);
+            }
+            
+            _lastValidPosition = Ctx.transform.position;
+            
+            // Debug info
+            Debug.Log($"Wall detected | HitPoint: {hit.point} | MyPos: {Ctx.transform.position} | Dist: {currentDist:F3} | Error: {distanceError:F3}");
         }
         else
         {
             _hasValidWall = false;
+            Debug.LogWarning($"No se detecta pared | Pos: {center} | Normal: {_stableWallNormal}");
+            
+            // Rayos de debug cuando no detecta
+            Debug.DrawRay(center, _stableWallNormal * maxDist, Color.red);
+            Debug.DrawRay(center, -_stableWallNormal * maxDist, Color.red);
         }
 
-        // Debug visual
-        Debug.DrawRay(rayOrigin, _stableWallNormal * maxDist, _hasValidWall ? Color.green : Color.red);
-        Debug.DrawRay(rayOrigin, -_stableWallNormal * maxDist, _hasValidWall ? Color.cyan : Color.magenta);
-        Debug.DrawRay(rayOrigin, _moveDirection * 2f, Color.yellow);
+        // Debug visual de la dirección de movimiento
+        Debug.DrawRay(center, _moveDirection * 2f, Color.yellow);
     }
 
     private void ProcessTurningInput()
@@ -202,8 +263,19 @@ public class WallBurrowStateRb : PlayerBaseStateRb, IRootState
 
     private void ApplyWallMovement()
     {
-        // Movimiento manual ya que somos kinematic
+        // SIEMPRE aplicar movimiento automático en la dirección actual
         Vector3 movement = _moveDirection * Ctx.WallBurrowSpeed * Time.deltaTime;
+        
+        // Si hay input vertical (W/S), modificar la velocidad
+        float verticalInput = Ctx.CurrentMovementInput.y;
+        if (Mathf.Abs(verticalInput) > 0.01f)
+        {
+            // Ajustar velocidad según input: W acelera, S frena/reversa
+            float speedMultiplier = 1f + verticalInput; // W = +1, S = -1
+            speedMultiplier = Mathf.Clamp(speedMultiplier, 0.5f, 2f); // Entre 50% y 200%
+            movement *= speedMultiplier;
+        }
+        
         Ctx.transform.position += movement;
     }
 
@@ -243,8 +315,8 @@ public class WallBurrowStateRb : PlayerBaseStateRb, IRootState
         // Calcular velocidad de salida basada en la dirección de movimiento
         Vector3 exitVelocity = _moveDirection * Ctx.WallBurrowSpeed;
         
-        // Añadir componente hacia fuera de la pared
-        exitVelocity += _stableWallNormal * 3f;
+        // CORREGIDO: Añadir componente FUERA de la pared (dirección opuesta a la normal)
+        exitVelocity -= _stableWallNormal * 3f;
         
         // Si hacemos dash desde aquí, no modificar la velocidad
         if (!Ctx.DashFromWallBurrow)
@@ -261,7 +333,7 @@ public class WallBurrowStateRb : PlayerBaseStateRb, IRootState
 
     public override void CheckSwitchStates()
     {
-        // verificar si perdemos contacto con la pared
+        // PRIMERO: verificar si perdemos contacto con la pared
         if (!_hasValidWall)
         {
             Debug.Log("WallBurrow -> Saliendo por pérdida de contacto");

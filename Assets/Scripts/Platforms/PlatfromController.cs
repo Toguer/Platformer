@@ -14,6 +14,7 @@ public class PlatfromController : MonoBehaviour
     [SerializeField] private Transform[] points;
     private Vector3 direction;
     private int i;
+    [SerializeField] private Transform firstPosition;
 
     [Header("Cool Down")]
     [SerializeField] private float timeBetween;

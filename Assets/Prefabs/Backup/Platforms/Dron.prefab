@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6418699942223457556}
   m_Layer: 0
-  m_Name: 1
+  m_Name: Punto De vuelta
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4301994896799293680}
   m_Layer: 0
-  m_Name: b
+  m_Name: p2
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 878783833068443300}
   - component: {fileID: 5470064361174564213}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: donObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -281,7 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 739128531657411747}
   m_Layer: 0
-  m_Name: c
+  m_Name: p3
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -312,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3207144177737100330}
   m_Layer: 0
-  m_Name: a
+  m_Name: p1
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

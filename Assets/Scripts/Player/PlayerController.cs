@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -21,11 +22,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _canvasE;
     [SerializeField] private bool ifRayCast = true;
 
+    [Header("Light")]
+    [Tooltip("Hay que añadir el script de la zona")] private LightingPathManager lightingPathManager;    
+
     void Start()
     {
         _playerInput = GetComponent<RbPlayerStateMachine>().PlayerInput;
         print("Start on PlayerController");
         _playerInput.Player.Interact.started += onInteract;
+    }
+    public void SetLightManager(LightingPathManager lightingPathManager)
+    {
+        this.lightingPathManager = lightingPathManager;
     }
 
     void Update()
@@ -33,7 +41,6 @@ public class PlayerController : MonoBehaviour
         Shader.SetGlobalVector("Player", transform.position);
         if (ifRayCast)
         {
-    
             Vector3 basePosition = transform.position;
             Vector3 rayOrigin = basePosition + Vector3.up * alturaDeOrigen;
         
@@ -86,6 +93,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.name);
         if (other.gameObject.CompareTag("Interactable"))
         {
             if(_interactable == null)
@@ -93,6 +101,14 @@ public class PlayerController : MonoBehaviour
                 _interactable = other.GetComponent<Interactable>();
                 _canvasE.SetActive(true);
             }   
+        }
+        else if (other.gameObject.CompareTag("ground"))
+        {
+            Debug.Log("TocansoSUelo");
+            if(lightingPathManager != null)
+            {
+                lightingPathManager.SetisGetLight(false);
+            }
         }
     }
 
@@ -103,5 +119,10 @@ public class PlayerController : MonoBehaviour
             _interactable = null;
             _canvasE.SetActive(false);
         }
+    }
+    
+    public void saveLight(LightingPathManager lpm)
+    {
+        lightingPathManager = lpm;
     }
 }

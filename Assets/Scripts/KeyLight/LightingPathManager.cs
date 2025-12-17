@@ -16,7 +16,7 @@ public class LightingPathManager : MonoBehaviour
     [Header("Materials")] [SerializeField] private Material _material;
     [SerializeField] private Material _emissiveMaterial;
 
-    public bool isGetLight;
+    [Tooltip("esto dice si el player tiene la luz o no")]public bool isGetLight;
 
     [Tooltip("si el trayecto no tiene plataformas que iluminar hay que poner a true esta opcion")][SerializeField] private bool _isntPlatforms;
 

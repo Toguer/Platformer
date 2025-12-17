@@ -22,16 +22,18 @@ public class DionaeaPlant : MonoBehaviour
     private IEnumerator closePlant()
     {
         yield return new WaitForSeconds(timeToClose);
-        boca1.GetComponent<Animator>().SetBool("isClosed", true);
-        boca2.GetComponent<Animator>().SetBool("isClosed", true);
+        //boca1.GetComponent<Animator>().SetBool("isClosed", true);
+        //boca2.GetComponent<Animator>().SetBool("isClosed", true);
+        GetComponent<Animator>().SetBool("isClosed", true);
         GetComponent<BoxCollider>().enabled = false;
         StartCoroutine(openPlant());
     }
     private IEnumerator openPlant()
     {
         yield return new WaitForSeconds(timeToOpen);
-        boca1.GetComponent<Animator>().SetBool("isClosed", false);
-        boca2.GetComponent<Animator>().SetBool("isClosed", false);
+        //boca1.GetComponent<Animator>().SetBool("isClosed", false);
+        //boca2.GetComponent<Animator>().SetBool("isClosed", false);
+        GetComponent<Animator>().SetBool("isClosed", false);
         GetComponent<BoxCollider>().enabled = true;
     }
 }

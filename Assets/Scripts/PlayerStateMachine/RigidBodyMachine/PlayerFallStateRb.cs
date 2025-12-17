@@ -69,6 +69,15 @@ public class PlayerFallStateRb : PlayerBaseStateRb, IRootState
                 }
             }
         }
+        else if (Ctx.IsInteractPressed)
+        {
+            RaycastHit _hit;
+            if (Ctx.TryGetWallBurrowHit(out _hit))
+            {
+                Debug.Log("Fall -> WallBurrow");
+                SwitchState(Factory.WallBurrow());
+            }
+        }
     }
 
     public override void InitializeSubState()

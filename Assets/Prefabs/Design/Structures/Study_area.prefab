@@ -321,6 +321,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -342,6 +344,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -1054,6 +1057,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1075,6 +1080,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -1139,7 +1145,7 @@ Transform:
   m_GameObject: {fileID: 3129162895330661764}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.000002, y: 4, z: 23.000006}
+  m_LocalPosition: {x: 25.000002, y: 4, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1170,7 +1176,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1187,7 +1193,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1204,7 +1210,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1221,7 +1227,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1238,7 +1244,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1255,7 +1261,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1272,55 +1278,55 @@ MonoBehaviour:
   - m_Vertices: 0b0000000e00000012000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -0.9999994, y: -4, z: 0.9999995}
-  - {x: 1.0000006, y: -4, z: 0.9999995}
-  - {x: -0.9999994, y: 4, z: 0.9999995}
-  - {x: 1.0000006, y: 4, z: 0.9999995}
-  - {x: 1.0000006, y: -4, z: 0.9999995}
-  - {x: 1.0000006, y: -4, z: -11}
-  - {x: 1.0000006, y: 4, z: 0.9999995}
-  - {x: 1.0000006, y: 4, z: -11}
-  - {x: 1.0000006, y: -4, z: -11}
-  - {x: -0.9999994, y: -4, z: -11}
-  - {x: 1.0000006, y: 4, z: -11}
-  - {x: -0.9999994, y: 4, z: -11}
-  - {x: -0.9999994, y: -4, z: -11}
-  - {x: -0.9999994, y: -4, z: 0.9999995}
-  - {x: -0.9999994, y: 4, z: -11}
-  - {x: -0.9999994, y: 4, z: 0.9999995}
-  - {x: -0.9999994, y: 4, z: 0.9999995}
-  - {x: 1.0000006, y: 4, z: 0.9999995}
-  - {x: -0.9999994, y: 4, z: -11}
-  - {x: 1.0000006, y: 4, z: -11}
-  - {x: -0.9999994, y: -4, z: -11}
-  - {x: 1.0000006, y: -4, z: -11}
-  - {x: -0.9999994, y: -4, z: 0.9999995}
-  - {x: 1.0000006, y: -4, z: 0.9999995}
+  - {x: -1, y: -4, z: -1}
+  - {x: 1, y: -4, z: -1}
+  - {x: -1, y: 4, z: -1}
+  - {x: 1, y: 4, z: -1}
+  - {x: 1, y: -4, z: -1}
+  - {x: 1, y: -4, z: -9}
+  - {x: 1, y: 4, z: -1}
+  - {x: 1, y: 4, z: -9}
+  - {x: 1, y: -4, z: -9}
+  - {x: -1, y: -4, z: -9}
+  - {x: 1, y: 4, z: -9}
+  - {x: -1, y: 4, z: -9}
+  - {x: -1, y: -4, z: -9}
+  - {x: -1, y: -4, z: -1}
+  - {x: -1, y: 4, z: -9}
+  - {x: -1, y: 4, z: -1}
+  - {x: -1, y: 4, z: -1}
+  - {x: 1, y: 4, z: -1}
+  - {x: -1, y: 4, z: -9}
+  - {x: 1, y: 4, z: -9}
+  - {x: -1, y: -4, z: -9}
+  - {x: 1, y: -4, z: -9}
+  - {x: -1, y: -4, z: -1}
+  - {x: 1, y: -4, z: -1}
   m_Textures0:
-  - {x: 0.9999994, y: -4}
-  - {x: -1.0000006, y: -4}
-  - {x: 0.9999994, y: 4}
-  - {x: -1.0000006, y: 4}
-  - {x: 0.9999995, y: -4}
-  - {x: -11, y: -4}
-  - {x: 0.9999995, y: 4}
-  - {x: -11, y: 4}
-  - {x: 1.0000006, y: -4}
-  - {x: -0.9999994, y: -4}
-  - {x: 1.0000006, y: 4}
-  - {x: -0.9999994, y: 4}
-  - {x: 11, y: -4}
-  - {x: -0.9999995, y: -4}
-  - {x: 11, y: 4}
-  - {x: -0.9999995, y: 4}
-  - {x: -0.9999994, y: 0.9999995}
-  - {x: 1.0000006, y: 0.9999995}
-  - {x: -0.9999994, y: -11}
-  - {x: 1.0000006, y: -11}
-  - {x: 0.9999994, y: -11}
-  - {x: -1.0000006, y: -11}
-  - {x: 0.9999994, y: 0.9999995}
-  - {x: -1.0000006, y: 0.9999995}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 8, y: -7}
+  - {x: 0, y: -7}
+  - {x: 8, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 8, y: -7}
+  - {x: 0, y: -7}
+  - {x: 8, y: 1}
+  - {x: 0, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: 1}
+  - {x: 0, y: -7}
+  - {x: 2, y: -7}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
@@ -1381,7 +1387,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7529
+  m_VersionIndex: 7554
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1401,8 +1407,8 @@ MonoBehaviour:
   m_Shape:
     rid: 3084551855786164224
   m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_UnmodifiedMeshVersion: 7511
-  m_Size: {x: 2, y: 8, z: 12}
+  m_UnmodifiedMeshVersion: 7551
+  m_Size: {x: 2, y: 8, z: 8}
   m_LocalCenter: {x: 0, y: 0, z: -5}
   references:
     version: 2
@@ -1430,6 +1436,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1451,6 +1459,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -1515,7 +1524,7 @@ Transform:
   m_GameObject: {fileID: 3763018111085889502}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.000004, y: 4, z: -5.749996}
+  m_LocalPosition: {x: 25.000004, y: 4, z: -7.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1546,7 +1555,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1563,7 +1572,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1580,7 +1589,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1597,7 +1606,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1614,7 +1623,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1631,7 +1640,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -1648,55 +1657,55 @@ MonoBehaviour:
   - m_Vertices: 0b0000000e00000012000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -1.0000005, y: -4, z: 9.75}
-  - {x: 0.9999995, y: -4, z: 9.75}
-  - {x: -1.0000005, y: 4, z: 9.75}
-  - {x: 0.9999995, y: 4, z: 9.75}
-  - {x: 0.9999995, y: -4, z: 9.75}
-  - {x: 0.9999995, y: -4, z: -2.2499995}
-  - {x: 0.9999995, y: 4, z: 9.75}
-  - {x: 0.9999995, y: 4, z: -2.2499995}
-  - {x: 0.9999995, y: -4, z: -2.2499995}
-  - {x: -1.0000005, y: -4, z: -2.2499995}
-  - {x: 0.9999995, y: 4, z: -2.2499995}
-  - {x: -1.0000005, y: 4, z: -2.2499995}
-  - {x: -1.0000005, y: -4, z: -2.2499995}
-  - {x: -1.0000005, y: -4, z: 9.75}
-  - {x: -1.0000005, y: 4, z: -2.2499995}
-  - {x: -1.0000005, y: 4, z: 9.75}
-  - {x: -1.0000005, y: 4, z: 9.75}
-  - {x: 0.9999995, y: 4, z: 9.75}
-  - {x: -1.0000005, y: 4, z: -2.2499995}
-  - {x: 0.9999995, y: 4, z: -2.2499995}
-  - {x: -1.0000005, y: -4, z: -2.2499995}
-  - {x: 0.9999995, y: -4, z: -2.2499995}
-  - {x: -1.0000005, y: -4, z: 9.75}
-  - {x: 0.9999995, y: -4, z: 9.75}
+  - {x: -1, y: -4, z: 7.75}
+  - {x: 1, y: -4, z: 7.75}
+  - {x: -1, y: 4, z: 7.75}
+  - {x: 1, y: 4, z: 7.75}
+  - {x: 1, y: -4, z: 7.75}
+  - {x: 1, y: -4, z: -0.25}
+  - {x: 1, y: 4, z: 7.75}
+  - {x: 1, y: 4, z: -0.25}
+  - {x: 1, y: -4, z: -0.25}
+  - {x: -1, y: -4, z: -0.25}
+  - {x: 1, y: 4, z: -0.25}
+  - {x: -1, y: 4, z: -0.25}
+  - {x: -1, y: -4, z: -0.25}
+  - {x: -1, y: -4, z: 7.75}
+  - {x: -1, y: 4, z: -0.25}
+  - {x: -1, y: 4, z: 7.75}
+  - {x: -1, y: 4, z: 7.75}
+  - {x: 1, y: 4, z: 7.75}
+  - {x: -1, y: 4, z: -0.25}
+  - {x: 1, y: 4, z: -0.25}
+  - {x: -1, y: -4, z: -0.25}
+  - {x: 1, y: -4, z: -0.25}
+  - {x: -1, y: -4, z: 7.75}
+  - {x: 1, y: -4, z: 7.75}
   m_Textures0:
-  - {x: 1.0000005, y: -4}
-  - {x: -0.9999995, y: -4}
-  - {x: 1.0000005, y: 4}
-  - {x: -0.9999995, y: 4}
-  - {x: 9.75, y: -4}
-  - {x: -2.2499995, y: -4}
-  - {x: 9.75, y: 4}
-  - {x: -2.2499995, y: 4}
-  - {x: 0.9999995, y: -4}
-  - {x: -1.0000005, y: -4}
-  - {x: 0.9999995, y: 4}
-  - {x: -1.0000005, y: 4}
-  - {x: 2.2499995, y: -4}
-  - {x: -9.75, y: -4}
-  - {x: 2.2499995, y: 4}
-  - {x: -9.75, y: 4}
-  - {x: -1.0000005, y: 9.75}
-  - {x: 0.9999995, y: 9.75}
-  - {x: -1.0000005, y: -2.2499995}
-  - {x: 0.9999995, y: -2.2499995}
-  - {x: 1.0000005, y: -2.2499995}
-  - {x: -0.9999995, y: -2.2499995}
-  - {x: 1.0000005, y: 9.75}
-  - {x: -0.9999995, y: 9.75}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 8, y: -7}
+  - {x: 0, y: -7}
+  - {x: 8, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 8, y: -7}
+  - {x: 0, y: -7}
+  - {x: 8, y: 1}
+  - {x: 0, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: 1}
+  - {x: 0, y: -7}
+  - {x: 2, y: -7}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
@@ -1757,7 +1766,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 9079
+  m_VersionIndex: 9104
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1777,8 +1786,8 @@ MonoBehaviour:
   m_Shape:
     rid: 3084551843442851842
   m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_UnmodifiedMeshVersion: 9061
-  m_Size: {x: 2, y: 8, z: 12}
+  m_UnmodifiedMeshVersion: 9101
+  m_Size: {x: 2, y: 8, z: 8}
   m_LocalCenter: {x: 0, y: 0, z: 3.75}
   references:
     version: 2
@@ -1806,6 +1815,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1827,6 +1838,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -4393,6 +4405,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4414,6 +4428,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -4817,6 +4832,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4838,6 +4855,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -5193,6 +5211,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5214,6 +5234,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -5569,6 +5590,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5590,6 +5613,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -5654,7 +5678,7 @@ Transform:
   m_GameObject: {fileID: 6984306348362745588}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -41.000008, y: 4, z: 15.999996}
+  m_LocalPosition: {x: -41.000008, y: 4, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5685,7 +5709,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -5702,7 +5726,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -5719,7 +5743,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -5736,7 +5760,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -5753,7 +5777,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -5770,7 +5794,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -5787,55 +5811,55 @@ MonoBehaviour:
   - m_Vertices: 0b0000000e00000012000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -1, y: -4, z: 8}
-  - {x: 1, y: -4, z: 8}
-  - {x: -1, y: 4, z: 8}
-  - {x: 1, y: 4, z: 8}
-  - {x: 1, y: -4, z: 8}
-  - {x: 1, y: -4, z: -8}
-  - {x: 1, y: 4, z: 8}
-  - {x: 1, y: 4, z: -8}
-  - {x: 1, y: -4, z: -8}
-  - {x: -1, y: -4, z: -8}
-  - {x: 1, y: 4, z: -8}
-  - {x: -1, y: 4, z: -8}
-  - {x: -1, y: -4, z: -8}
-  - {x: -1, y: -4, z: 8}
-  - {x: -1, y: 4, z: -8}
-  - {x: -1, y: 4, z: 8}
-  - {x: -1, y: 4, z: 8}
-  - {x: 1, y: 4, z: 8}
-  - {x: -1, y: 4, z: -8}
-  - {x: 1, y: 4, z: -8}
-  - {x: -1, y: -4, z: -8}
-  - {x: 1, y: -4, z: -8}
-  - {x: -1, y: -4, z: 8}
-  - {x: 1, y: -4, z: 8}
+  - {x: -1, y: -4, z: 4}
+  - {x: 1, y: -4, z: 4}
+  - {x: -1, y: 4, z: 4}
+  - {x: 1, y: 4, z: 4}
+  - {x: 1, y: -4, z: 4}
+  - {x: 1, y: -4, z: -4}
+  - {x: 1, y: 4, z: 4}
+  - {x: 1, y: 4, z: -4}
+  - {x: 1, y: -4, z: -4}
+  - {x: -1, y: -4, z: -4}
+  - {x: 1, y: 4, z: -4}
+  - {x: -1, y: 4, z: -4}
+  - {x: -1, y: -4, z: -4}
+  - {x: -1, y: -4, z: 4}
+  - {x: -1, y: 4, z: -4}
+  - {x: -1, y: 4, z: 4}
+  - {x: -1, y: 4, z: 4}
+  - {x: 1, y: 4, z: 4}
+  - {x: -1, y: 4, z: -4}
+  - {x: 1, y: 4, z: -4}
+  - {x: -1, y: -4, z: -4}
+  - {x: 1, y: -4, z: -4}
+  - {x: -1, y: -4, z: 4}
+  - {x: 1, y: -4, z: 4}
   m_Textures0:
-  - {x: 1, y: -4}
-  - {x: -1, y: -4}
-  - {x: 1, y: 4}
-  - {x: -1, y: 4}
-  - {x: 8, y: -4}
-  - {x: -8, y: -4}
-  - {x: 8, y: 4}
-  - {x: -8, y: 4}
-  - {x: 1, y: -4}
-  - {x: -1, y: -4}
-  - {x: 1, y: 4}
-  - {x: -1, y: 4}
-  - {x: 8, y: -4}
-  - {x: -8, y: -4}
-  - {x: 8, y: 4}
-  - {x: -8, y: 4}
-  - {x: -1, y: 8}
-  - {x: 1, y: 8}
-  - {x: -1, y: -8}
-  - {x: 1, y: -8}
-  - {x: 1, y: -8}
-  - {x: -1, y: -8}
-  - {x: 1, y: 8}
-  - {x: -1, y: 8}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 8, y: -7}
+  - {x: 0, y: -7}
+  - {x: 8, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 8, y: -7}
+  - {x: 0, y: -7}
+  - {x: 8, y: 1}
+  - {x: 0, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: 1}
+  - {x: 0, y: -7}
+  - {x: 2, y: -7}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
@@ -5896,7 +5920,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5656
+  m_VersionIndex: 5681
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -5916,8 +5940,8 @@ MonoBehaviour:
   m_Shape:
     rid: 3084551855786164226
   m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_UnmodifiedMeshVersion: 5623
-  m_Size: {x: 2, y: 8, z: 16}
+  m_UnmodifiedMeshVersion: 5678
+  m_Size: {x: 2, y: 8, z: 8}
   m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
@@ -5945,6 +5969,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5966,6 +5992,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -7538,6 +7565,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7559,6 +7588,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -7914,6 +7944,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7935,6 +7967,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -8001,7 +8034,7 @@ Transform:
   m_GameObject: {fileID: 8531857189811863656}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -40.999992, y: 4, z: 3.9999993}
+  m_LocalPosition: {x: -40.999992, y: 4, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8032,7 +8065,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -8049,7 +8082,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -8066,7 +8099,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -8083,7 +8116,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -8100,7 +8133,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -8117,7 +8150,7 @@ MonoBehaviour:
       m_Scale: {x: 1, y: 1}
       m_Offset: {x: 0, y: 0}
       m_Rotation: 0
-      m_Anchor: 9
+      m_Anchor: 0
     m_Material: {fileID: 0}
     m_SubmeshIndex: 0
     m_ManualUV: 0
@@ -8134,55 +8167,55 @@ MonoBehaviour:
   - m_Vertices: 0b0000000e00000012000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -1, y: -4, z: 4}
-  - {x: 1, y: -4, z: 4}
-  - {x: -1, y: 4, z: 4}
-  - {x: 1, y: 4, z: 4}
-  - {x: 1, y: -4, z: 4}
-  - {x: 1, y: -4, z: -4}
-  - {x: 1, y: 4, z: 4}
-  - {x: 1, y: 4, z: -4}
-  - {x: 1, y: -4, z: -4}
-  - {x: -1, y: -4, z: -4}
-  - {x: 1, y: 4, z: -4}
-  - {x: -1, y: 4, z: -4}
-  - {x: -1, y: -4, z: -4}
-  - {x: -1, y: -4, z: 4}
-  - {x: -1, y: 4, z: -4}
-  - {x: -1, y: 4, z: 4}
-  - {x: -1, y: 4, z: 4}
-  - {x: 1, y: 4, z: 4}
-  - {x: -1, y: 4, z: -4}
-  - {x: 1, y: 4, z: -4}
-  - {x: -1, y: -4, z: -4}
-  - {x: 1, y: -4, z: -4}
-  - {x: -1, y: -4, z: 4}
-  - {x: 1, y: -4, z: 4}
+  - {x: -1, y: -4, z: 8}
+  - {x: 1, y: -4, z: 8}
+  - {x: -1, y: 4, z: 8}
+  - {x: 1, y: 4, z: 8}
+  - {x: 1, y: -4, z: 8}
+  - {x: 1, y: -4, z: -8}
+  - {x: 1, y: 4, z: 8}
+  - {x: 1, y: 4, z: -8}
+  - {x: 1, y: -4, z: -8}
+  - {x: -1, y: -4, z: -8}
+  - {x: 1, y: 4, z: -8}
+  - {x: -1, y: 4, z: -8}
+  - {x: -1, y: -4, z: -8}
+  - {x: -1, y: -4, z: 8}
+  - {x: -1, y: 4, z: -8}
+  - {x: -1, y: 4, z: 8}
+  - {x: -1, y: 4, z: 8}
+  - {x: 1, y: 4, z: 8}
+  - {x: -1, y: 4, z: -8}
+  - {x: 1, y: 4, z: -8}
+  - {x: -1, y: -4, z: -8}
+  - {x: 1, y: -4, z: -8}
+  - {x: -1, y: -4, z: 8}
+  - {x: 1, y: -4, z: 8}
   m_Textures0:
-  - {x: 1, y: -4}
-  - {x: -1, y: -4}
-  - {x: 1, y: 4}
-  - {x: -1, y: 4}
-  - {x: 4, y: -4}
-  - {x: -4, y: -4}
-  - {x: 4, y: 4}
-  - {x: -4, y: 4}
-  - {x: 1, y: -4}
-  - {x: -1, y: -4}
-  - {x: 1, y: 4}
-  - {x: -1, y: 4}
-  - {x: 4, y: -4}
-  - {x: -4, y: -4}
-  - {x: 4, y: 4}
-  - {x: -4, y: 4}
-  - {x: -1, y: 4}
-  - {x: 1, y: 4}
-  - {x: -1, y: -4}
-  - {x: 1, y: -4}
-  - {x: 1, y: -4}
-  - {x: -1, y: -4}
-  - {x: 1, y: 4}
-  - {x: -1, y: 4}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 16, y: -7}
+  - {x: 0, y: -7}
+  - {x: 16, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: -7}
+  - {x: 0, y: -7}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 16, y: -7}
+  - {x: 0, y: -7}
+  - {x: 16, y: 1}
+  - {x: 0, y: 1}
+  - {x: 0, y: 1}
+  - {x: 2, y: 1}
+  - {x: 0, y: -15}
+  - {x: 2, y: -15}
+  - {x: 2, y: -15}
+  - {x: 0, y: -15}
+  - {x: 2, y: 1}
+  - {x: 0, y: 1}
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
@@ -8243,7 +8276,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1518
+  m_VersionIndex: 1554
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8263,8 +8296,8 @@ MonoBehaviour:
   m_Shape:
     rid: 7066009335687282688
   m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_UnmodifiedMeshVersion: 1491
-  m_Size: {x: 2, y: 8, z: 8}
+  m_UnmodifiedMeshVersion: 1551
+  m_Size: {x: 2, y: 8, z: 16}
   m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
@@ -8292,6 +8325,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8313,6 +8348,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -8366,7 +8402,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 8, z: 10}
+  m_Size: {x: 6, y: 8, z: 16}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3961727557924482143
 MonoBehaviour:

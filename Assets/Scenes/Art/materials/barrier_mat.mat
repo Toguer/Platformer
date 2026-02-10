@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: barrier_mat
+  m_Shader: {fileID: -6465566751694194690, guid: 47d8458041001c14392a09d3a01c8521, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BoxBlur_43f9d2f0a8a04864b86dc3982a87cca3_Texture_3069700558_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShoreLineGenerator_53390392d1f542e28378d064541f267c_DissolveMask_743507575_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _borderTxture:
+        m_Texture: {fileID: 2800000, guid: cd2595f728530dd44ac9222a48edd60d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 2
+    - _CastShadows: 1
+    - _Cull: 0
+    - _DstBlend: 1
+    - _DstBlendAlpha: 1
+    - _Float: 0.24
+    - _GradientNoiseScale: 10
+    - _PatternNoiseScale: 30
+    - _PatternSize: 0.8
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _SrcBlend: 5
+    - _SrcBlendAlpha: 1
+    - _Surface: 1
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    - _patternSpeed: 0
+    - _patternVelocity: 2
+    m_Colors:
+    - _BorderColor: {r: 1.2818799, g: 2.3014002, b: 6.349499, a: 1}
+    - _BotBorderColor: {r: 1, g: 0, b: 0.02439022, a: 1}
+    - _GradientNoiseSpeed: {r: 0, g: 0.2, b: 0, a: 0}
+    - _PatternColor: {r: 0, g: 0.5153284, b: 4, a: 1}
+    - _PatternTilling: {r: 20, g: 15, b: 0, a: 0}
+    - _TopBorderColor: {r: 1, g: 0.9284844, b: 0, a: 1}
+    - _borderColor: {r: 0, g: 0, b: 0, a: 1}
+    - _patternOffset: {r: 0, g: 2, b: 0, a: 0}
+    - _patternSpeed: {r: 0, g: 2, b: 0, a: 0}
+    - _patterndireccion: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &4522496451167808829
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3d6d5b090d074db4598b621b16a45dc6
+guid: 41f0e0c367ab17242a53f6ecb8a64aa1
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: enviro trim 1
-    second: {fileID: 2100000, guid: b0e705342fe983e488e2a8f961d6fe77, type: 2}
+      name: Material.001
+    second: {fileID: 2100000, guid: 37582c46b50bc1143becf0d05dd2f6cb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

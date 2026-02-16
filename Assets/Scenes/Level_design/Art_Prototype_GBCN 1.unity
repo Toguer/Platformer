@@ -17553,6 +17553,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 68625239}
+  - component: {fileID: 68625240}
   m_Layer: 0
   m_Name: Area00
   m_TagString: Untagged
@@ -17575,8 +17576,28 @@ Transform:
   m_Children:
   - {fileID: 1157859755}
   - {fileID: 1337007869}
+  - {fileID: 1975185778}
   m_Father: {fileID: 862563038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &68625240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68625238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe911202dae1648938ac89331ae9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPathManager
+  door: {fileID: 6561896512768352630}
+  lightFeedback: {fileID: 625333123}
+  lightPlatform: []
+  _material: {fileID: 0}
+  _emissiveMaterial: {fileID: 0}
+  isGetLight: 0
+  _isntPlatforms: 1
 --- !u!1 &69257685
 GameObject:
   m_ObjectHideFlags: 0
@@ -27505,6 +27526,38 @@ PrefabInstance:
     - target: {fileID: 1103954931890987891, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1401217153}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetisGetLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47793,6 +47846,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Holo_door 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1401217153}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenDors
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.1991425
@@ -47838,6 +47919,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+--- !u!1 &234100642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+  m_PrefabInstance: {fileID: 234100641}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &235906039
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126604,6 +126690,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 538086487}
+  - component: {fileID: 538086488}
   m_Layer: 0
   m_Name: Area05
   m_TagString: Untagged
@@ -126626,8 +126713,28 @@ Transform:
   m_Children:
   - {fileID: 1190628302}
   - {fileID: 2053000188}
+  - {fileID: 633891880}
   m_Father: {fileID: 862563038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &538086488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538086486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe911202dae1648938ac89331ae9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPathManager
+  door: {fileID: 633891881}
+  lightFeedback: {fileID: 625333123}
+  lightPlatform: []
+  _material: {fileID: 0}
+  _emissiveMaterial: {fileID: 0}
+  isGetLight: 0
+  _isntPlatforms: 1
 --- !u!1001 &541647803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130956,6 +131063,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Holo_door 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 960411493}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenDors
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.015091
@@ -131001,6 +131136,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+--- !u!1 &580759956 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+  m_PrefabInstance: {fileID: 580759955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &589213497
 Mesh:
   m_ObjectHideFlags: 0
@@ -148533,6 +148673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 627700600}
+  - component: {fileID: 627700601}
   m_Layer: 0
   m_Name: Area01
   m_TagString: Untagged
@@ -148557,8 +148698,28 @@ Transform:
   - {fileID: 1868952411}
   - {fileID: 1055770911}
   - {fileID: 2028370638}
+  - {fileID: 978446509}
   m_Father: {fileID: 862563038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &627700601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627700599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe911202dae1648938ac89331ae9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPathManager
+  door: {fileID: 762785369}
+  lightFeedback: {fileID: 625333123}
+  lightPlatform: []
+  _material: {fileID: 0}
+  _emissiveMaterial: {fileID: 0}
+  isGetLight: 0
+  _isntPlatforms: 1
 --- !u!4 &627847291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1103954931890987891, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
@@ -148872,23 +149033,51 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 538086487}
     m_Modifications:
     - target: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_Name
       value: Holo_door 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1401217153}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenDors
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -81.19947
+      value: 7.279251
       objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -9.45732
       objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 379.03995
+      value: 55.93628
       objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -148923,6 +149112,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+--- !u!4 &633891880 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+  m_PrefabInstance: {fileID: 633891879}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &633891881 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+  m_PrefabInstance: {fileID: 633891879}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &636963980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1869259580325360411, guid: ae56629ede486394ab92843d075f6fd9, type: 3}
@@ -149993,6 +150192,38 @@ PrefabInstance:
     - target: {fileID: 1103954931890987891, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1707580443}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetisGetLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -174262,15 +174493,43 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1337007869}
+    m_TransformParent: {fileID: 2028370638}
     m_Modifications:
     - target: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_Name
       value: Holo_door (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 627700601}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenDors
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -60.33994
+      value: -39.33994
       objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -174278,7 +174537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 46.077316
+      value: -1.9226837
       objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -174313,6 +174572,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+--- !u!1 &762785369 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+  m_PrefabInstance: {fileID: 762785368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &765498944
 Mesh:
   m_ObjectHideFlags: 0
@@ -198658,6 +198922,87 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &822435314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 822435315}
+  - component: {fileID: 822435317}
+  - component: {fileID: 822435316}
+  m_Layer: 0
+  m_Name: flor_03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &822435315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822435314}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 28.984901, y: -6.7901, z: 7.409424}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 960411492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &822435316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822435314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTouchPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 960411493}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: SetisGetLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &822435317
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822435314}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 35.636612, y: 0.75410795, z: 65.45388}
+  m_Center: {x: -43.05546, y: -1.2972009, z: 23.86885}
 --- !u!43 &824188014
 Mesh:
   m_ObjectHideFlags: 0
@@ -218716,6 +219061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 960411492}
+  - component: {fileID: 960411493}
   m_Layer: 0
   m_Name: Area03
   m_TagString: Untagged
@@ -218738,8 +219084,28 @@ Transform:
   m_Children:
   - {fileID: 1487476918}
   - {fileID: 1020535391}
+  - {fileID: 822435315}
   m_Father: {fileID: 862563038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &960411493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960411491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe911202dae1648938ac89331ae9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPathManager
+  door: {fileID: 580759956}
+  lightFeedback: {fileID: 625333123}
+  lightPlatform: []
+  _material: {fileID: 0}
+  _emissiveMaterial: {fileID: 0}
+  isGetLight: 0
+  _isntPlatforms: 1
 --- !u!4 &969740926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361553467371462339, guid: 6779e750dbb1db94799aae6f214015bf, type: 3}
@@ -218985,6 +219351,87 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &978446508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 978446509}
+  - component: {fileID: 978446511}
+  - component: {fileID: 978446510}
+  m_Layer: 0
+  m_Name: flor_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &978446509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978446508}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 26.5, y: 1.2099, z: 42.574203}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 627700600}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &978446510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978446508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTouchPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 627700601}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: SetisGetLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &978446511
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978446508}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 35.636612, y: 0.75410795, z: 65.45388}
+  m_Center: {x: -43.05546, y: -1.2972009, z: 23.86885}
 --- !u!1 &980697731
 GameObject:
   m_ObjectHideFlags: 0
@@ -219038,6 +219485,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Holo_door 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1707580443}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenDors
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.1988449
@@ -219086,6 +219561,11 @@ PrefabInstance:
 --- !u!4 &987958693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+  m_PrefabInstance: {fileID: 987958692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &987958694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
   m_PrefabInstance: {fileID: 987958692}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &991420631
@@ -259537,6 +260017,87 @@ Transform:
   - {fileID: 2111106611}
   m_Father: {fileID: 1593648917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1267730120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1267730121}
+  - component: {fileID: 1267730123}
+  - component: {fileID: 1267730122}
+  m_Layer: 0
+  m_Name: flor_04 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1267730121
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267730120}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 42.799995, y: 1.21, z: 49.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1401217152}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1267730122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267730120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTouchPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1401217153}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: SetisGetLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &1267730123
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267730120}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 35.636612, y: 0.75410795, z: 58.770935}
+  m_Center: {x: -43.05546, y: -1.2972009, z: 20.527374}
 --- !u!1001 &1270305722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274509,7 +275070,6 @@ Transform:
   - {fileID: 1508271893}
   - {fileID: 1421846892}
   - {fileID: 449811670}
-  - {fileID: 1731012815}
   m_Father: {fileID: 68625239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1337595411
@@ -277569,6 +278129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1401217152}
+  - component: {fileID: 1401217153}
   m_Layer: 0
   m_Name: Area04
   m_TagString: Untagged
@@ -277591,8 +278152,29 @@ Transform:
   m_Children:
   - {fileID: 522697267}
   - {fileID: 1722650998}
+  - {fileID: 1630917166}
+  - {fileID: 1267730121}
   m_Father: {fileID: 862563038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1401217153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401217151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe911202dae1648938ac89331ae9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPathManager
+  door: {fileID: 234100642}
+  lightFeedback: {fileID: 625333123}
+  lightPlatform: []
+  _material: {fileID: 0}
+  _emissiveMaterial: {fileID: 0}
+  isGetLight: 0
+  _isntPlatforms: 1
 --- !u!43 &1406709037
 Mesh:
   m_ObjectHideFlags: 0
@@ -320868,6 +321450,87 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f17cdadfd194ea4b8ba7c72c96ef47c, type: 3}
+--- !u!1 &1630917165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1630917166}
+  - component: {fileID: 1630917168}
+  - component: {fileID: 1630917167}
+  m_Layer: 0
+  m_Name: flor_04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1630917166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630917165}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 42.799995, y: 1.21, z: -25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1401217152}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1630917167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630917165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTouchPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1401217153}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: SetisGetLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &1630917168
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630917165}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 35.636612, y: 0.75410795, z: 65.45388}
+  m_Center: {x: -43.05546, y: -1.2972009, z: 23.86885}
 --- !u!1 &1631070739
 GameObject:
   m_ObjectHideFlags: 0
@@ -333020,6 +333683,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1707580442}
+  - component: {fileID: 1707580443}
   m_Layer: 0
   m_Name: Area02
   m_TagString: Untagged
@@ -333042,8 +333706,28 @@ Transform:
   m_Children:
   - {fileID: 1948933795}
   - {fileID: 980697732}
+  - {fileID: 1908147734}
   m_Father: {fileID: 862563038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1707580443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707580441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe911202dae1648938ac89331ae9b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPathManager
+  door: {fileID: 987958694}
+  lightFeedback: {fileID: 625333123}
+  lightPlatform: []
+  _material: {fileID: 0}
+  _emissiveMaterial: {fileID: 0}
+  isGetLight: 0
+  _isntPlatforms: 1
 --- !u!1 &1708282513
 GameObject:
   m_ObjectHideFlags: 0
@@ -353581,6 +354265,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 960411493}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetisGetLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -357306,6 +358022,38 @@ PrefabInstance:
     - target: {fileID: 1103954931890987891, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 627700601}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetisGetLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -372471,6 +373219,87 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1908147733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1908147734}
+  - component: {fileID: 1908147736}
+  - component: {fileID: 1908147735}
+  m_Layer: 0
+  m_Name: flor_02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1908147734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908147733}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 44.220863, y: 0.99695003, z: -10.68634}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1707580442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1908147735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908147733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTouchPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1707580443}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: SetisGetLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &1908147736
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908147733}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 35.636612, y: 0.75410795, z: 65.45388}
+  m_Center: {x: -43.05546, y: -1.2972009, z: 23.86885}
 --- !u!1001 &1912321678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -382958,6 +383787,87 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1975185777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1975185778}
+  - component: {fileID: 1975185780}
+  - component: {fileID: 1975185779}
+  m_Layer: 0
+  m_Name: flor_00
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1975185778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975185777}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 39.8, y: 1.2099, z: -26.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 68625239}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1975185779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975185777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab913be4778d644b8df1651bba0c70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTouchPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 68625240}
+        m_TargetAssemblyTypeName: LightingPathManager, Assembly-CSharp
+        m_MethodName: SetisGetLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &1975185780
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975185777}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 35.636612, y: 0.75410795, z: 65.45388}
+  m_Center: {x: -43.05546, y: -1.2972009, z: 23.86885}
 --- !u!1 &1978065092
 GameObject:
   m_ObjectHideFlags: 0
@@ -391488,6 +392398,7 @@ Transform:
   - {fileID: 531674040}
   - {fileID: 1022991769}
   - {fileID: 627847291}
+  - {fileID: 1731012815}
   m_Father: {fileID: 627700600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &2030091236
@@ -405367,6 +406278,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 68625240}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetisGetLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106935620525898676, guid: e1e84d0fc8ef63d429d569e75017c5ae, type: 3}
+      propertyPath: _onPressButton.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -405622,6 +406565,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Holo_door
       objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 68625240}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenDors
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightingPathManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571487262342445868, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+      propertyPath: onTouchPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5062638764430094230, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.341591
@@ -405667,6 +406638,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+--- !u!1 &6561896512768352630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3478124944768705151, guid: 3afaaad90bc71454b9bc04e2d22f38b9, type: 3}
+  m_PrefabInstance: {fileID: 6561896512768352629}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -405680,7 +406656,6 @@ SceneRoots:
   - {fileID: 848979946}
   - {fileID: 1593648917}
   - {fileID: 862563038}
-  - {fileID: 633891879}
   - {fileID: 1509447227}
   - {fileID: 1955491113}
   - {fileID: 1074172422}
